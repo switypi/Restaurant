@@ -76,3 +76,4 @@ C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\ref\RestaurantDesk.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\Microsoft.Xaml.Behaviors.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\MaterialDesignColors.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\MaterialDesignThemes.Wpf.dll
+C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\RestaurantDesk.dll.config

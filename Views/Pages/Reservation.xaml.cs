@@ -33,7 +33,7 @@ namespace RestaurantDesk.Views.Pages
         static DateTime _dt = DateTime.Now;
         string dayOfWeek = _dt.DayOfWeek.ToString();
         DateTime prevDT = new DateTime(_dt.Year, _dt.Month, _dt.Day);
-        DateTime monCal = DateTime.Now;
+        DateTime satCal = DateTime.Now;
         DateTime sunCal = DateTime.Now;
         TimeSpan startTime = TimeSpan.FromHours(9);
         TimeSpan endTime = TimeSpan.FromHours(23);
@@ -45,6 +45,8 @@ namespace RestaurantDesk.Views.Pages
             InitializeComponent();
             InitializeControl();
             onLoaded();
+            if (DateTime.Now.TimeOfDay.Hours >= 14)
+                ScrollEventsViewer.ScrollToEnd();
 
 
         }
@@ -52,28 +54,8 @@ namespace RestaurantDesk.Views.Pages
         private void onLoaded()
         {
             today.Content = _dt.ToString("MMMM - yyyy");
-            setDates(_dt);
-            // GetBookingForThisWeek();
-
-            //if (areWaitings())
-            //{
-            //    //są ozekujące - wyświetl powiadomienie
-            //    //goToWaitingList.Background = Brushes.LightCoral;
-
-            //    ToolTip tt = new ToolTip();
-            //    tt.Content = "Nowe oczekujące wizyty!";
-            //    goToWaitingList.ToolTip = tt;
-
-            //}
-            //else
-            //{
-            //    //brak oczekujących, normalny wygląd
-
-            //    ToolTip tt = new ToolTip();
-            //    tt.Content = "Brak wizyt do zaakceptowania";
-            //    goToWaitingList.ToolTip = tt;
-            //    goToWaitingList.IsEnabled = false;
-            //}
+            SetDates(_dt);
+            
         }
 
         private void InitializeControl()
@@ -90,7 +72,7 @@ namespace RestaurantDesk.Views.Pages
                 else
                 {
                     EventsGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                    cv = new StackPanel {  Name = "columnCanvus" + (icnt - 1), Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Stretch };
+                    cv = new StackPanel { Name = "columnCanvus" + (icnt - 1), Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Stretch };
 
                     objs.Add(cv);
                 }
@@ -100,6 +82,7 @@ namespace RestaurantDesk.Views.Pages
                 EventsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(50, GridUnitType.Pixel) });
                 lb = new Label();
                 lb.VerticalAlignment = VerticalAlignment.Top; lb.HorizontalAlignment = HorizontalAlignment.Center;
+                lb.Margin = new Thickness(0, -10, 0, 0);
                 lb.Content = DateTime.Today.Add(TimeSpan.FromHours(startTime.Hours + icnt)).ToString("hh:mm tt");
                 Grid.SetColumn(lb, 0);
                 Grid.SetRow(lb, icnt);
@@ -190,7 +173,7 @@ namespace RestaurantDesk.Views.Pages
             e.Handled = true;
         }
 
-        private void setDates(DateTime dt)
+        private void SetDates(DateTime dt)
         {
             string caseSwitch = dayOfWeek;
             prevDT = dt;
@@ -203,7 +186,7 @@ namespace RestaurantDesk.Views.Pages
                     dayLabel1.Tag = _dt.AddDays(-1);
                     dayLabel2.Content = "Mon " + (_dt.AddDays(0).Day);
                     dayLabel2.Tag = _dt.AddDays(0);
-                    dayLabel2.Style = (Style)this.Resources["lblStyle"];
+                    dayLabel2.Style = (Style)Application.Current.Resources["lblStyle"];
                     dayLabel3.Content = "Tue " + (_dt.AddDays(1).Day);// + "/" + _dt.AddDays(2).Month + "/" + _dt.AddDays(2).Year;
                     dayLabel3.Tag = _dt.AddDays(1);
                     dayLabel4.Content = "Wed " + (_dt.AddDays(2).Day);// + "/" + _dt.AddDays(3).Month + "/" + _dt.AddDays(3).Year;
@@ -214,8 +197,8 @@ namespace RestaurantDesk.Views.Pages
                     dayLabel6.Tag = _dt.AddDays(4);
                     dayLabel7.Content = "Sa " + (_dt.AddDays(5).Day);// + "/" + _dt.AddDays(6).Month + "/" + _dt.AddDays(6).Year;
                     dayLabel7.Tag = _dt.AddDays(5);
-                    monCal = _dt;
-                    sunCal = _dt.AddDays(6);
+                    satCal = _dt.AddDays(5);
+                    sunCal = _dt.AddDays(-1);
                     break;
                 case "Tuesday":
                     dayLabel1.Content = "Sun " + (_dt.AddDays(-2).Day);// + "/" + _dt.AddDays(-1).Month + "/" + _dt.AddDays(-1).Year;
@@ -224,7 +207,7 @@ namespace RestaurantDesk.Views.Pages
                     dayLabel2.Tag = _dt.AddDays(-1);
                     dayLabel3.Content = "Tue " + (_dt.AddDays(0).Day);// + "/" + _dt.AddDays(1).Month + "/" + _dt.AddDays(1).Year;
                     dayLabel3.Tag = _dt.AddDays(0);
-                    dayLabel3.Style = (Style)this.Resources["lblStyle"];
+                    dayLabel3.Style = (Style)Application.Current.Resources["lblStyle"];
 
                     dayLabel4.Content = "Wed " + (_dt.AddDays(1).Day);// + "/" + _dt.AddDays(2).Month + "/" + _dt.AddDays(2).Year;
                     dayLabel4.Tag = _dt.AddDays(1);
@@ -234,8 +217,8 @@ namespace RestaurantDesk.Views.Pages
                     dayLabel6.Tag = _dt.AddDays(3);
                     dayLabel7.Content = "Sa " + (_dt.AddDays(4).Day);// + "/" + _dt.AddDays(5).Month + "/" + _dt.AddDays(5).Year;
                     dayLabel7.Tag = _dt.AddDays(4);
-                    monCal = _dt.AddDays(-1);
-                    sunCal = _dt.AddDays(5);
+                    satCal = _dt.AddDays(4);
+                    sunCal = _dt.AddDays(-2);
                     break;
                 case "Wednesday":
                     dayLabel1.Content = "Sun " + (_dt.AddDays(-3).Day);// + "/" + _dt.AddDays(-2).Month + "/" + _dt.AddDays(-2).Year;
@@ -246,15 +229,15 @@ namespace RestaurantDesk.Views.Pages
                     dayLabel3.Tag = _dt.AddDays(-1);
                     dayLabel4.Content = "Wed " + (_dt.AddDays(0).Day);// + "/" + _dt.AddDays(1).Month + "/" + _dt.AddDays(1).Year;
                     dayLabel4.Tag = _dt.AddDays(0);
-                    dayLabel4.Style = (Style)this.Resources["lblStyle"];
+                    dayLabel4.Style = (Style)Application.Current.Resources["lblStyle"];
                     dayLabel5.Content = "Thu " + (_dt.AddDays(1).Day);// + "/" + _dt.AddDays(2).Month + "/" + _dt.AddDays(2).Year;
                     dayLabel5.Tag = _dt.AddDays(1);
                     dayLabel6.Content = "Fri " + (_dt.AddDays(2).Day);// + "/" + _dt.AddDays(3).Month + "/" + _dt.AddDays(3).Year;
                     dayLabel6.Tag = _dt.AddDays(2);
                     dayLabel7.Content = "Sa " + (_dt.AddDays(3).Day);// + "/" + _dt.AddDays(4).Month + "/" + _dt.AddDays(4).Year;
                     dayLabel7.Tag = _dt.AddDays(-3);
-                    monCal = _dt.AddDays(-2);
-                    sunCal = _dt.AddDays(4);
+                    satCal = _dt.AddDays(3);
+                    sunCal = _dt.AddDays(-3);
                     break;
                 case "Thursday":
                     dayLabel1.Content = "Sun " + (_dt.AddDays(-4).Day);// + "/" + _dt.AddDays(-3).Month + "/" + _dt.AddDays(-3).Year;
@@ -267,13 +250,13 @@ namespace RestaurantDesk.Views.Pages
                     dayLabel4.Tag = _dt.AddDays(-1);
                     dayLabel5.Content = "Thu " + (_dt.AddDays(0).Day);// + "/" + _dt.AddDays(1).Month + "/" + _dt.AddDays(1).Year;
                     dayLabel5.Tag = _dt.AddDays(0);
-                    dayLabel5.Style = (Style)this.Resources["lblStyle"];
+                    dayLabel5.Style = (Style)Application.Current.Resources["lblStyle"];
                     dayLabel6.Content = "Fri " + (_dt.AddDays(1).Day);// + "/" + _dt.AddDays(2).Month + "/" + _dt.AddDays(2).Year;
                     dayLabel6.Tag = _dt.AddDays(1);
                     dayLabel7.Content = "Sa " + (_dt.AddDays(2).Day);// + "/" + _dt.AddDays(3).Month + "/" + _dt.AddDays(3).Year;
                     dayLabel7.Tag = _dt.AddDays(2);
-                    monCal = _dt.AddDays(-3);
-                    sunCal = _dt.AddDays(3);
+                    satCal = _dt.AddDays(2);
+                    sunCal = _dt.AddDays(-4);
                     break;
                 case "Friday":
                     dayLabel1.Content = "Sun " + (_dt.AddDays(-5).Day);// + "/" + _dt.AddDays(-4).Month + "/" + _dt.AddDays(-4).Year;
@@ -288,11 +271,11 @@ namespace RestaurantDesk.Views.Pages
                     dayLabel5.Tag = _dt.AddDays(-1);
                     dayLabel6.Content = "Fri " + (_dt.AddDays(0).Day);// + "/" + _dt.AddDays(1).Month + "/" + _dt.AddDays(1).Year;
                     dayLabel6.Tag = _dt.AddDays(0);
-                    dayLabel6.Style = (Style)this.Resources["lblStyle"];
+                    dayLabel6.Style = (Style)Application.Current.Resources["lblStyle"];
                     dayLabel7.Content = "Sa " + (_dt.AddDays(1).Day); //+ "/" + _dt.AddDays(2).Month + "/" + _dt.AddDays(2).Year;
                     dayLabel7.Tag = _dt.AddDays(1);
-                    monCal = _dt.AddDays(-4);
-                    sunCal = _dt.AddDays(2);
+                    satCal = _dt.AddDays(1);
+                    sunCal = _dt.AddDays(-5);
                     break;
                 case "Saturday":
                     dayLabel1.Content = "Sun " + (_dt.AddDays(-6).Day);// + "/" + _dt.AddDays(-5).Month + "/" + _dt.AddDays(-5).Year;
@@ -309,27 +292,27 @@ namespace RestaurantDesk.Views.Pages
                     dayLabel6.Tag = _dt.AddDays(-1);
                     dayLabel7.Content = "Sa " + (_dt.AddDays(0).Day);// + "/" + _dt.AddDays(1).Month + "/" + _dt.AddDays(1).Year;
                     dayLabel7.Tag = _dt.AddDays(0);
-                    dayLabel7.Style = (Style)this.Resources["lblStyle"];
-                    monCal = _dt.AddDays(-5);
-                    sunCal = _dt.AddDays(1);
+                    dayLabel7.Style = (Style)Application.Current.Resources["lblStyle"];
+                    satCal = _dt;
+                    sunCal = _dt.AddDays(-6);
                     break;
                 case "Sunday":
                     dayLabel1.Content = "Sun " + (_dt.AddDays(0).Day);// + "/" + _dt.AddDays(-0).Month + "/" + _dt.AddDays(-6).Year;
                     dayLabel1.Tag = _dt.AddDays(0);
-                    dayLabel1.Style = (Style)this.Resources["lblStyle"];
-                    dayLabel2.Content = "Mon " + (_dt.AddDays(-6).Day);// + "/" + _dt.AddDays(-5).Month + "/" + _dt.AddDays(-5).Year;
-                    dayLabel2.Tag = _dt.AddDays(-6);
-                    dayLabel3.Content = "Tue " + (_dt.AddDays(-5).Day);// + "/" + _dt.AddDays(-4).Month + "/" + _dt.AddDays(-4).Year;
-                    dayLabel3.Tag = _dt.AddDays(-5);
-                    dayLabel4.Content = "Wed " + (_dt.AddDays(-4).Day);// + "/" + _dt.AddDays(-3).Month + "/" + _dt.AddDays(-3).Year;
-                    dayLabel4.Tag = _dt.AddDays(-4);
-                    dayLabel5.Content = "Thu " + (_dt.AddDays(-3).Day);// + "/" + _dt.AddDays(-2).Month + "/" + _dt.AddDays(-2).Year;
-                    dayLabel5.Tag = _dt.AddDays(-3);
-                    dayLabel6.Content = "Fri " + (_dt.AddDays(-2).Day);// + "/" + _dt.AddDays(-1).Month + "/" + _dt.AddDays(-1).Year;
-                    dayLabel6.Tag = _dt.AddDays(-2);
-                    dayLabel7.Content = "Sat " + _dt.AddDays(-1).Day;// + "/" + _dt.Month + "/" + _dt.Year; //dzień 0
-                    dayLabel7.Tag = _dt.AddDays(-1);
-                    monCal = _dt.AddDays(-6);
+                    dayLabel1.Style = (Style)Application.Current.Resources["lblStyle"];
+                    dayLabel2.Content = "Mon " + (_dt.AddDays(1).Day);// + "/" + _dt.AddDays(-5).Month + "/" + _dt.AddDays(-5).Year;
+                    dayLabel2.Tag = _dt.AddDays(1);
+                    dayLabel3.Content = "Tue " + (_dt.AddDays(2).Day);// + "/" + _dt.AddDays(-4).Month + "/" + _dt.AddDays(-4).Year;
+                    dayLabel3.Tag = _dt.AddDays(2);
+                    dayLabel4.Content = "Wed " + (_dt.AddDays(3).Day);// + "/" + _dt.AddDays(-3).Month + "/" + _dt.AddDays(-3).Year;
+                    dayLabel4.Tag = _dt.AddDays(3);
+                    dayLabel5.Content = "Thu " + (_dt.AddDays(4).Day);// + "/" + _dt.AddDays(-2).Month + "/" + _dt.AddDays(-2).Year;
+                    dayLabel5.Tag = _dt.AddDays(4);
+                    dayLabel6.Content = "Fri " + (_dt.AddDays(5).Day);// + "/" + _dt.AddDays(-1).Month + "/" + _dt.AddDays(-1).Year;
+                    dayLabel6.Tag = _dt.AddDays(5);
+                    dayLabel7.Content = "Sat " + _dt.AddDays(6).Day;// + "/" + _dt.Month + "/" + _dt.Year; //dzień 0
+                    dayLabel7.Tag = _dt.AddDays(6);
+                    satCal = _dt.AddDays(6);
                     sunCal = _dt;
                     break;
 
@@ -337,98 +320,15 @@ namespace RestaurantDesk.Views.Pages
 
         }
 
-
         private void prevBtn_Click(object sender, RoutedEventArgs e)
         {
             //wyświetl przeszły tydzień
             string caseSwitch = dayOfWeek;
             prevDT = prevDT.AddDays(-7);
             today.Content = new DateTime(prevDT.Year, prevDT.Month, prevDT.Day).ToString("MMMM - yyyy");
-            setDates(prevDT);
-
-            //switch (caseSwitch)
-            //{
-            //    case "Monday":
-            //        dayLabel1.Content = "Pon " + prevDT.Day + "/" + prevDT.Month + "/" + prevDT.Year; //dzień 0
-            //        dayLabel2.Content = "Wto " + (prevDT.AddDays(1).Day) + "/" + prevDT.AddDays(1).Month + "/" + prevDT.AddDays(1).Year;
-            //        dayLabel3.Content = "Śro " + (prevDT.AddDays(2).Day) + "/" + prevDT.AddDays(2).Month + "/" + prevDT.AddDays(2).Year;
-            //        dayLabel4.Content = "Czw " + (prevDT.AddDays(3).Day) + "/" + prevDT.AddDays(3).Month + "/" + prevDT.AddDays(3).Year;
-            //        dayLabel5.Content = "Pt " + (prevDT.AddDays(4).Day) + "/" + prevDT.AddDays(4).Month + "/" + prevDT.AddDays(4).Year;
-            //        dayLabel6.Content = "Sob " + (prevDT.AddDays(5).Day) + "/" + prevDT.AddDays(5).Month + "/" + prevDT.AddDays(5).Year;
-            //        dayLabel7.Content = "Nd " + (prevDT.AddDays(6).Day) + "/" + prevDT.AddDays(6).Month + "/" + prevDT.AddDays(6).Year;
-            //        monCal = prevDT; //data poniedziałku w przeszłym tygodniu 
-            //        sunCal = prevDT.AddDays(6); //data niedzieli w przeszłym tygodniu
-            //        break;
-            //    case "Tuesday":
-            //        dayLabel1.Content = "Pon " + (prevDT.AddDays(-1).Day) + "/" + prevDT.AddDays(-1).Month + "/" + prevDT.AddDays(-1).Year;
-            //        dayLabel2.Content = "Wto " + prevDT.Day + "/" + prevDT.Month + "/" + prevDT.Year; ; //dzień 0
-            //        dayLabel3.Content = "Śro " + (prevDT.AddDays(1).Day) + "/" + prevDT.AddDays(1).Month + "/" + prevDT.AddDays(1).Year;
-            //        dayLabel4.Content = "Czw " + (prevDT.AddDays(2).Day) + "/" + prevDT.AddDays(2).Month + "/" + prevDT.AddDays(2).Year;
-            //        dayLabel5.Content = "Pt " + (prevDT.AddDays(3).Day) + "/" + prevDT.AddDays(3).Month + "/" + prevDT.AddDays(3).Year;
-            //        dayLabel6.Content = "Sob " + (prevDT.AddDays(4).Day) + "/" + prevDT.AddDays(4).Month + "/" + prevDT.AddDays(4).Year;
-            //        dayLabel7.Content = "Nd " + (prevDT.AddDays(5).Day) + "/" + prevDT.AddDays(5).Month + "/" + prevDT.AddDays(5).Year;
-            //        monCal = prevDT.AddDays(-1);
-            //        sunCal = prevDT.AddDays(5);
-            //        break;
-            //    case "Wednesday":
-            //        dayLabel1.Content = "Pon " + (prevDT.AddDays(-2).Day) + "/" + prevDT.AddDays(-2).Month + "/" + prevDT.AddDays(-2).Year;
-            //        dayLabel2.Content = "Wto " + (prevDT.AddDays(-1).Day) + "/" + prevDT.AddDays(-1).Month + "/" + prevDT.AddDays(-1).Year;
-            //        dayLabel3.Content = "Śro " + prevDT.Day + "/" + prevDT.Month + "/" + prevDT.Year; ; //dzień 0
-            //        dayLabel4.Content = "Czw " + (prevDT.AddDays(1).Day) + "/" + prevDT.AddDays(1).Month + "/" + prevDT.AddDays(1).Year;
-            //        dayLabel5.Content = "Pt " + (prevDT.AddDays(2).Day) + "/" + prevDT.AddDays(2).Month + "/" + prevDT.AddDays(2).Year;
-            //        dayLabel6.Content = "Sob " + (prevDT.AddDays(3).Day) + "/" + prevDT.AddDays(3).Month + "/" + prevDT.AddDays(3).Year;
-            //        dayLabel7.Content = "Nd " + (prevDT.AddDays(4).Day) + "/" + prevDT.AddDays(4).Month + "/" + prevDT.AddDays(4).Year;
-            //        monCal = prevDT.AddDays(-2);
-            //        sunCal = prevDT.AddDays(4);
-            //        break;
-            //    case "Thursday":
-            //        dayLabel1.Content = "Pon " + (prevDT.AddDays(-3).Day) + "/" + prevDT.AddDays(-3).Month + "/" + prevDT.AddDays(-3).Year;
-            //        dayLabel2.Content = "Wto " + (prevDT.AddDays(-2).Day) + "/" + prevDT.AddDays(-2).Month + "/" + prevDT.AddDays(-2).Year;
-            //        dayLabel3.Content = "Śro " + (prevDT.AddDays(-1).Day) + "/" + prevDT.AddDays(-1).Month + "/" + prevDT.AddDays(-1).Year;
-            //        dayLabel4.Content = "Czw " + prevDT.Day + "/" + prevDT.Month + "/" + prevDT.Year; ; //dzień 0
-            //        dayLabel5.Content = "Pt " + (prevDT.AddDays(1).Day) + "/" + prevDT.AddDays(1).Month + "/" + prevDT.AddDays(1).Year;
-            //        dayLabel6.Content = "Sob " + (prevDT.AddDays(2).Day) + "/" + prevDT.AddDays(2).Month + "/" + prevDT.AddDays(2).Year;
-            //        dayLabel7.Content = "Nd " + (prevDT.AddDays(3).Day) + "/" + prevDT.AddDays(3).Month + "/" + prevDT.AddDays(3).Year;
-            //        monCal = prevDT.AddDays(-3);
-            //        sunCal = prevDT.AddDays(3);
-            //        break;
-            //    case "Friday":
-            //        dayLabel1.Content = "Pon " + (prevDT.AddDays(-4).Day) + "/" + prevDT.AddDays(-4).Month + "/" + prevDT.AddDays(-4).Year;
-            //        dayLabel2.Content = "Wto " + (prevDT.AddDays(-3).Day) + "/" + prevDT.AddDays(-3).Month + "/" + prevDT.AddDays(-3).Year;
-            //        dayLabel3.Content = "Śro " + (prevDT.AddDays(-2).Day) + "/" + prevDT.AddDays(-2).Month + "/" + prevDT.AddDays(-2).Year;
-            //        dayLabel4.Content = "Czw " + (prevDT.AddDays(-1).Day) + "/" + prevDT.AddDays(-1).Month + "/" + prevDT.AddDays(-1).Year;
-            //        dayLabel5.Content = "Pt " + prevDT.Day + "/" + prevDT.Month + "/" + prevDT.Year; ;//dzień 0
-            //        dayLabel6.Content = "Sob " + (prevDT.AddDays(1).Day) + "/" + prevDT.AddDays(1).Month + "/" + prevDT.AddDays(1).Year;
-            //        dayLabel7.Content = "Nd " + (prevDT.AddDays(2).Day) + "/" + prevDT.AddDays(2).Month + "/" + prevDT.AddDays(2).Year;
-            //        monCal = prevDT.AddDays(-4);
-            //        sunCal = prevDT.AddDays(2);
-            //        break;
-            //    case "Saturday":
-            //        dayLabel1.Content = "Pon " + (prevDT.AddDays(-5).Day) + "/" + prevDT.AddDays(-5).Month + "/" + prevDT.AddDays(-5).Year;
-            //        dayLabel2.Content = "Wto " + (prevDT.AddDays(-4).Day) + "/" + prevDT.AddDays(-4).Month + "/" + prevDT.AddDays(-4).Year;
-            //        dayLabel3.Content = "Śro " + (prevDT.AddDays(-3).Day) + "/" + prevDT.AddDays(-3).Month + "/" + prevDT.AddDays(-3).Year;
-            //        dayLabel4.Content = "Czw " + (prevDT.AddDays(-2).Day) + "/" + prevDT.AddDays(-2).Month + "/" + prevDT.AddDays(-2).Year;
-            //        dayLabel5.Content = "Pt " + (prevDT.AddDays(-1).Day) + "/" + prevDT.AddDays(-1).Month + "/" + prevDT.AddDays(-1).Year;
-            //        dayLabel6.Content = "Sob " + prevDT.Day + "/" + prevDT.Month + "/" + prevDT.Year; ;//dzień 0
-            //        dayLabel7.Content = "Nd " + (prevDT.AddDays(1).Day) + "/" + prevDT.AddDays(1).Month + "/" + prevDT.AddDays(1).Year;
-            //        monCal = prevDT.AddDays(-5);
-            //        sunCal = prevDT.AddDays(1);
-            //        break;
-            //    case "Sunday":
-            //        dayLabel1.Content = "Pon " + (prevDT.AddDays(-6).Day) + "/" + prevDT.AddDays(-6).Month + "/" + prevDT.AddDays(-6).Year;
-            //        dayLabel2.Content = "Wto " + (prevDT.AddDays(-5).Day) + "/" + prevDT.AddDays(-5).Month + "/" + prevDT.AddDays(-5).Year;
-            //        dayLabel3.Content = "Śro " + (prevDT.AddDays(-4).Day) + "/" + prevDT.AddDays(-4).Month + "/" + prevDT.AddDays(-4).Year;
-            //        dayLabel4.Content = "Czw " + (prevDT.AddDays(-3).Day) + "/" + prevDT.AddDays(-3).Month + "/" + prevDT.AddDays(-3).Year;
-            //        dayLabel5.Content = "Pt " + (prevDT.AddDays(-2).Day) + "/" + prevDT.AddDays(-2).Month + "/" + prevDT.AddDays(-2).Year;
-            //        dayLabel6.Content = "Sob " + (prevDT.AddDays(-1).Day) + "/" + prevDT.AddDays(-1).Month + "/" + prevDT.AddDays(-1).Year;
-            //        dayLabel7.Content = "Nd " + prevDT.Day + "/" + prevDT.Month + "/" + prevDT.Year; ; //dzień 0
-            //        monCal = prevDT.AddDays(-6);
-            //        sunCal = prevDT;
-            //        break;
-
-            //}
+            SetDates(prevDT);
             clrConvas();
-            showVisitsForThisWeek();
+            GetBookingForThisWeek();
 
         }
 
@@ -438,91 +338,9 @@ namespace RestaurantDesk.Views.Pages
             string caseSwitch = dayOfWeek;
             prevDT = prevDT.AddDays(7);
             today.Content = new DateTime(prevDT.Year, prevDT.Month, prevDT.Day).ToString("MMMM - yyyy");
-            setDates(prevDT);
-
-            //switch (caseSwitch)
-            //{
-            //    case "Monday":
-            //        dayLabel1.Content = "Pon " + prevDT.Day + "/" + prevDT.Month + "/" + prevDT.Year; //dzień 0
-            //        dayLabel2.Content = "Wto " + (prevDT.AddDays(1).Day) + "/" + prevDT.AddDays(1).Month + "/" + prevDT.AddDays(1).Year;
-            //        dayLabel3.Content = "Śro " + (prevDT.AddDays(2).Day) + "/" + prevDT.AddDays(2).Month + "/" + prevDT.AddDays(2).Year;
-            //        dayLabel4.Content = "Czw " + (prevDT.AddDays(3).Day) + "/" + prevDT.AddDays(3).Month + "/" + prevDT.AddDays(3).Year;
-            //        dayLabel5.Content = "Pt " + (prevDT.AddDays(4).Day) + "/" + prevDT.AddDays(4).Month + "/" + prevDT.AddDays(4).Year;
-            //        dayLabel6.Content = "Sob " + (prevDT.AddDays(5).Day) + "/" + prevDT.AddDays(5).Month + "/" + prevDT.AddDays(5).Year;
-            //        dayLabel7.Content = "Nd " + (prevDT.AddDays(6).Day) + "/" + prevDT.AddDays(6).Month + "/" + prevDT.AddDays(6).Year;
-            //        monCal = new DateTime(prevDT.Year, prevDT.Month, prevDT.Day);
-            //        sunCal = monCal.AddDays(6);
-            //        break;
-            //    case "Tuesday":
-            //        dayLabel1.Content = "Pon " + (prevDT.AddDays(-1).Day) + "/" + prevDT.AddDays(-1).Month + "/" + prevDT.AddDays(-1).Year;
-            //        dayLabel2.Content = "Wto " + prevDT.Day + "/" + prevDT.Month + "/" + prevDT.Year; //dzień 0
-            //        dayLabel3.Content = "Śro " + (prevDT.AddDays(1).Day) + "/" + prevDT.AddDays(1).Month + "/" + prevDT.AddDays(1).Year;
-            //        dayLabel4.Content = "Czw " + (prevDT.AddDays(2).Day) + "/" + prevDT.AddDays(2).Month + "/" + prevDT.AddDays(2).Year;
-            //        dayLabel5.Content = "Pt " + (prevDT.AddDays(3).Day) + "/" + prevDT.AddDays(3).Month + "/" + prevDT.AddDays(3).Year;
-            //        dayLabel6.Content = "Sob " + (prevDT.AddDays(4).Day) + "/" + prevDT.AddDays(4).Month + "/" + prevDT.AddDays(4).Year;
-            //        dayLabel7.Content = "Nd " + (prevDT.AddDays(5).Day) + "/" + prevDT.AddDays(5).Month + "/" + prevDT.AddDays(5).Year;
-            //        monCal = new DateTime(prevDT.Year, prevDT.Month, prevDT.Day).AddDays(-1);
-            //        sunCal = monCal.AddDays(6);
-            //        break;
-            //    case "Wednesday":
-            //        dayLabel1.Content = "Pon " + (prevDT.AddDays(-2).Day) + "/" + prevDT.AddDays(-2).Month + "/" + prevDT.AddDays(-2).Year;
-            //        dayLabel2.Content = "Wto " + (prevDT.AddDays(-1).Day) + "/" + prevDT.AddDays(-1).Month + "/" + prevDT.AddDays(-1).Year;
-            //        dayLabel3.Content = "Śro " + prevDT.Day + "/" + prevDT.Month + "/" + prevDT.Year; //dzień 0
-            //        dayLabel4.Content = "Czw " + (prevDT.AddDays(1).Day) + "/" + prevDT.AddDays(1).Month + "/" + prevDT.AddDays(1).Year;
-            //        dayLabel5.Content = "Pt " + (prevDT.AddDays(2).Day) + "/" + prevDT.AddDays(2).Month + "/" + prevDT.AddDays(2).Year;
-            //        dayLabel6.Content = "Sob " + (prevDT.AddDays(3).Day) + "/" + prevDT.AddDays(3).Month + "/" + prevDT.AddDays(3).Year;
-            //        dayLabel7.Content = "Nd " + (prevDT.AddDays(4).Day) + "/" + prevDT.AddDays(4).Month + "/" + prevDT.AddDays(4).Year;
-            //        monCal = new DateTime(prevDT.Year, prevDT.Month, prevDT.Day).AddDays(-2);
-            //        sunCal = monCal.AddDays(6);
-            //        break;
-            //    case "Thursday":
-            //        dayLabel1.Content = "Pon " + (prevDT.AddDays(-3).Day) + "/" + prevDT.AddDays(-3).Month + "/" + prevDT.AddDays(-3).Year;
-            //        dayLabel2.Content = "Wto " + (prevDT.AddDays(-2).Day) + "/" + prevDT.AddDays(-2).Month + "/" + prevDT.AddDays(-2).Year;
-            //        dayLabel3.Content = "Śro " + (prevDT.AddDays(-1).Day) + "/" + prevDT.AddDays(-1).Month + "/" + prevDT.AddDays(-1).Year;
-            //        dayLabel4.Content = "Czw " + prevDT.Day + "/" + prevDT.Month + "/" + prevDT.Year; //dzień 0
-            //        dayLabel5.Content = "Pt " + (prevDT.AddDays(1).Day) + "/" + prevDT.AddDays(1).Month + "/" + prevDT.AddDays(1).Year;
-            //        dayLabel6.Content = "Sob " + (prevDT.AddDays(2).Day) + "/" + prevDT.AddDays(2).Month + "/" + prevDT.AddDays(2).Year;
-            //        dayLabel7.Content = "Nd " + (prevDT.AddDays(3).Day) + "/" + prevDT.AddDays(3).Month + "/" + prevDT.AddDays(3).Year;
-            //        monCal = new DateTime(prevDT.Year, prevDT.Month, prevDT.Day).AddDays(-3);
-            //        sunCal = monCal.AddDays(6);
-            //        break;
-            //    case "Friday":
-            //        dayLabel1.Content = "Pon " + (prevDT.AddDays(-4).Day) + "/" + prevDT.AddDays(-4).Month + "/" + prevDT.AddDays(-4).Year;
-            //        dayLabel2.Content = "Wto " + (prevDT.AddDays(-3).Day) + "/" + prevDT.AddDays(-3).Month + "/" + prevDT.AddDays(-3).Year;
-            //        dayLabel3.Content = "Śro " + (prevDT.AddDays(-2).Day) + "/" + prevDT.AddDays(-2).Month + "/" + prevDT.AddDays(-2).Year;
-            //        dayLabel4.Content = "Czw " + (prevDT.AddDays(-1).Day) + "/" + prevDT.AddDays(-1).Month + "/" + prevDT.AddDays(-1).Year;
-            //        dayLabel5.Content = "Pt " + prevDT.Day + "/" + prevDT.Month + "/" + prevDT.Year;//dzień 0
-            //        dayLabel6.Content = "Sob " + (prevDT.AddDays(1).Day) + "/" + prevDT.AddDays(1).Month + "/" + prevDT.AddDays(1).Year;
-            //        dayLabel7.Content = "Nd " + (prevDT.AddDays(2).Day) + "/" + prevDT.AddDays(2).Month + "/" + prevDT.AddDays(2).Year;
-            //        monCal = new DateTime(prevDT.Year, prevDT.Month, prevDT.Day).AddDays(-4);
-            //        sunCal = monCal.AddDays(6);
-            //        break;
-            //    case "Saturday":
-            //        dayLabel1.Content = "Pon " + (prevDT.AddDays(-5).Day) + "/" + prevDT.AddDays(-5).Month + "/" + prevDT.AddDays(-5).Year;
-            //        dayLabel2.Content = "Wto " + (prevDT.AddDays(-4).Day) + "/" + prevDT.AddDays(-4).Month + "/" + prevDT.AddDays(-4).Year;
-            //        dayLabel3.Content = "Śro " + (prevDT.AddDays(-3).Day) + "/" + prevDT.AddDays(-3).Month + "/" + prevDT.AddDays(-3).Year;
-            //        dayLabel4.Content = "Czw " + (prevDT.AddDays(-2).Day) + "/" + prevDT.AddDays(-2).Month + "/" + prevDT.AddDays(-2).Year;
-            //        dayLabel5.Content = "Pt " + (prevDT.AddDays(-1).Day) + "/" + prevDT.AddDays(-1).Month + "/" + prevDT.AddDays(-1).Year;
-            //        dayLabel6.Content = "Sob " + prevDT.Day + "/" + prevDT.Month + "/" + prevDT.Year;//dzień 0
-            //        dayLabel7.Content = "Nd " + (prevDT.AddDays(1).Day) + "/" + prevDT.AddDays(1).Month + "/" + prevDT.AddDays(1).Year;
-            //        monCal = new DateTime(prevDT.Year, prevDT.Month, prevDT.Day).AddDays(-5);
-            //        sunCal = monCal.AddDays(6);
-            //        break;
-            //    case "Sunday":
-            //        dayLabel1.Content = "Pon " + (prevDT.AddDays(-6).Day) + "/" + prevDT.AddDays(-6).Month + "/" + prevDT.AddDays(-6).Year;
-            //        dayLabel2.Content = "Wto " + (prevDT.AddDays(-5).Day) + "/" + prevDT.AddDays(-5).Month + "/" + prevDT.AddDays(-5).Year;
-            //        dayLabel3.Content = "Śro " + (prevDT.AddDays(-4).Day) + "/" + prevDT.AddDays(-4).Month + "/" + prevDT.AddDays(-4).Year;
-            //        dayLabel4.Content = "Czw " + (prevDT.AddDays(-3).Day) + "/" + prevDT.AddDays(-3).Month + "/" + prevDT.AddDays(-3).Year;
-            //        dayLabel5.Content = "Pt " + (prevDT.AddDays(-2).Day) + "/" + prevDT.AddDays(-2).Month + "/" + prevDT.AddDays(-2).Year;
-            //        dayLabel6.Content = "Sob " + (prevDT.AddDays(-1).Day) + "/" + prevDT.AddDays(-1).Month + "/" + prevDT.AddDays(-1).Year;
-            //        dayLabel7.Content = "Nd " + prevDT.Day + "/" + prevDT.Month + "/" + prevDT.Year; //dzień 0
-            //        monCal = new DateTime(prevDT.Year, prevDT.Month, prevDT.Day).AddDays(-6);
-            //        sunCal = monCal.AddDays(6);
-            //        break;
-            //}
-
+            SetDates(prevDT);
             clrConvas();
-            showVisitsForThisWeek();
+            GetBookingForThisWeek();
         }
 
         private void goToWaitingList_Click(object sender, RoutedEventArgs e)
@@ -604,9 +422,6 @@ namespace RestaurantDesk.Views.Pages
                         break;
                 }
 
-                //day = day.Remove(0, 4);
-                //Console.WriteLine(day);
-                //string[] subs = day.Split('/');
                 int d = DateTime.Parse(day.ToString()).Day;// int.Parse(subs[0]);
                 int m = DateTime.Parse(day.ToString()).Month;// int.Parse(subs[1]);
                 int y = DateTime.Parse(day.ToString()).Year;// int.Parse(subs[2]);
@@ -635,121 +450,30 @@ namespace RestaurantDesk.Views.Pages
                         startHour = 15;
                         break;
                     case 7:
-                        startHour = 10;
+                        startHour = 16;
                         break;
                     case 8:
-                        startHour = 11;
+                        startHour = 17;
                         break;
                     case 9:
-                        startHour = 11;
+                        startHour = 18;
                         break;
                     case 10:
-                        startHour = 11;
+                        startHour = 19;
                         break;
                     case 11:
-                        startHour = 11;
+                        startHour = 20;
                         break;
                     case 12:
-                        startHour = 12;
+                        startHour = 21;
                         break;
                     case 13:
-                        startHour = 12;
+                        startHour = 22;
                         break;
                     case 14:
-                        startHour = 12;
-                        break;
-                    case 15:
-                        startHour = 12;
-                        break;
-                    case 16:
-                        startHour = 13;
-                        break;
-                    case 17:
-                        startHour = 13;
-                        break;
-                    case 18:
-                        startHour = 13;
-                        break;
-                    case 19:
-                        startHour = 13;
-                        break;
-                    case 20:
-                        startHour = 14;
-                        break;
-                    case 21:
-                        startHour = 14;
-                        break;
-                    case 22:
-                        startHour = 14;
-                        break;
-                    case 23:
-                        startHour = 14;
-                        break;
-                    case 24:
-                        startHour = 15;
-                        break;
-                    case 25:
-                        startHour = 15;
-                        break;
-                    case 26:
-                        startHour = 15;
-                        break;
-                    case 27:
-                        startHour = 15;
-                        break;
-                    case 28:
-                        startHour = 16;
-                        break;
-                    case 29:
-                        startHour = 16;
-                        break;
-                    case 30:
-                        startHour = 16;
-                        break;
-                    case 31:
-                        startHour = 16;
-                        break;
-                    case 32:
-                        startHour = 17;
-                        break;
-                    case 33:
-                        startHour = 17;
-                        break;
-                    case 34:
-                        startHour = 17;
-                        break;
-                    case 35:
-                        startHour = 17;
-                        break;
-                    case 36:
-                        startHour = 18;
-                        break;
-                    case 37:
-                        startHour = 18;
-                        break;
-                    case 38:
-                        startHour = 18;
-                        break;
-                    case 39:
-                        startHour = 18;
+                        startHour = 23;
                         break;
 
-                }
-
-                switch (row % 4)
-                {
-                    case 0:
-                        startMinute = 0;
-                        break;
-                    case 1:
-                        startMinute = 15;
-                        break;
-                    case 2:
-                        startMinute = 30;
-                        break;
-                    case 3:
-                        startMinute = 45;
-                        break;
 
                 }
 
@@ -757,175 +481,21 @@ namespace RestaurantDesk.Views.Pages
                 Console.WriteLine(clickedDay);
                 if (clickedDay != null)
                 {
-                    //AddVisit vWindow = new AddVisit(clickedDay);
-                    //vWindow.ShowDialog();
-                    (this.DataContext as ReservationViewModel).IsDialogOpen = true;
+
+                    ViewModel.IsDialogOpen = true;
                 }
             }
 
         }
 
-        public void showVisitsForThisWeek()
-        {
-            //clrConvas();
-            ////wyświetl wizyty z danego tygodnia:
-            //Console.WriteLine("Pon i nd: " + monCal + " , " + sunCal);
-
-            //List<VisitInfo> allVisits = new List<VisitInfo>();
-            //List<VisitInfo> weekVisits = new List<VisitInfo>();
-
-            //allVisits = visitsMenager.GetAllVisits();
-            //weekVisits = VisitsInThisWeek(allVisits);
-
-            //List<VisitInfo> VisitsInThisWeek(List<VisitInfo> visitList)
-            //{
-            //    List<VisitInfo> result = new List<VisitInfo>();
-
-            //    foreach (var v in visitList)
-            //    {
-            //        //sprawdzenie czy wizyta w danym tygodniu: 
-            //        if ((v.VisitDate).CompareTo(monCal) >= 0 && (v.VisitDate).CompareTo(sunCal) <= 0)
-            //        {
-            //            result.Add(v);
-            //        }
-            //    }
-            //    return result;
-            //}
-
-            //foreach (var v in weekVisits)
-            //{
-            //    CreateVisitControl(v);
-            //}
-
-        }
-
         private void clrConvas()
         {
-            //column1.Children.Clear();
-            // column2.Children.Clear();
-            //column3.Children.Clear();
-            //column4.Children.Clear();
-            //column5.Children.Clear();
-            //column6.Children.Clear();
-            //column7.Children.Clear();
+            List<StackPanel> objs = EventsGrid.Children.OfType<StackPanel>().ToList();
+            foreach (var item in objs)
+            {
+                item.Children.Clear();
+            }
         }
-
-        //private void CreateVisitControl(VisitInfo v)
-        //{
-        //    int column = (int)v.VisitDate.DayOfWeek;//0 dla niedzieli, 1 dla pon...
-        //    int row = 0;
-        //    int h = v.Start.Hour;
-        //    int m = v.Start.Minute;
-        //    int eh = v.End.Hour;
-        //    int em = v.End.Minute;
-
-        //    switch (h)
-        //    {
-        //        case 9:
-        //            row = 0;
-        //            break;
-        //        case 10:
-        //            row = 4;
-        //            break;
-        //        case 11:
-        //            row = 8;
-        //            break;
-        //        case 12:
-        //            row = 12;
-        //            break;
-        //        case 13:
-        //            row = 16;
-        //            break;
-        //        case 14:
-        //            row = 20;
-        //            break;
-        //        case 15:
-        //            row = 24;
-        //            break;
-        //        case 16:
-        //            row = 28;
-        //            break;
-        //        case 17:
-        //            row = 32;
-        //            break;
-        //        case 18:
-        //            row = 36;
-        //            break;
-        //    }
-
-        //    switch (m)
-        //    {
-        //        case 0:
-        //            row += 0;
-        //            break;
-        //        case 15:
-        //            row += 1;
-        //            break;
-        //        case 30:
-        //            row += 2;
-        //            break;
-        //        case 45:
-        //            row += 3;
-        //            break;
-        //    }
-
-        //    int length = ((eh * 60 + em) - (h * 60 + m)) / 15;
-
-        //    //tworzenie kontrolki button - wizyty
-        //    Button b = new Button();
-        //    b.Background = Brushes.BlanchedAlmond;
-        //    b.Name = "visitEvent";
-        //    b.Height = 40 * length;
-        //    b.Width = column5.ActualWidth; //150;
-        //    b.HorizontalAlignment = HorizontalAlignment.Stretch;
-        //    b.Margin = new Thickness(0, row * 40, 0, 0);
-        //    b.Focusable = true;
-        //    b.Content = v.Name + "\n" + v.Phone;
-        //    if (v.Note != "")
-        //    {
-        //        b.Content += "\n" + v.Note;
-        //    }
-        //    b.DataContext = v.VisitId;
-        //    b.Click += new RoutedEventHandler(EventClick);
-
-        //    ToolTip tt = new ToolTip();
-        //    tt.Content = v.Name + "\n" + v.Phone;
-        //    if (v.Email != "")
-        //    {
-        //        tt.Content += "\n" + v.Email;
-        //    }
-        //    if (v.Note != "")
-        //    {
-        //        tt.Content += "\n" + v.Note;
-        //    }
-
-        //    b.ToolTip = tt;
-        //    switch (column)
-        //    {
-        //        case 1:
-        //            column1.Children.Add(b);
-        //            break;
-        //        case 2:
-        //            column2.Children.Add(b);
-        //            break;
-        //        case 3:
-        //            column3.Children.Add(b);
-        //            break;
-        //        case 4:
-        //            column4.Children.Add(b);
-        //            break;
-        //        case 5:
-        //            column5.Children.Add(b);
-        //            break;
-        //        case 6:
-        //            column6.Children.Add(b);
-        //            break;
-        //        case 0:
-        //            column7.Children.Add(b);
-        //            break;
-        //    }
-
-        //}
 
         private void EventClick(object sender, RoutedEventArgs ev)
         {
@@ -940,18 +510,19 @@ namespace RestaurantDesk.Views.Pages
         private void Window_Activated(object sender, EventArgs e)
         {
             clrConvas();
-            showVisitsForThisWeek();
+            GetBookingForThisWeek();
         }
 
         private void GetBookingForThisWeek()
         {
             List<VisitInfo> bookingList = new List<VisitInfo>();
-            DateTime dt = DateTime.Now.AddHours(2);
+            DateTime dt = DateTime.Now.AddHours(1);
 
-            bookingList.Add(new VisitInfo { Email = "abcd@ema", VisitDate = DateTime.Now.Date, Name = "Subhash", Start =dt, End = dt.AddHours(1) });
+            bookingList.Add(new VisitInfo { Email = "abcd@ema", VisitDate = DateTime.Now.Date, Name = "Subhash", Start = dt, End = dt.AddHours(1) });
             bookingList.Add(new VisitInfo { Email = "abcd@ema", VisitDate = DateTime.Now.Date, Name = "Subhash", Start = dt, End = dt.AddHours(2) });
             bookingList.Add(new VisitInfo { Email = "abcd@ema", VisitDate = DateTime.Now.Date, Name = "Subhash", Start = dt.AddHours(-2), End = dt.AddHours(1) });
             bookingList.Add(new VisitInfo { Email = "abcd@ema", VisitDate = DateTime.Now.AddDays(-1).Date, Name = "Subhash", Start = dt.AddDays(-1), End = dt.AddDays(-1).AddHours(2) });
+            bookingList.Add(new VisitInfo { Email = "abcd@ema", VisitDate = DateTime.Now.Date, Name = "Subhash", Start = dt.AddHours(2), End = dt.AddHours(3) });
 
             List<VisitInfo> result = new List<VisitInfo>();
 
@@ -963,16 +534,15 @@ namespace RestaurantDesk.Views.Pages
 
                 foreach (var v in visitList)
                 {
-                    //sprawdzenie czy wizyta w danym tygodniu: 
-                    if ((v.VisitDate).CompareTo(monCal) >= 0 && (v.VisitDate).CompareTo(sunCal) <= 0)
+                    if ((v.VisitDate).CompareTo(sunCal.Date) >= 0 && (v.VisitDate).CompareTo(satCal.Date) <= 0)
                     {
-                        if (v.Start < DateTime.Now && v.End <DateTime.Now)
+                        if ( v.End < DateTime.Now)
                             v.IsPastVisit = true;
                         else if (v.Start > DateTime.Now)
                             v.IsFutureVisit = true;
                         else
                             v.IsPresentVisit = true;
-                        
+
                         result.Add(v);
                     }
                 }
@@ -981,17 +551,21 @@ namespace RestaurantDesk.Views.Pages
             var totalApts = weekVisits.Count;
             foreach (var v in weekVisits)
             {
-                CreateVisitControl(v,totalApts);
+                CreateVisitControl(v, totalApts);
             }
         }
 
-        private void CreateVisitControl(VisitInfo v,int aptsCounts)
+        private void CreateVisitControl(VisitInfo v, int aptsCounts)
         {
             int column = (int)v.VisitDate.DayOfWeek;//0 dla niedzieli, 1 dla pon...
             int row = 0;
             int h = v.Start.Hour;
             int m = v.Start.Minute;
             int eh = v.End.Hour;
+            if (eh < h)
+            {
+                eh = 24;
+            }
             int em = v.End.Minute;
 
             switch (h)
@@ -1062,10 +636,10 @@ namespace RestaurantDesk.Views.Pages
             int length = ((eh * 60) - (h * 60)) / 60;
 
             //tworzenie kontrolki button - wizyty
-             Wpf.Ui.Controls.Button b = new Wpf.Ui.Controls.Button();
+            Wpf.Ui.Controls.Button b = new Wpf.Ui.Controls.Button();
             b.Background = Brushes.BlanchedAlmond;
-           
-            b.Height = 50 * (length );
+
+            b.Height = 50 * (length);
             //b.Width = EventsGrid[1].ActualWidth/ aptsCounts; //GridLength.Auto.Value;  //EventsGrid.Children.OfType<ColumnDefinition>().ToList()[0].ActualWidth; //150;
             b.HorizontalAlignment = HorizontalAlignment.Stretch;
             b.VerticalAlignment = VerticalAlignment.Top;
@@ -1075,13 +649,13 @@ namespace RestaurantDesk.Views.Pages
             b.Foreground = new SolidColorBrush(Colors.White);
             b.Style = this.Resources["aptCustom"] as Style;
             if (v.IsFutureVisit)
-                b.Background = this.Resources["FutureVisitBackgroun"] as SolidColorBrush;
+                b.Background = Application.Current.Resources["FutureVisitBackgroun"] as SolidColorBrush;
             else if (v.IsPastVisit)
-                b.Background = this.Resources["pastVisitBackground"] as SolidColorBrush;
+                b.Background = Application.Current.Resources["pastVisitBackground"] as SolidColorBrush;
             else
-                b.Background = this.Resources["presentVisitBackground"] as SolidColorBrush;
+                b.Background = Application.Current.Resources["presentVisitBackground"] as SolidColorBrush;
 
-            
+
             b.Content = v.Name;
             //if (v.Note != "")
             //{

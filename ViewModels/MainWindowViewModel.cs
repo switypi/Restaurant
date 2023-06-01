@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.ObjectModel;
-
+using System.Linq;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Controls.Interfaces;
@@ -37,20 +39,48 @@ namespace RestaurantDesk.ViewModels
             //BitmapIcon ico = new BitmapIcon();
             //ico.UriSource = new Uri("");
 
+            BitmapImage logo1 = new BitmapImage();
+            logo1.BeginInit();
+            logo1.UriSource = new Uri("pack://application:,,,/Images/cutlery.png");
+            logo1.EndInit();
+
+            BitmapImage logo = new BitmapImage();
+            logo.BeginInit();
+            logo.UriSource = new Uri("pack://application:,,,/Images/dashboard.png");
+            logo.EndInit();
+
+            BitmapImage logo2 = new BitmapImage();
+            logo2.BeginInit();
+            logo2.UriSource = new Uri("pack://application:,,,/Images/people.png");
+            logo2.EndInit();
+
+            BitmapImage logo3 = new BitmapImage();
+            logo3.BeginInit();
+            logo3.UriSource = new Uri("pack://application:,,,/Images/waiter.png");
+            logo3.EndInit();
+
+            BitmapImage logo4 = new BitmapImage();
+            logo4.BeginInit();
+            logo4.UriSource = new Uri("pack://application:,,,/Images/booking.png");
+            logo4.EndInit();
+
             NavigationItems = new ObservableCollection<INavigationControl>
             {
                 new NavigationItem()
                 {
                     Content = "Dashboard", Width=100,
                     PageTag = "Dashboard",
-                    Icon =SymbolRegular.DataBarVertical16,
+                    //Icon =SymbolRegular.DataBarVertical16,
+                    Image= logo,
                     PageType = typeof(Views.Pages.DashboardPage),IconSize=30,
                 },
                 new NavigationItem()
                 {
-                    Content = "Order", 
+                    Content = "Dine-In",
                     PageTag = "Order",
-                    Icon = SymbolRegular.TableSimple20,
+                    //Icon = SymbolRegular.TableSimple20,
+                    Image= logo1,
+                   
                     PageType = typeof(Views.Pages.OrderPage)
                 },
 
@@ -58,7 +88,8 @@ namespace RestaurantDesk.ViewModels
                 {
                     Content = "Reservation",
                     PageTag = "Reservation",
-                    Icon = SymbolRegular.BookInformation24,
+                    //Icon = SymbolRegular.BookInformation24,
+                    Image=logo4,
                     PageType = typeof(Views.Pages.Reservation)
                 },
 
@@ -66,17 +97,21 @@ namespace RestaurantDesk.ViewModels
                 {
                     Content = "Waiter",
                     PageTag = "Waiter",
-                    Icon = SymbolRegular.PeopleList20,
+                    //Icon = SymbolRegular.PeopleList20,
+                    Image=logo3,
                     PageType = typeof(Views.Pages.WaiterPage)
                 },
                    new NavigationItem()
                 {
                     Content = "Customer",
                     PageTag = "Customer",
-                    Icon = SymbolRegular.DataHistogram24,
+                    //Icon = SymbolRegular.DataHistogram24,
+                    Image=logo2,
                     PageType = typeof(Views.Pages.CustomerPage)
                 }
             };
+
+            
 
             NavigationFooter = new ObservableCollection<INavigationControl>
             {

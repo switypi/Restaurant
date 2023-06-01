@@ -19,6 +19,17 @@ namespace RestaurantDesk.ViewModels
         [ObservableProperty]
         private bool isDialogOpen;
 
+        [ObservableProperty]
+        private TimeSpan selectedStartTime;
+        [ObservableProperty]
+        private TimeSpan selectedEndTime;
+        [ObservableProperty]
+        private DateTime selectedDate;
+        [ObservableProperty]
+        private string name;
+        [ObservableProperty]
+        private string mobile;
+
         public void OnNavigatedTo()
         {
             IsDialogOpen = false;
@@ -37,6 +48,7 @@ namespace RestaurantDesk.ViewModels
         [RelayCommand]
         private void OnSave()
         {
+
             IsDialogOpen = false;
         }
         [RelayCommand]

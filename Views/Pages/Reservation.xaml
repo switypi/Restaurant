@@ -13,22 +13,13 @@
       d:DataContext="{d:DesignInstance local:Reservation, IsDesignTimeCreatable=False}"
      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
       Title="Reservation" >
-    <ui:UiPage.DataContext>
+    <!--<ui:UiPage.DataContext>
         <vm:ReservationViewModel></vm:ReservationViewModel>
-    </ui:UiPage.DataContext>
+    </ui:UiPage.DataContext>-->
     <ui:UiPage.Resources>
-        <Style x:Key="lblStyle" TargetType="Label">
-            <Setter Property="ContentTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <Border BorderBrush="Blue" BorderThickness="0,0,0,2">
-                            <TextBlock Text="{Binding}" />
-                        </Border>
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
-
-        </Style>
+       
+        
+        
         <Style x:Key="aptStyle" TargetType="ui:Button" >
 
             <Setter Property="ContentTemplate">
@@ -66,13 +57,7 @@
             <Setter Property="Border.CornerRadius" Value="5" />
             <Setter Property="Padding" Value="2"></Setter>
         </Style>
-        <SolidColorBrush x:Key="actionBtnMouseOverColor" Color="#ABC270"/>
-        <SolidColorBrush x:Key="actionBtnBackGround" Color="#4E9525"/>
-        <SolidColorBrush x:Key="HeaderBackground" Color="#4E9525"/>
-        <SolidColorBrush x:Key="FutureVisitBackgroun" Color="#82CD47"></SolidColorBrush>
-        <SolidColorBrush x:Key="pastVisitBackground" Color="#99A98F"/>
-        <SolidColorBrush x:Key="presentVisitBackground" Color="#C780FA"/>
-
+       
 
         <Style TargetType="Label">
             <Setter Property="FontFamily" Value="Segoe UI" />
@@ -113,11 +98,6 @@
     <Grid>
 
         <Grid >
-
-            <!--<Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1068*"/>
-            <ColumnDefinition Width="41*"/>
-        </Grid.ColumnDefinitions>-->
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
@@ -165,8 +145,8 @@
                 <Label x:Name="today" Content="May 2009"  FontFamily="Segoe UI"  VerticalAlignment="Center" Grid.Column="1" FontWeight="Bold" HorizontalAlignment="Center" FontSize="25"/>
             </Grid>
 
-            <Border BorderBrush="#555555" BorderThickness="0.5" Grid.Row="1" Grid.ColumnSpan="2">
-                <Grid>
+            <Border BorderBrush="{StaticResource actionBtnBackGround}" BorderThickness="0.5" Grid.Row="1" Grid.ColumnSpan="2">
+                <Grid >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
@@ -201,126 +181,21 @@
                            FontFamily="Segoe UI" Grid.Row="0" Grid.Column="6" Content="Fri" ></Label>
                         <Label x:Name="dayLabel7" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI" Grid.Row="0" Grid.Column="7" Content="Sat"   ></Label>
                     </cal:SchedulerGrid>
-                    <Border Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Left" BorderBrush="#555555" BorderThickness="0.5">
-                        <Label VerticalAlignment="Stretch" HorizontalAlignment="Left"></Label>
+                    <Border Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Left" BorderBrush="{StaticResource actionBtnBackGround}" BorderThickness="0.5">
+                        <Label Width="0" VerticalAlignment="Stretch" HorizontalAlignment="Left"></Label>
                     </Border>
-                    <Border Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Right" BorderBrush="#555555" BorderThickness="0.5">
-                        <Label VerticalAlignment="Stretch" HorizontalAlignment="Right"></Label>
+                    <Border Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Right" BorderBrush="{StaticResource actionBtnBackGround}" BorderThickness="0.5">
+                        <Label Width="0" VerticalAlignment="Stretch" HorizontalAlignment="Right"></Label>
                     </Border>
 
                     <!--<Border BorderBrush="#555555" BorderThickness="0.5" Grid.Row="2" Grid.ColumnSpan="2">-->
-                    <ScrollViewer x:Name="ScrollEventsViewer" VerticalScrollBarVisibility="Auto" Grid.Row="1" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer materialDesign:ScrollViewerAssist.SupportHorizontalScroll="True" 
+                             x:Name="ScrollEventsViewer" VerticalScrollBarVisibility="Auto" Grid.Row="1" >
+
 
                         <cal:SchedulerGrid x:Name="EventsGrid" 
-                              ShowCustomGridLines="True" GridLineBrush="#555555" GridLineThickness="0.5" AutomationProperties.Name="EventsGrid" 
+                              ShowCustomGridLines="True" GridLineBrush="{StaticResource actionBtnBackGround}" GridLineThickness="0.5" AutomationProperties.Name="EventsGrid" 
                                    PreviewMouseLeftButtonDown="OnPreviewMouseLeftButtonDown"  Loaded="EventsGrid_Loaded">
-
-                            <!--<Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="40"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-
-                    </Grid.RowDefinitions>-->
-
-                            <!-- Hours -->
-                            <!--<Label Grid.Row="0" Grid.Column="0" Content="09:00" HorizontalAlignment="Left" Width="40"/>
-                    <Label Grid.Row="1" Grid.Column="0" Content="09:15"></Label>
-                    <Label Grid.Row="2" Grid.Column="0" Content="09:30"></Label>
-                    <Label Grid.Row="3" Grid.Column="0" Content="09:45"></Label>
-                    <Label Grid.Row="4" Grid.Column="0" Content="10:00"></Label>
-                    <Label Grid.Row="5" Grid.Column="0" Content="10:15"></Label>
-                    <Label Grid.Row="6" Grid.Column="0" Content="10:30"></Label>
-                    <Label Grid.Row="7" Grid.Column="0" Content="10:45"></Label>
-                    <Label Grid.Row="8" Grid.Column="0" Content="11:00"></Label>
-                    <Label Grid.Row="9" Grid.Column="0" Content="11:15"></Label>
-                    <Label Grid.Row="10" Grid.Column="0" Content="11:30"></Label>
-                    <Label Grid.Row="11" Grid.Column="0" Content="11:45"></Label>
-                    <Label Grid.Row="12" Grid.Column="0" Content="12:00"></Label>
-                    <Label Grid.Row="13" Grid.Column="0" Content="12:15"></Label>
-                    <Label Grid.Row="14" Grid.Column="0" Content="12:30"></Label>
-                    <Label Grid.Row="15" Grid.Column="0" Content="12:45"></Label>
-                    <Label Grid.Row="16" Grid.Column="0" Content="13:00"></Label>
-                    <Label Grid.Row="17" Grid.Column="0" Content="13:15"></Label>
-                    <Label Grid.Row="18" Grid.Column="0" Content="13:30"></Label>
-                    <Label Grid.Row="19" Grid.Column="0" Content="13:45"></Label>
-                    <Label Grid.Row="20" Grid.Column="0" Content="14:00"></Label>
-                    <Label Grid.Row="21" Grid.Column="0" Content="14:15"></Label>
-                    <Label Grid.Row="22" Grid.Column="0" Content="14:30"></Label>
-                    <Label Grid.Row="23" Grid.Column="0" Content="14:45"></Label>
-                    <Label Grid.Row="24" Grid.Column="0" Content="15:00"></Label>
-                    <Label Grid.Row="25" Grid.Column="0" Content="15:15"></Label>
-                    <Label Grid.Row="26" Grid.Column="0" Content="15:30"></Label>
-                    <Label Grid.Row="27" Grid.Column="0" Content="15:45"></Label>
-                    <Label Grid.Row="28" Grid.Column="0" Content="16:00"></Label>
-                    <Label Grid.Row="29" Grid.Column="0" Content="16:15"></Label>
-                    <Label Grid.Row="30" Grid.Column="0" Content="16:30"></Label>
-                    <Label Grid.Row="31" Grid.Column="0" Content="16:45"></Label>
-                    <Label Grid.Row="32" Grid.Column="0" Content="17:00"></Label>
-                    <Label Grid.Row="33" Grid.Column="0" Content="17:15"></Label>
-                    <Label Grid.Row="34" Grid.Column="0" Content="17:30"></Label>
-                    <Label Grid.Row="35" Grid.Column="0" Content="17:45"></Label>
-                    <Label Grid.Row="36" Grid.Column="0" Content="18:00"></Label>
-                    <Label Grid.Row="37" Grid.Column="0" Content="18:15"></Label>
-                    <Label Grid.Row="38" Grid.Column="0" Content="18:30"></Label>
-                    <Label Grid.Row="39" Grid.Column="0" Content="18:45"></Label>-->
-
-                            <!-- Canvas  -->
-                            <!--<Canvas x:Name="column1" Grid.Column="1" Grid.Row="0" Grid.RowSpan="22" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Canvas >
-                        <Canvas x:Name="column2" Grid.Column="2" Grid.Row="0" Grid.RowSpan="22" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Canvas >
-                        <Canvas x:Name="column3" Grid.Column="3" Grid.Row="0" Grid.RowSpan="22" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Canvas >
-                        <Canvas x:Name="column4" Grid.Column="4" Grid.Row="0" Grid.RowSpan="22" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Canvas >
-                        <Canvas x:Name="column5" Grid.Column="5" Grid.Row="0" Grid.RowSpan="22" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Canvas >
-                        <Canvas x:Name="column6" Grid.Column="6" Grid.Row="0" Grid.RowSpan="22" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Canvas >
-                        <Canvas x:Name="column7" Grid.Column="7" Grid.Row="0" Grid.RowSpan="22" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Canvas >-->
-
                         </cal:SchedulerGrid>
                     </ScrollViewer>
                 </Grid>
@@ -358,11 +233,9 @@
         </Grid>
 
         <!--<ui:Dialog x:Name="aptDialog">-->
-        <materialDesign:DialogHost x:Name="mn" CloseOnClickAway="False" IsOpen="{Binding IsDialogOpen}"  >
+        <materialDesign:DialogHost x:Name="mn" CloseOnClickAway="False" IsOpen="{Binding ViewModel.IsDialogOpen}"  >
             <materialDesign:DialogHost.DialogContent>
                 <materialDesign:Card HorizontalAlignment="Left" VerticalAlignment="Center">
-
-
                     <Grid  Margin="10" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -383,24 +256,24 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="10"/>
                         </Grid.RowDefinitions>
-                        <Label Content="Customer Name" HorizontalAlignment="Right" Margin="0,10,0,0" VerticalAlignment="Center"  />
-                        <TextBox x:Name="name" Width="200"  Text="{Binding Name}" Height="50" HorizontalAlignment="Stretch" Margin="0,10,0,0" Style="{StaticResource MaterialDesignOutlinedTextBox}" VerticalAlignment="Center" Grid.Column="2" />
+                        <Label Content="Customer Name"  HorizontalAlignment="Right" Margin="0,10,0,0" VerticalAlignment="Center"  />
+                        <TextBox x:Name="name" Width="200"  Text="{Binding ViewModel.Name}" Height="50" HorizontalAlignment="Stretch" Margin="0,10,0,0" Style="{StaticResource MaterialDesignOutlinedTextBox}" VerticalAlignment="Center" Grid.Column="2" />
 
                         <Label Content="Mobile No." HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Row="2"/>
-                        <TextBox x:Name="phone" Height="50" Text="{Binding Mobile}"  VerticalAlignment="Center" Grid.Column="2" Style="{StaticResource MaterialDesignOutlinedTextBox}" Grid.Row="2" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"  MaxLength="10"/>
+                        <TextBox x:Name="phone" Height="50" Text="{Binding ViewModel.Mobile}"  VerticalAlignment="Center" Grid.Column="2" Style="{StaticResource MaterialDesignOutlinedTextBox}" Grid.Row="2" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"  MaxLength="10"/>
 
                         <Label Content="Date" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="4" />
-                        <DatePicker  Height="50" x:Name="dtPicker" SelectedDate="{Binding SelectedDate}" Grid.Column="2"  Style="{StaticResource MaterialDesignOutlinedDatePicker}"  Grid.Row="4" />
+                        <DatePicker  Height="50" x:Name="dtPicker" SelectedDate="{Binding ViewModel.SelectedDate}" Grid.Column="2"  Style="{StaticResource MaterialDesignOutlinedDatePicker}"  Grid.Row="4" />
 
                         <Label Content="Start Time" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="6" />
-                        <materialDesign:TimePicker SelectedTime="{Binding SelectedSTartTime}" Height="50" Style="{StaticResource MaterialDesignOutlinedTimePicker}"  Grid.Column="2" Grid.Row="6"/>
+                        <materialDesign:TimePicker SelectedTime="{Binding ViewModel.SelectedStartTime}" Height="50" Style="{StaticResource MaterialDesignOutlinedTimePicker}"  Grid.Column="2" Grid.Row="6"/>
 
                         <Label Content="End Time" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Row="8" />
-                        <materialDesign:TimePicker SelectedTime="{Binding SelectedEndTime}" Height="50" Is24Hours="False" Style="{StaticResource MaterialDesignOutlinedTimePicker}"  HorizontalAlignment="Stretch"   Grid.Column="2"   Grid.Row="8"/>
+                        <materialDesign:TimePicker SelectedTime="{Binding ViewModel.SelectedEndTime}" Height="50" Is24Hours="False" Style="{StaticResource MaterialDesignOutlinedTimePicker}"  HorizontalAlignment="Stretch"   Grid.Column="2"   Grid.Row="8"/>
 
                         <StackPanel Orientation="Horizontal"  Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Right">
 
-                            <ui:Button Name ="btnSave" Content="Save" Command="{Binding SaveCommand}" FontWeight="Bold" FontFamily="Segoe UI"   Background="{StaticResource actionBtnBackGround}"  VerticalAlignment="Center"  >
+                            <ui:Button Name ="btnSave" Content="Save" Command="{Binding ViewModel.SaveCommand}" FontWeight="Medium" FontFamily="Segoe UI"   Background="{StaticResource actionBtnBackGround}"  VerticalAlignment="Center"  >
                                 <ui:Button.Style>
                                     <Style TargetType="{x:Type ui:Button}" BasedOn="{StaticResource DefaultUiButtonStyle}">
                                         <Setter Property="Width" Value="75" ></Setter>
@@ -416,7 +289,7 @@
                                 </ui:Button.Style>
                             </ui:Button>
 
-                            <ui:Button Name ="btnDelete" Command="{Binding DeleteCommand}" FontWeight="Bold"  FontFamily="Segoe UI"  Margin="3,0,0,0" Content="Delete" Background="{StaticResource actionBtnBackGround}"  VerticalAlignment="Center"  >
+                            <ui:Button Name ="btnDelete" Command="{Binding ViewModel.DeleteCommand}" FontWeight="Medium"  FontFamily="Segoe UI"  Margin="3,0,0,0" Content="Delete" Background="{StaticResource actionBtnBackGround}"  VerticalAlignment="Center"  >
                                 <ui:Button.Style>
 
                                     <Style TargetType="{x:Type ui:Button}" BasedOn="{StaticResource DefaultUiButtonStyle}">
@@ -435,7 +308,7 @@
 
                             </ui:Button>
 
-                            <ui:Button Name="btnReturn" Command="{Binding CancelCommand}"  FontFamily="Segoe UI" FontWeight="Bold"  Content="Cancel" Margin="3,0,0,0" Background="{StaticResource actionBtnBackGround}"  VerticalAlignment="Center" >
+                            <ui:Button Name="btnReturn" Command="{Binding ViewModel.CancelCommand}"  FontFamily="Segoe UI" FontWeight="Medium"  Content="Cancel" Margin="3,0,0,0" Background="{StaticResource actionBtnBackGround}"  VerticalAlignment="Center" >
                                 <ui:Button.Style>
                                     <Style TargetType="{x:Type ui:Button}" BasedOn="{StaticResource DefaultUiButtonStyle}">
                                         <Setter Property="Width" Value="75" ></Setter>
