@@ -16,10 +16,16 @@
     d:Background="{DynamicResource ApplicationBackgroundBrush}"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     ExtendsContentIntoTitleBar="True"
-    WindowBackdropType="Mica"
-    WindowCornerPreference="Round"
-    WindowStartupLocation="CenterScreen" WindowState="Normal" 
+    WindowBackdropType="Auto"
+    WindowCornerPreference="Round" 
+    WindowStartupLocation="CenterScreen" WindowState="Normal"  
     mc:Ignorable="d">
+    <ui:UiWindow.Resources>
+        <Style  TargetType="TextBlock">
+            <Setter Property="FontSize"  Value="15"></Setter>
+            <Setter Property="Margin"  Value="-5"></Setter>
+        </Style>
+    </ui:UiWindow.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -36,16 +42,22 @@
             </Grid.ColumnDefinitions>
 
             <!--  This is the main navigation of the application.  -->
-            <ui:NavigationStore
-                x:Name="RootNavigation"
-                Grid.Column="0"
-                Margin="6,0,6,0" 
-                Footer="{Binding ViewModel.NavigationFooter, Mode=TwoWay}"
-                Frame="{Binding ElementName=RootFrame, Mode=OneWay}" Items="{Binding ViewModel.NavigationItems, Mode=TwoWay}"  Width="Auto"  >
-
+            <ui:NavigationStore Width="120" Height="Auto"
+                x:Name="RootNavigation" FontWeight="Medium"
+                Grid.Column="0" Padding="0"
+                Margin="6,0,2,0" 
                 
-                   
+                Footer="{Binding ViewModel.NavigationFooter, Mode=TwoWay}"
+                Frame="{Binding ElementName=RootFrame, Mode=OneWay}"   Items="{Binding ViewModel.NavigationItems, Mode=TwoWay}"    >
+                <ui:NavigationStore.Resources>
+                    <Color x:Key="SystemAccentColorSecondary">#0A9A36</Color>
+                    <Color x:Key="SystemAccentColorPrimary">#0A9A36</Color>
+                </ui:NavigationStore.Resources>
             </ui:NavigationStore>
+
+            <!--<Menu Grid.Column="0" x:Name="abc" ItemsSource="{Binding ViewModel.NavigationItems,Mode=TwoWay}">
+                
+            </Menu>-->
               
             <!--Items="{Binding ViewModel.NavigationItems, Mode=TwoWay}" />-->
 
@@ -60,13 +72,13 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Frame x:Name="RootFrame" Margin="10,10,10,20" Grid.Row="1" />
-                    <ui:Breadcrumb  
+                    <!--<ui:Breadcrumb  
                         Grid.Row="0" FontFamily="Segoi UI"
                         Margin="10,10"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontSize="20"
-                        Navigation="{Binding ElementName=RootNavigation, Mode=OneWay}" />
+                        Navigation="{Binding ElementName=RootNavigation, Mode=OneWay}" />-->
                 </Grid>
             </Border>
         </Grid>
@@ -93,5 +105,7 @@
                 </ui:NotifyIcon>
             </ui:TitleBar.Tray>
         </ui:TitleBar>
+        
+        
     </Grid>
 </ui:UiWindow>

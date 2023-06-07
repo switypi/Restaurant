@@ -1,9 +1,12 @@
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\RestaurantDesk.exe
+C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\RestaurantDesk.dll.config
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\RestaurantDesk.deps.json
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\RestaurantDesk.runtimeconfig.json
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\RestaurantDesk.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\RestaurantDesk.pdb
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\CommunityToolkit.Mvvm.dll
+C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\MaterialDesignColors.dll
+C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\MaterialDesignThemes.Wpf.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.Abstractions.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.Binder.dll
@@ -29,10 +32,10 @@ C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\Microsoft.Extensions.Logging.E
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\Microsoft.Extensions.Options.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\Microsoft.Extensions.Options.ConfigurationExtensions.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\Microsoft.Extensions.Primitives.dll
+C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\Microsoft.Xaml.Behaviors.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\Wpf.Ui.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\System.Diagnostics.EventLog.Messages.dll
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\RestaurantDesk.csproj.AssemblyReference.cache
-C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\App.baml
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\UserControls\DayBoxAppointmentControl.g.cs
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\UserControls\DayBoxControl.g.cs
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\UserControls\MonthView.g.cs
@@ -50,6 +53,7 @@ C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\RestaurantDesk_Content.g.cs
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\GeneratedInternalTypeHelper.g.cs
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\RestaurantDesk_MarkupCompile.cache
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\RestaurantDesk_MarkupCompile.lref
+C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\App.baml
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\UserControls\DayBoxAppointmentControl.baml
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\UserControls\DayBoxControl.baml
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\UserControls\MonthView.baml
@@ -73,7 +77,3 @@ C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\refint\RestaurantDesk.dll
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\RestaurantDesk.pdb
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\RestaurantDesk.genruntimeconfig.cache
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\ref\RestaurantDesk.dll
-C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\Microsoft.Xaml.Behaviors.dll
-C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\MaterialDesignColors.dll
-C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\MaterialDesignThemes.Wpf.dll
-C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\RestaurantDesk.dll.config

@@ -27,20 +27,29 @@
     <None Remove="Images\4seater-b.png" />
     <None Remove="Images\4seater.png" />
     <None Remove="Images\4seaterbr.png" />
+    <None Remove="Images\4seaterBW.png" />
     <None Remove="Images\4seaterg.png" />
     <None Remove="Images\4seaterMouseOver.png" />
     <None Remove="Images\6seater-b.png" />
     <None Remove="Images\6seater.png" />
     <None Remove="Images\6seaterbl.png" />
     <None Remove="Images\6seaterbr.png" />
+    <None Remove="Images\6seaterBW.png" />
     <None Remove="Images\6seaterg.png" />
     <None Remove="Images\6seaterGr.png" />
     <None Remove="Images\6seaterMouseOver.png" />
+    <None Remove="Images\bill.png" />
     <None Remove="Images\booking.png" />
     <None Remove="Images\cutlery.png" />
     <None Remove="Images\dashboard.png" />
+    <None Remove="Images\delete.png" />
     <None Remove="Images\ForwardGreen.png" />
     <None Remove="Images\people.png" />
+    <None Remove="Images\print.png" />
+    <None Remove="Images\printer.png" />
+    <None Remove="Images\Reject.png" />
+    <None Remove="Images\reserved.png" />
+    <None Remove="Images\save.png" />
     <None Remove="Images\waiter.png" />
   </ItemGroup>
 
@@ -54,6 +63,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\4seaterbr.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\4seaterBW.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\4seaterg.png">
@@ -74,6 +86,9 @@
     <Resource Include="Images\6seaterbr.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\6seaterBW.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\6seaterg.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -81,6 +96,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\6seaterMouseOver.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\bill.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\booking.png">
@@ -92,10 +110,25 @@
     <Resource Include="Images\dashboard.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\delete.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\ForwardGreen.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\people.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\printer.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Reject.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\reserved.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\save.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\waiter.png">

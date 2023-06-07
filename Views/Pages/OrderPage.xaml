@@ -14,145 +14,297 @@
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:rules="clr-namespace:RestaurantDesk.ValidationRules"
       xmlns:Conv="clr-namespace:RestaurantDesk.Converters"     
-      Title="OrderPage">
+      Title="OrderPage" Loaded="UiPage_Loaded">
 
     <ui:UiPage.Resources>
 
         <Conv:DatabindingDebugConverter x:Key="debugConverter" />
+        <Conv:RowToIndexConverter x:Key="RowToIndexConverter" />
+        <materialDesign:BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"></materialDesign:BooleanToVisibilityConverter>
+        
 
     </ui:UiPage.Resources>
 
-    <Grid Background="{StaticResource EmptyTableBackground}" >
+    <Grid Background="#FBFBFB" >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width=".7*"></ColumnDefinition>
             <ColumnDefinition Width="5"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width=".3*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="5"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="5"></RowDefinition>
-
-
         </Grid.RowDefinitions>
 
-        <materialDesign:Card Margin="0,0,0,5" MinWidth="300" Grid.Row="2" Grid.RowSpan="3" Grid.Column="2" materialDesign:ElevationAssist.Elevation="Dp1">
+        <TextBlock Text="Manage Tables" FontSize="15"  FontWeight="Bold" FontFamily="Segoi UI"  TextAlignment="Left" Margin="5,5,5,0"></TextBlock>
+        <ui:Hyperlink Foreground="Black" FontSize="15" Cursor="Hand"  FontWeight="Bold" FontFamily="Segoi UI"  Visibility="{Binding ViewModel.IsBookingViewVisible,Converter={StaticResource boolToVisibilityConverter}}" Content="{Binding ViewModel.ShowBookingContent}"  Command="{Binding ViewModel.ShowBookingCommand}" HorizontalAlignment="Left" Grid.Column="2" Margin="5,5,5,0">
+
+        </ui:Hyperlink>
+
+
+        <materialDesign:Card   Margin="0,0,0,5" BorderThickness="1" Cursor="Hand"  Grid.Row="2" Grid.RowSpan="3" Grid.Column="2" materialDesign:ElevationAssist.Elevation="Dp1">
             <Grid >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="100"></RowDefinition>
-
-                </Grid.RowDefinitions>
-                <Grid >
+                <!--Bill pane-->
+                <Grid Visibility="{Binding ViewModel.IsBookingViewVisible,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition  Width="Auto"/>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="100"></RowDefinition>
 
-                    <ComboBox ItemsSource="{Binding ViewModel.MenuItems,Mode=TwoWay}" IsEditable="True" DisplayMemberPath="CombineName"
+                    </Grid.RowDefinitions>
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition  Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <ComboBox ItemsSource="{Binding ViewModel.MenuItems,Mode=TwoWay}" IsEditable="True" DisplayMemberPath="CombineName"
                           SelectedItem="{ Binding ViewModel.SelectedMenuItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
                           materialDesign:HintAssist.Hint="Search menu" Height="75" 
                           Style="{StaticResource MaterialDesignOutlinedComboBox}">
 
-                        <ComboBox.ItemContainerStyle>
+                            <ComboBox.ItemContainerStyle>
 
-                            <Style TargetType="ComboBoxItem"  BasedOn="{StaticResource MaterialDesignComboBoxItemStyle}" >
-                                <Setter Property="FontFamily" Value="Segoe UI"></Setter>
-                                <Setter Property="FontWeight" Value="Bold"></Setter>
-                            </Style>
+                                <Style TargetType="ComboBoxItem"  BasedOn="{StaticResource MaterialDesignComboBoxItemStyle}" >
+                                    <Setter Property="FontFamily" Value="Segoe UI"></Setter>
+                                    <Setter Property="FontWeight" Value="Bold"></Setter>
+                                </Style>
 
-                        </ComboBox.ItemContainerStyle>
+                            </ComboBox.ItemContainerStyle>
 
-                    </ComboBox>
+                        </ComboBox>
 
-                    <ui:Button Content="Select" Grid.Column="1" Command="{Binding ViewModel.SelectedMenuCommand}" Width="100" Height="75" HorizontalAlignment="Stretch"></ui:Button>
-                </Grid>
-                <Grid Grid.Column="0" Grid.Row="1">
-                    <ListView SelectionMode="Single" Padding="0" Style="{StaticResource MaterialDesignListView}" ItemsSource="{Binding ViewModel.SelectedMenus, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignGridViewItem}">
-                                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                <Setter Property="Height" Value="75"></Setter>
-                                <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-                                <Setter Property="VerticalAlignment" Value="Center"></Setter>
-                                <!--<Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="{StaticResource actionBtnMouseOverColor}"></Setter>
-                                    </Trigger>
-                                </Style.Triggers>-->
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                        <ListView.View>
-                            <GridView >
-                                <GridViewColumn   DisplayMemberBinding="{Binding Name}"  Header="Name" />
-                                <GridViewColumn  DisplayMemberBinding="{Binding Type}"  Header="F/H" />
-                                <GridViewColumn  DisplayMemberBinding="{Binding Price}"  Header="Price" />
-                                <GridViewColumn  Header="Qty" >
-                                    <GridViewColumn.CellTemplate>
+                        <ui:Button Content="Select" Grid.Column="1" Command="{Binding ViewModel.SelectedMenuCommand}" Width="100" Height="75" HorizontalAlignment="Stretch"></ui:Button>
+                    </Grid>
+                    <Grid Grid.Column="0" Grid.Row="1">
+
+                        <ui:DataGrid Style="{StaticResource MaterialDesignDataGrid}"  SelectionMode="Single" ItemsSource="{Binding ViewModel.SelectedMenus, Mode=TwoWay}" 
+                        HeadersVisibility="All"  BorderThickness="0,1,0,0" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"
+                         CanUserAddRows="False"   AutoGenerateColumns="False" VerticalGridLinesBrush="LightGray"
+                        HorizontalGridLinesBrush="LightGray"   RowHeight="50" SelectionUnit="FullRow">
+                            <DataGrid.RowHeaderTemplate>
+                                <DataTemplate>
+                                    <Label  VerticalAlignment="Top" Content="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow},Converter={StaticResource RowToIndexConverter}}"></Label>
+                                </DataTemplate>
+                            </DataGrid.RowHeaderTemplate>
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Name}"   IsReadOnly="True"   Header="Name" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="VerticalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn  Binding="{Binding Type}"   Header="F/H" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="VerticalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn  Binding="{Binding Price}"   Header="Price" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="VerticalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTemplateColumn  Header="Qty" >
+                                    <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox  VerticalAlignment="Center" VerticalContentAlignment="Center" TextAlignment="Center"  Width="50" Height="50" Padding="0" IsEnabled="True" Margin="0" 
+                                            <TextBox  VerticalAlignment="Center" VerticalContentAlignment="Center" TextAlignment="Center"  Width="50" Height="30" Padding="0" IsEnabled="True" Margin="0" 
                                                       Style="{ StaticResource MaterialDesignOutlinedTextBox}"  Text="{Binding Quantity,UpdateSourceTrigger=PropertyChanged}"  >
                                                 <TextBox.InputBindings>
                                                     <KeyBinding Command="{Binding RelativeSource={RelativeSource AncestorType=ui:UiPage},Path=ViewModel.RecalculateCommand}" Key="Return" />
                                                 </TextBox.InputBindings>
                                             </TextBox>
                                         </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
 
-                                </GridViewColumn>
-                                <GridViewColumn  Header="" >
-                                    <GridViewColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn  Header="" >
+                                    <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <ui:Button   Padding="0" CommandParameter="{Binding}" 
+                                            <ui:Button Width="30" Height="30"  Padding="0" CommandParameter="{Binding}" 
                                                        Command="{Binding RelativeSource={RelativeSource AncestorType=ui:UiPage},Path=ViewModel.DeleteItemCommand}" >
                                                 <ui:Button.Content>
-                                                    <Image Source="/Images/waiter.png"></Image>
+                                                    <Image Source="/Images/delete.png" Stretch="Uniform"></Image>
                                                 </ui:Button.Content>
                                             </ui:Button>
                                         </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
 
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                                </DataGridTemplateColumn>
 
+                            </DataGrid.Columns>
 
+                        </ui:DataGrid>
+
+                        <!--<ListView SelectionMode="Single" Padding="5,0,0,0" Style="{StaticResource MaterialDesignListView}" 
+                            ItemsSource="{Binding ViewModel.SelectedMenus, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignGridViewItem}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    <Setter Property="Height" Value="50"></Setter>
+                                    <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+                                    <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                                    <Setter Property="TextBlock.TextAlignment" Value="Center"></Setter>
+                                    --><!--<Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource actionBtnMouseOverColor}"></Setter>
+                                    </Trigger>
+                                </Style.Triggers>--><!--
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.View>
+                                <GridView >
+                                    <GridViewColumn  DisplayMemberBinding="{Binding Name}"  Header="Name" />
+                                    <GridViewColumn  DisplayMemberBinding="{Binding Type}"  Header="F/H" />
+                                    <GridViewColumn  DisplayMemberBinding="{Binding Price}"  Header="Price" />
+                                    <GridViewColumn  Header="Qty" >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox  VerticalAlignment="Center" VerticalContentAlignment="Center" TextAlignment="Center"  Width="50" Height="50" Padding="0" IsEnabled="True" Margin="0" 
+                                                      Style="{ StaticResource MaterialDesignOutlinedTextBox}"  Text="{Binding Quantity,UpdateSourceTrigger=PropertyChanged}"  >
+                                                    <TextBox.InputBindings>
+                                                        <KeyBinding Command="{Binding RelativeSource={RelativeSource AncestorType=ui:UiPage},Path=ViewModel.RecalculateCommand}" Key="Return" />
+                                                    </TextBox.InputBindings>
+                                                </TextBox>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+
+                                    </GridViewColumn>
+                                    <GridViewColumn  Header="" >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ui:Button Width="30" Height="30"  Padding="0" CommandParameter="{Binding}" 
+                                                       Command="{Binding RelativeSource={RelativeSource AncestorType=ui:UiPage},Path=ViewModel.DeleteItemCommand}" >
+                                                    <ui:Button.Content>
+                                                        <Image Source="/Images/delete.png" Stretch="Uniform"></Image>
+                                                    </ui:Button.Content>
+                                                </ui:Button>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>-->
+                    </Grid>
+
+                    <StackPanel Grid.Row="2" HorizontalAlignment="Right" Orientation="Horizontal" >
+                        <ui:Button  Margin="0,5"   Command="{Binding ViewModel.PrintCommand}"  Height="75" Width="80"
+                                HorizontalAlignment="Stretch">
+                            <ui:Button.Content>
+                                <Image  Source="/Images/printer.png" Stretch="Uniform"  ></Image>
+                            </ui:Button.Content>
+                        </ui:Button>
+                        <ui:Button  Grid.Column="1" Margin="0,5" CommandParameter="{Binding}" Command="{Binding ViewModel.BillCommand}"  Height="75" Width="80"
+                               HorizontalAlignment="Stretch">
+                            <ui:Button.Content>
+                                <Image  Source="/Images/bill.png" Stretch="Uniform" ></Image>
+                            </ui:Button.Content>
+                        </ui:Button>
+                        <TextBox FontFamily="Segoe UI" FontWeight="Bold"  Text="{Binding ViewModel.TotalAmount}" TextAlignment="Center" VerticalContentAlignment="Center" 
+                      Style="{StaticResource MaterialDesignOutlinedTextBox}"  Width="100" Padding="0" Height="70"   IsEnabled="False"  Margin="0,5"   ></TextBox>
+                    </StackPanel>
                 </Grid>
 
-                <StackPanel Grid.Row="2" HorizontalAlignment="Right" Orientation="Horizontal" >
-                    <ui:Button Content="Print"  Margin="0,5" Icon="Print48"  Command="{Binding ViewModel.SelectedMenuCommand}" Width="100" Height="75" 
+                <!--Booking pane-->
+
+                <Grid Visibility="{Binding ViewModel.IsBookingViewVisible,Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition  Height="*"></RowDefinition>
+                        <RowDefinition  Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel HorizontalAlignment="Stretch" Background="{StaticResource HeaderBackground}">
+                        <TextBlock Text="{Binding ViewModel.TodayDate}" FontSize="15" Foreground="White" FontWeight="Bold" FontFamily="Segoi UI"  TextAlignment="Center" Margin="5"></TextBlock>
+                    </StackPanel>
+                    <DataGrid Style="{StaticResource MaterialDesignDataGrid}"  Grid.Row="1" SelectionMode="Single" ItemsSource="{Binding ViewModel.BookingList, Mode=TwoWay}" 
+                        HeadersVisibility="All"  BorderThickness="0,1,0,0" HorizontalAlignment="Left" VerticalContentAlignment="Center"
+                         CanUserAddRows="False"   AutoGenerateColumns="False" VerticalGridLinesBrush="LightGray"
+                        HorizontalGridLinesBrush="LightGray"  RowHeight="50" SelectionUnit="FullRow">
+                      
+                        
+                        <DataGrid.RowHeaderTemplate>
+                            <DataTemplate>
+                                <Label  VerticalAlignment="Top" Content="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow},Converter={StaticResource RowToIndexConverter}}"></Label>
+                            </DataTemplate>
+                        </DataGrid.RowHeaderTemplate>
+                      
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding CustomerName}"   IsReadOnly="True"   Header="Customer Name" >
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn  Binding="{Binding ArrivalTime}"   Header="Arr.Time" >
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn  Binding="{Binding TableNum}"   Header="Table" >
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridCheckBoxColumn  Binding="{Binding IsArrived, UpdateSourceTrigger=PropertyChanged}" Header="Is Arrived">
+                              
+                            </DataGridCheckBoxColumn>
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+
+                    <StackPanel Grid.Row="2" HorizontalAlignment="Right" Orientation="Horizontal" >
+                        <ui:Button  Margin="0,5"   Command="{Binding ViewModel.SaveBookingCommand}"  Height="75" Width="80"
                                 HorizontalAlignment="Stretch">
-                        <!--<ui:Button.Content>
-                                <Image Source="/Images/waiter.png"></Image>
-                            
-                        </ui:Button.Content>-->
-                    </ui:Button>
-                    <ui:Button Content="Bill" Grid.Column="1" Margin="0,5" Command="{Binding ViewModel.SelectedMenuCommand}" Width="100" Height="75" HorizontalAlignment="Stretch"></ui:Button>
-                    <TextBox FontFamily="Segoe UI" FontWeight="Bold"  Text="{Binding ViewModel.TotalAmount}" TextAlignment="Center" VerticalContentAlignment="Center" 
-                      Style="{StaticResource MaterialDesignOutlinedTextBox}"  Width="100" Padding="0" Height="70"   IsEnabled="False"  Margin="0,5"   ></TextBox>
-                </StackPanel>
-
-
-
+                            <ui:Button.Content>
+                                <Image  Source="/Images/reject.png" Stretch="Uniform"  ></Image>
+                            </ui:Button.Content>
+                        </ui:Button>
+                        <ui:Button  Grid.Column="1" Margin="0,5" Command="{Binding ViewModel.RejectBookingCommand}"  Height="75" Width="80"
+                               HorizontalAlignment="Stretch">
+                            <ui:Button.Content>
+                                <Image  Source="/Images/save.png" Stretch="Uniform" ></Image>
+                            </ui:Button.Content>
+                        </ui:Button>
+                       
+                    </StackPanel>
+                </Grid>
             </Grid>
 
         </materialDesign:Card>
         <StackPanel Margin="5,0,0,0"  Grid.Row="2" Grid.Column="0">
             <!--<Border BorderBrush="{StaticResource actionBtnBackGround}" BorderThickness="0.5" >-->
+            
+            <!--4 setaer-->
             <materialDesign:Card materialDesign:ElevationAssist.Elevation="Dp1">
                 <cal:SchedulerGrid x:Name="Eventgrid" Margin="10"  Height="Auto" Width="Auto"></cal:SchedulerGrid>
             </materialDesign:Card>
 
             <!--</Border>-->
         </StackPanel>
+        
+        <!--6 seater-->
         <StackPanel Margin="5,0,0,0"  Grid.Row="2" VerticalAlignment="Bottom" Grid.Column="0">
-            <materialDesign:Card materialDesign:ElevationAssist.Elevation="Dp1">
+            <materialDesign:Card  >
                 <cal:SchedulerGrid x:Name="Eventgrid6seater" Margin="10"  Height="Auto" Width="Auto"></cal:SchedulerGrid>
             </materialDesign:Card>
         </StackPanel>

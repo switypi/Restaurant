@@ -64,7 +64,7 @@ namespace RestaurantDesk
                 //services.AddScoped<ViewModels.OrderViewModel>();
 
                 // Configuration
-                services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));
+                  
             }).Build();
 
         /// <summary>

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using Wpf.Ui.Appearance;
+using Wpf.Ui.Controls;
 using Wpf.Ui.Controls.Interfaces;
 using Wpf.Ui.Mvvm.Contracts;
 
@@ -25,6 +28,16 @@ namespace RestaurantDesk.Views.Windows
             SetPageService(pageService);
 
             navigationService.SetNavigationControl(RootNavigation);
+
+            Application.Current.LoadCompleted += Current_LoadCompleted;
+        
+        }
+
+        private void Current_LoadCompleted(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        {
+            this.Background = Application.Current.Resources["WindowMenuBackground"] as SolidColorBrush;
+           // this.RootNavigation.FontSize = 15;
+           // (this.RootNavigation.Items[1] as NavigationItem).fi = 15;
         }
 
         #region INavigationWindow methods
@@ -59,5 +72,7 @@ namespace RestaurantDesk.Views.Windows
             // Make sure that closing this window will begin the process of closing the application.
             Application.Current.Shutdown();
         }
+
+      
     }
 }
