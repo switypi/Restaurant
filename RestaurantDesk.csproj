@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+    <PackageReference Include="ToastNotifications.Messages.Net5" Version="3.0.1" />
+    <PackageReference Include="ToastNotifications.Net5" Version="3.0.0" />
     <PackageReference Include="WPF-UI" Version="2.0.3" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
@@ -29,7 +31,9 @@
     <None Remove="Images\4seaterbr.png" />
     <None Remove="Images\4seaterBW.png" />
     <None Remove="Images\4seaterg.png" />
+    <None Remove="Images\4seaterlightred.png" />
     <None Remove="Images\4seaterMouseOver.png" />
+    <None Remove="Images\4seatersteelblue.png" />
     <None Remove="Images\6seater-b.png" />
     <None Remove="Images\6seater.png" />
     <None Remove="Images\6seaterbl.png" />
@@ -37,6 +41,7 @@
     <None Remove="Images\6seaterBW.png" />
     <None Remove="Images\6seaterg.png" />
     <None Remove="Images\6seaterGr.png" />
+    <None Remove="Images\6seaterlightred.png" />
     <None Remove="Images\6seaterMouseOver.png" />
     <None Remove="Images\bill.png" />
     <None Remove="Images\booking.png" />
@@ -71,7 +76,13 @@
     <Resource Include="Images\4seaterg.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\4seaterlightred.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\4seaterMouseOver.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\4seatersteelblue.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\6seater-b.png">
@@ -93,6 +104,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\6seaterGr.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\6seaterlightred.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\6seaterMouseOver.png">

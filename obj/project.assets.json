@@ -721,6 +721,33 @@
           "buildTransitive/netcoreapp3.1/_._": {}
         }
       },
+      "ToastNotifications.Messages.Net5/3.0.1": {
+        "type": "package",
+        "dependencies": {
+          "ToastNotifications.Net5": "3.0.0"
+        },
+        "compile": {
+          "lib/net5.0-windows7.0/ToastNotifications.Messages.dll": {}
+        },
+        "runtime": {
+          "lib/net5.0-windows7.0/ToastNotifications.Messages.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App"
+        ]
+      },
+      "ToastNotifications.Net5/3.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0-windows7.0/ToastNotifications.dll": {}
+        },
+        "runtime": {
+          "lib/net5.0-windows7.0/ToastNotifications.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App"
+        ]
+      },
       "WPF-UI/2.0.3": {
         "type": "package",
         "dependencies": {
@@ -1657,6 +1684,30 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "ToastNotifications.Messages.Net5/3.0.1": {
+      "sha512": "qwKhwbb83BvCk1byhT7l5oZ/FSBizyXnkxFGpVI3yM8YLudHQDf0wtGggKKhwCbsjAdSM54Bz6MnrP/mUgn6Ug==",
+      "type": "package",
+      "path": "toastnotifications.messages.net5/3.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net5.0-windows7.0/ToastNotifications.Messages.dll",
+        "toastnotifications.messages.net5.3.0.1.nupkg.sha512",
+        "toastnotifications.messages.net5.nuspec"
+      ]
+    },
+    "ToastNotifications.Net5/3.0.0": {
+      "sha512": "UXi/SB6z01RmR7dMDBPP1rzV3/MIUGkeLL4KITEB2NlRbJRMVON/jvWttNA/XCDTcmwQJpD9S+JvlIAn2ttJOA==",
+      "type": "package",
+      "path": "toastnotifications.net5/3.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net5.0-windows7.0/ToastNotifications.dll",
+        "toastnotifications.net5.3.0.0.nupkg.sha512",
+        "toastnotifications.net5.nuspec"
+      ]
+    },
     "WPF-UI/2.0.3": {
       "sha512": "1e9Q8pQGfi9YFp3WavKZjXyLYohIjXxk5q0NqEaamofVgIdxRxwqrkWha584FBUISRBBT/qFOrl97YBl5bs30Q==",
       "type": "package",
@@ -1690,6 +1741,8 @@
       "CommunityToolkit.Mvvm >= 8.0.0",
       "MaterialDesignThemes >= 4.9.0",
       "Microsoft.Extensions.Hosting >= 6.0.1",
+      "ToastNotifications.Messages.Net5 >= 3.0.1",
+      "ToastNotifications.Net5 >= 3.0.0",
       "WPF-UI >= 2.0.3"
     ]
   },
@@ -1749,6 +1802,14 @@
           "Microsoft.Extensions.Hosting": {
             "target": "Package",
             "version": "[6.0.1, )"
+          },
+          "ToastNotifications.Messages.Net5": {
+            "target": "Package",
+            "version": "[3.0.1, )"
+          },
+          "ToastNotifications.Net5": {
+            "target": "Package",
+            "version": "[3.0.0, )"
           },
           "WPF-UI": {
             "target": "Package",

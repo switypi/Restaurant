@@ -20,26 +20,30 @@
                 <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Green" SecondaryColor="Lime" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
-
+                <ResourceDictionary Source="pack://application:,,,/ToastNotifications.Messages;component/Themes/Default.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
 
 
             <SolidColorBrush x:Key="tableBackgroundMouseOverColor" Opacity="0.3" Color="Red"/>
             <SolidColorBrush x:Key="actionBtnMouseOverColor" Opacity="0.3" Color="#4cc2ff"/>
-            <SolidColorBrush x:Key="actionBtnBackGround" Opacity=".7" Color="#82CD47"/>
-            <SolidColorBrush x:Key="HeaderBackground" Opacity=".7" Color="#82CD47"/>
+            <SolidColorBrush x:Key="actionBtnBackGround" Opacity=".7" Color="#EB6440"/>
+            <SolidColorBrush x:Key="HeaderBackground" Opacity=".7" Color="#EB6440"/>
             <SolidColorBrush x:Key="FutureVisitBackgroun" Color="#82CD47"></SolidColorBrush>
             <SolidColorBrush x:Key="BorderColor" Color="#82CD47"></SolidColorBrush>
-           
+
             <SolidColorBrush x:Key="pastVisitBackground" Color="#99A98F"/>
             <SolidColorBrush x:Key="presentVisitBackground" Color="#7900FF"/>
-            <SolidColorBrush x:Key="ReserveTableBackground" Opacity=".7" Color="#EB6440"/>
-            <SolidColorBrush x:Key="BusyTableBackground" Opacity=".7" Color="#EB6440"/>
-            <SolidColorBrush x:Key="EmptyTableBackground" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="ReserveTableBackground" Opacity=".7" Color="#118ab2"/>
+            <SolidColorBrush x:Key="BusyTableBackground" Opacity=".7" Color="#fca311"/>
+            <SolidColorBrush x:Key="FreeTableBackground" Opacity=".7" Color="#82CD47"/>
+            <SolidColorBrush x:Key="EmptyTableBackground" Color="White"/>
             <SolidColorBrush x:Key="WindowMenuBackground" Opacity=".6" Color="SteelBlue"></SolidColorBrush>
-            <!--EB6440-->
+            <SolidColorBrush x:Key="SelectedRowStyle"  Color="#F4B183"></SolidColorBrush>
+
             
+            <!--EB6440-->
+
 
 
             <Style x:Key="lblStyle" TargetType="Label">
@@ -143,7 +147,7 @@
 
             <Style x:Key="cardStyle4seater" TargetType="{x:Type UC:TableUserControl}" >
                 <Setter Property="Background" Value="{x:Null}"></Setter>
-                
+
                 <Setter Property="BorderBrush" Value="{x:Null}"></Setter>
                 <Setter Property="BorderThickness" Value="2"></Setter>
                 <Setter Property="Margin" Value="5"></Setter>
@@ -155,25 +159,25 @@
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                        <ColumnDefinition Width="5"></ColumnDefinition>
-                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <!--<ColumnDefinition Width="5"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>-->
                                     </Grid.ColumnDefinitions>
-                                    <Image x:Name="img" Source="Images/4seaterBW.png"   HorizontalAlignment="Left" Stretch="UniformToFill"></Image>
-                                    <ContentPresenter  x:Name="lbl"   Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                    <Image x:Name="img" Source="Images/4seaterlightred.png"   HorizontalAlignment="Left" Stretch="UniformToFill"></Image>
+                                    <ContentPresenter  x:Name="lbl"   HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Grid>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="Cursor" Value="Hand"></Setter>
-                                    <Setter TargetName="border" Property = "Background" Value ="{StaticResource tableBackgroundMouseOverColor}" />
-                                    <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+                                    <Setter TargetName="border" Property = "Background" Value ="{x:Null}" />
+                                    <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
                                     <Setter Property="Label.Foreground" Value="White"></Setter>
                                     <!--<Setter Property="Source" TargetName="img" Value="Images/4seaterMouseOver.png"></Setter>-->
 
                                 </Trigger>
                                 <Trigger Property="IsChecked" Value="True">
                                     <Setter Property="Cursor" Value="Hand"></Setter>
-                                    <Setter Property="Label.Foreground" Value="White"></Setter>
+                                    <Setter TargetName="border" Property="Background" Value="{x:Null}"></Setter>
                                     <!--<Setter Property="Source" TargetName="img" Value="Images/4seaterMouseOver.png"></Setter>-->
                                 </Trigger>
 
@@ -190,7 +194,7 @@
                                 <Trigger Property="IsBooked" Value="True">
                                     <Setter Property="Cursor" Value="Hand"></Setter>
                                     <Setter Property="Source" TargetName="img" Value="Images/reserved.png"></Setter>
-                                    
+
                                 </Trigger>
                                 <!--<Trigger Property="IsBooked" Value="False">
                                     <Setter Property="Cursor" Value="Hand"></Setter>
@@ -207,7 +211,7 @@
 
             </Style>
 
-            
+
 
             <Style  TargetType="{x:Type ui:Button}" >
                 <Setter Property="Template">
@@ -251,28 +255,32 @@
                 <Setter Property="Template" >
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type UC:TableUserControl}">
-                            <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                                 BorderThickness="{TemplateBinding BorderThickness}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                        <ColumnDefinition Width="5"></ColumnDefinition>
-                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <!--<ColumnDefinition Width="5"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>-->
                                     </Grid.ColumnDefinitions>
-                                    <Image x:Name="img" Source="Images/6seaterBW.png"   HorizontalAlignment="Left" Stretch="UniformToFill"></Image>
-                                    <ContentPresenter  x:Name="lbl"  Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                    <Image x:Name="img" Source="Images/6seaterlightred.png"  VerticalAlignment="Stretch" HorizontalAlignment="Left" Stretch="UniformToFill"></Image>
+
+                                    <ContentPresenter  x:Name="lbl"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
                                 </Grid>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="Cursor" Value="Hand"></Setter>
-                                    <Setter TargetName="border" Property = "Background" Value ="{StaticResource tableBackgroundMouseOverColor}" />
-                                    <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+                                    <Setter TargetName="border" Property = "Background" Value ="{x:Null}" />
+                                    <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
                                     <!--<Setter Property="Label.Foreground" Value="White"></Setter>-->
                                     <!--<Setter Property="Source" TargetName="img" Value="Images/6seaterMouseOver.png"></Setter>-->
                                 </Trigger>
-                                
+
                                 <Trigger Property="IsChecked" Value="True">
                                     <Setter Property="Cursor" Value="Hand"></Setter>
+                                    <Setter TargetName="border" Property="Background" Value="{x:Null}"></Setter>
 
 
                                     <!--<Setter Property="Label.Foreground" Value="White"></Setter>-->
@@ -392,8 +400,9 @@
                 </Setter>
                 <Setter Property="BorderThickness" Value="0"></Setter>
                 <Setter Property="BorderBrush"  >
-                <Setter.Value>
-                        <SolidColorBrush Opacity="0.0" Color="{DynamicResource ControlStrokeColorDefault}"  /> <!--Color="{DynamicResource ControlStrokeColorDefault}"-->
+                    <Setter.Value>
+                        <SolidColorBrush Opacity="0.0" Color="{DynamicResource ControlStrokeColorDefault}"  />
+                        <!--Color="{DynamicResource ControlStrokeColorDefault}"-->
                     </Setter.Value>
                 </Setter>
                 <Setter Property="FocusVisualStyle" Value="{DynamicResource DefaultControlFocusVisualStyle}" />
@@ -471,7 +480,8 @@
                                     <Setter TargetName="ElementIcon" Property="Filled" Value="True" />
                                     <Setter TargetName="MainBorder" Property="Background">
                                         <Setter.Value>
-                                            <SolidColorBrush Color="#B3FFFFFF" /> <!--{DynamicResource ControlFillColorDefault}-->
+                                            <SolidColorBrush Color="#B3FFFFFF" />
+                                            <!--{DynamicResource ControlFillColorDefault}-->
                                         </Setter.Value>
                                     </Setter>
                                     <Setter TargetName="ElementIcon" Property="Foreground">
@@ -480,7 +490,7 @@
                                         </Setter.Value>
                                     </Setter>
                                     <Setter TargetName="ElementContentPresenter" Property="Margin" Value="0" />
-                                   
+
                                     <Trigger.EnterActions>
                                         <BeginStoryboard>
                                             <Storyboard>
@@ -687,7 +697,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            
+
             <Style TargetType="{x:Type ScrollBar}">
                 <Setter Property="Stylus.IsFlicksEnabled"
             Value="false" />
@@ -834,11 +844,52 @@
                     </Setter.Value>
                 </Setter>
                 <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp3" />
+                <!--<Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp3" />-->
+            </Style>
+
+            <Style x:Key ="roundButtonTemplate" TargetType ="{x:Type UC:ButtonUserControl}">
+               
+                <Setter Property ="Foreground" Value ="White"/>
+                <Setter Property ="FontWeight" Value ="Bold"/>
+                <Setter Property="FontSize" Value="10"></Setter>
+                <Setter Property ="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType ="{x:Type UC:ButtonUserControl}">
+                            <Grid>
+                                <Ellipse Name ="OuterRing" Width ="{Binding Width, RelativeSource={RelativeSource TemplatedParent}}" 
+                                 Height ="{Binding Height, RelativeSource={RelativeSource TemplatedParent}}" Fill ="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                <!--<Ellipse Name ="InnerRing" Width ="30" Height ="30" Fill ="MintCream"/>-->
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property ="IsMouseOver" Value ="True">
+                                    <Setter TargetName ="OuterRing" Property ="Fill" Value ="MediumSeaGreen"/>
+                                </Trigger>
+                                <Trigger Property ="IsPressed" Value ="True">
+                                    <Setter TargetName ="OuterRing" Property ="Height" Value ="60"/>
+                                    <Setter TargetName ="OuterRing" Property ="Width" Value ="60"/>
+                                </Trigger>
+
+                                <Trigger Property="IsBusy" Value="True">
+                                    <Setter Property="Cursor" Value="Hand"></Setter>
+                                    <Setter TargetName="OuterRing" Property="Fill" Value="{StaticResource BusyTableBackground}"></Setter>
+                                </Trigger>
+                              
+
+
+                                <Trigger Property="IsBooked" Value="True">
+                                    <Setter Property="Cursor" Value="Hand"></Setter>
+                                    <Setter TargetName="OuterRing" Property="Fill" Value="{StaticResource ReserveTableBackground}"></Setter>
+
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
 
         </ResourceDictionary>
 
-      
+
     </Application.Resources>
 </Application>

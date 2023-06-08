@@ -14,6 +14,8 @@
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:rules="clr-namespace:RestaurantDesk.ValidationRules"
       xmlns:Conv="clr-namespace:RestaurantDesk.Converters"     
+     
+
       Title="OrderPage" Loaded="UiPage_Loaded">
 
     <ui:UiPage.Resources>
@@ -21,11 +23,11 @@
         <Conv:DatabindingDebugConverter x:Key="debugConverter" />
         <Conv:RowToIndexConverter x:Key="RowToIndexConverter" />
         <materialDesign:BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"></materialDesign:BooleanToVisibilityConverter>
-        
+
 
     </ui:UiPage.Resources>
 
-    <Grid Background="#FBFBFB" >
+    <Grid Background="#F6F1F1" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width=".7*"></ColumnDefinition>
             <ColumnDefinition Width="5"></ColumnDefinition>
@@ -38,13 +40,32 @@
             <RowDefinition Height="5"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Manage Tables" FontSize="15"  FontWeight="Bold" FontFamily="Segoi UI"  TextAlignment="Left" Margin="5,5,5,0"></TextBlock>
-        <ui:Hyperlink Foreground="Black" FontSize="15" Cursor="Hand"  FontWeight="Bold" FontFamily="Segoi UI"  Visibility="{Binding ViewModel.IsBookingViewVisible,Converter={StaticResource boolToVisibilityConverter}}" Content="{Binding ViewModel.ShowBookingContent}"  Command="{Binding ViewModel.ShowBookingCommand}" HorizontalAlignment="Left" Grid.Column="2" Margin="5,5,5,0">
+        
 
-        </ui:Hyperlink>
+        <StackPanel Orientation="Horizontal">
+
+            <TextBlock Text="Manage Tables" FontSize="15"  FontWeight="Bold" FontFamily="Segoi UI"  TextAlignment="Left" Margin="5,5,5,0"></TextBlock>
+            <TextBlock Text="Available" Margin="25,8,5,0"  FontWeight="Normal" FontFamily="Segoi UI"></TextBlock>
+            <cal:ButtonUserControl IsEnabled="False" Margin="0,2,0,0" Background="{StaticResource FreeTableBackground}" Height="20" Width="20" Style="{StaticResource roundButtonTemplate}"></cal:ButtonUserControl>
+            <TextBlock Text="Busy" Margin="25,8,5,0" FontWeight="Normal" FontFamily="Segoi UI"></TextBlock>
+            <cal:ButtonUserControl IsEnabled="False" Margin="0,2,0,0" Background="{StaticResource BusyTableBackground}" Height="20" Width="20" Style="{StaticResource roundButtonTemplate}"></cal:ButtonUserControl>
+            <TextBlock Text="Booked" Margin="25,8,5,0" FontWeight="Normal" FontFamily="Segoi UI"></TextBlock>
+            <cal:ButtonUserControl IsEnabled="False" Margin="0,2,0,0" Background="{StaticResource ReserveTableBackground}" Height="20" Width="20" Style="{StaticResource roundButtonTemplate}"></cal:ButtonUserControl>
+        </StackPanel>
+
+        <DockPanel  HorizontalAlignment="Stretch"  Grid.Column="2" >
+
+            <ui:Hyperlink Foreground="Black" FontSize="15" Cursor="Hand"  FontWeight="Bold" FontFamily="Segoi UI" 
+             Visibility="{Binding ViewModel.IsBookingViewVisible,Converter={StaticResource boolToVisibilityConverter}}" Margin="5,5,5,0"
+            Content="{Binding ViewModel.ShowBookingContent}"  Command="{Binding ViewModel.ShowBookingCommand}" HorizontalAlignment="Left">
+            </ui:Hyperlink>
+            <cal:ButtonUserControl Content="{Binding ViewModel.SelectedTable.TableNumber,Mode=TwoWay}" HorizontalAlignment="Right" IsEnabled="False" Margin="0,2,5,0" Background="{StaticResource BusyTableBackground}" Height="40" Width="40" Style="{StaticResource roundButtonTemplate}"></cal:ButtonUserControl>
+        </DockPanel>
 
 
-        <materialDesign:Card   Margin="0,0,0,5" BorderThickness="1" Cursor="Hand"  Grid.Row="2" Grid.RowSpan="3" Grid.Column="2" materialDesign:ElevationAssist.Elevation="Dp1">
+
+
+        <materialDesign:Card   Margin="0,0,0,5" BorderThickness="1" Cursor="Hand"  Grid.Row="2" Grid.RowSpan="3" Grid.Column="2" >
             <Grid >
                 <!--Bill pane-->
                 <Grid Visibility="{Binding ViewModel.IsBookingViewVisible,Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -155,11 +176,13 @@
                                     <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
                                     <Setter Property="VerticalAlignment" Value="Center"></Setter>
                                     <Setter Property="TextBlock.TextAlignment" Value="Center"></Setter>
-                                    --><!--<Style.Triggers>
+                                    -->
+                        <!--<Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Background" Value="{StaticResource actionBtnMouseOverColor}"></Setter>
                                     </Trigger>
-                                </Style.Triggers>--><!--
+                                </Style.Triggers>-->
+                        <!--
                                 </Style>
                             </ListView.ItemContainerStyle>
                             <ListView.View>
@@ -235,14 +258,21 @@
                         HeadersVisibility="All"  BorderThickness="0,1,0,0" HorizontalAlignment="Left" VerticalContentAlignment="Center"
                          CanUserAddRows="False"   AutoGenerateColumns="False" VerticalGridLinesBrush="LightGray"
                         HorizontalGridLinesBrush="LightGray"  RowHeight="50" SelectionUnit="FullRow">
-                      
-                        
                         <DataGrid.RowHeaderTemplate>
                             <DataTemplate>
                                 <Label  VerticalAlignment="Top" Content="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow},Converter={StaticResource RowToIndexConverter}}"></Label>
                             </DataTemplate>
                         </DataGrid.RowHeaderTemplate>
-                      
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver"   Value="True">
+                                        <Setter Property="Background" Value="{StaticResource SelectedRowStyle}" />
+
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding CustomerName}"   IsReadOnly="True"   Header="Customer Name" >
                                 <DataGridTextColumn.ElementStyle>
@@ -266,7 +296,7 @@
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
                             <DataGridCheckBoxColumn  Binding="{Binding IsArrived, UpdateSourceTrigger=PropertyChanged}" Header="Is Arrived">
-                              
+
                             </DataGridCheckBoxColumn>
                         </DataGrid.Columns>
 
@@ -285,7 +315,7 @@
                                 <Image  Source="/Images/save.png" Stretch="Uniform" ></Image>
                             </ui:Button.Content>
                         </ui:Button>
-                       
+
                     </StackPanel>
                 </Grid>
             </Grid>
@@ -293,21 +323,24 @@
         </materialDesign:Card>
         <StackPanel Margin="5,0,0,0"  Grid.Row="2" Grid.Column="0">
             <!--<Border BorderBrush="{StaticResource actionBtnBackGround}" BorderThickness="0.5" >-->
-            
+
             <!--4 setaer-->
             <materialDesign:Card materialDesign:ElevationAssist.Elevation="Dp1">
                 <cal:SchedulerGrid x:Name="Eventgrid" Margin="10"  Height="Auto" Width="Auto"></cal:SchedulerGrid>
             </materialDesign:Card>
-
-            <!--</Border>-->
-        </StackPanel>
-        
-        <!--6 seater-->
-        <StackPanel Margin="5,0,0,0"  Grid.Row="2" VerticalAlignment="Bottom" Grid.Column="0">
             <materialDesign:Card  >
                 <cal:SchedulerGrid x:Name="Eventgrid6seater" Margin="10"  Height="Auto" Width="Auto"></cal:SchedulerGrid>
             </materialDesign:Card>
+
+            <!--</Border>-->
         </StackPanel>
+
+        <!--6 seater-->
+        <!--<StackPanel Margin="5,0,0,0"  Grid.Row="2" VerticalAlignment="Bottom" Grid.Column="0">
+            <materialDesign:Card  >
+                <cal:SchedulerGrid x:Name="Eventgrid6seater" Margin="10"  Height="Auto" Width="Auto"></cal:SchedulerGrid>
+            </materialDesign:Card>
+        </StackPanel>-->
 
     </Grid>
 </ui:UiPage>

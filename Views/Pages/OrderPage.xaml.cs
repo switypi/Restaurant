@@ -18,6 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MaterialDesignColors.Recommended;
 using MaterialDesignThemes.Wpf;
+
 using RestaurantDesk.UserControls;
 using Wpf.Ui.Common.Interfaces;
 using Wpf.Ui.Mvvm.Interfaces;
@@ -41,10 +42,12 @@ namespace RestaurantDesk.Views.Pages
         private bool isAutomatedTableStatusProcessing;
         private BackgroundWorker backgroundWorker;
         private List<Models.Table> bookedTables;
+       
 
         public OrderPage(ViewModels.OrderViewModel viewModel)
         {
             ViewModel = viewModel;
+          
 
             InitializeComponent();
 
@@ -59,6 +62,7 @@ namespace RestaurantDesk.Views.Pages
             int numOfRows = 0;
             int numOfCols = 4;
             int tableCnt = 0;
+            int tableCnt2 = 0;
             List<int> rowCollection = new List<int>();
 
             numOfRows = (numberOfTable4Seater / 4);
@@ -76,86 +80,90 @@ namespace RestaurantDesk.Views.Pages
             #region 4 seater
             for (int ii = 1; ii <= numOfRows; ii++)
             {
-                Eventgrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(100) });
+                Eventgrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(150) });
                 //rowCollection.Add(ii);
                 //if (ii % 2 != 0)
                 //{
-                    for (int i = 1; i <= numOfCols; i++)
+                for (int i = 1; i <= numOfCols; i++)
+                {
+                    if (Eventgrid.Children.OfType<TableUserControl>().Count() < numberOfTable4Seater)
                     {
-                        if (Eventgrid.Children.OfType<TableUserControl>().Count() < numberOfTable4Seater)
+                        tableCnt = tableCnt + 1;
+                        var dbTable = ViewModel.TotalTable.Where(x => x.Tag == "4seater").ToList()[tableCnt - 1];
+                       
+                        TableUserControl cd = new TableUserControl();
+                        cd.Tag = dbTable.Tag;
+                        cd.TableId = dbTable.TableId;
+                        cd.TableNum = dbTable.TableNumber;
+                        cd.HorizontalAlignment = HorizontalAlignment.Left;
+                        cd.VerticalAlignment = VerticalAlignment.Center;
+                        cd.Background = Application.Current.Resources["EmptyTableBackground"] as SolidColorBrush;
+
+                        cd.Height = 100;
+                        //cd.Width = 180;
+                        MaterialDesignThemes.Wpf.ElevationAssist.SetElevation(cd, Elevation.Dp1);
+                        cd.Style = Application.Current.Resources["cardStyle4seater"] as Style;
+                        cd.HorizontalContentAlignment = HorizontalAlignment.Left;
+                        cd.GroupName = "abcd";
+                        cd.Unchecked += Cd_Unchecked;
+                        cd.Checked += Cd_Checked;
+
+                        ButtonUserControl lb = new ButtonUserControl();
+                        lb.HorizontalAlignment = HorizontalAlignment.Stretch;
+                        lb.VerticalAlignment = VerticalAlignment.Top;
+                        lb.Content = cd.TableNum;
+                        lb.Height = 40;
+                        lb.Width = 40;
+                        lb.Background = Application.Current.Resources["FreeTableBackground"] as SolidColorBrush;
+                        lb.Style = Application.Current.Resources["roundButtonTemplate"] as Style;
+
+                        StackPanel st = new StackPanel
                         {
-                            var dbTable = ViewModel.TotalTable.Where(x => x.Tag == "4seater").ToList()[i - 1];
-                            tableCnt = tableCnt + 1;
-                            TableUserControl cd = new TableUserControl();
-                            cd.Tag = dbTable.Tag;
-                            cd.TableId = dbTable.TableId;
-                            cd.TableNum = dbTable.TableNumber;
-                            cd.HorizontalAlignment = HorizontalAlignment.Left;
-                            cd.VerticalAlignment = VerticalAlignment.Stretch;
-                            cd.Background = Application.Current.Resources["EmptyTableBackground"] as SolidColorBrush;
+                            Margin = new Thickness(2, 2, 2, 2),
+                            //Width = 175,
+                            Orientation = Orientation.Horizontal,
+                            VerticalAlignment = VerticalAlignment.Stretch,
+                            HorizontalAlignment = HorizontalAlignment.Right
+                        };
 
-                            //cd.Height = 80;
-                            //cd.Width = 180;
-                            MaterialDesignThemes.Wpf.ElevationAssist.SetElevation(cd, Elevation.Dp1);
-                            cd.Style = Application.Current.Resources["cardStyle4seater"] as Style;
-                            cd.HorizontalContentAlignment = HorizontalAlignment.Left;
-                            cd.GroupName = "abcd";
-                            cd.Unchecked += Cd_Unchecked;
-                            cd.Checked += Cd_Checked;
-
-                            Label lb = new Label();
-                            lb.HorizontalAlignment = HorizontalAlignment.Stretch;
-                            lb.VerticalAlignment = VerticalAlignment.Top;
-                            lb.Content = cd.TableNum;
-                            lb.Style = Application.Current.Resources["lblTableStyle"] as Style;
-
-                            StackPanel st = new StackPanel
-                            {
-                                Margin = new Thickness(2),
-                                Width = 175,
-                                Orientation = Orientation.Horizontal,
-                                VerticalAlignment = VerticalAlignment.Stretch,
-                                HorizontalAlignment = HorizontalAlignment.Right
-                            };
-
-                            st.Children.Add(lb);
-                            cd.Content = st;
-                            cd.Name = cd.TableNum.ToString().Replace(" ", "");
+                        st.Children.Add(lb);
+                        cd.Content = st;
+                        cd.Name = cd.TableNum.ToString().Replace(" ", "");
 
 
-                            Binding bn = new Binding();
-                            bn.Source = ViewModel;
-                            bn.Path = new PropertyPath("SelectedTable");
-                            bn.Mode = BindingMode.TwoWay;
-                            cd.SetBinding(TableUserControl.SelectedTableProperty, bn);
+                        Binding bn = new Binding();
+                        bn.Source = ViewModel;
+                        bn.Path = new PropertyPath("SelectedTable");
+                        bn.Mode = BindingMode.TwoWay;
+                        cd.SetBinding(TableUserControl.SelectedTableProperty, bn);
 
-                            System.Windows.Controls.ContextMenu contextMenu;
-                            Separator separator;
-                            contextMenu = new System.Windows.Controls.ContextMenu();
-                            contextMenu.Items.Add(new MenuItem { Header = "Set Busy", CommandParameter = "True", Command = ViewModel.SetIsBusyCommand });
+                        System.Windows.Controls.ContextMenu contextMenu;
+                        Separator separator;
+                        contextMenu = new System.Windows.Controls.ContextMenu();
+                        contextMenu.Items.Add(new MenuItem { Header = "Set Busy", CommandParameter = "True", Command = ViewModel.SetIsBusyCommand });
 
-                            separator = new Separator();
-                            contextMenu.Items.Add(separator);
-                            contextMenu.Items.Add(new MenuItem { Header = "Set Reserved", CommandParameter = "True", Command = ViewModel.SetIsReservedCommand });
+                        separator = new Separator();
+                        contextMenu.Items.Add(separator);
+                        contextMenu.Items.Add(new MenuItem { Header = "Set Reserved", CommandParameter = "True", Command = ViewModel.SetIsReservedCommand });
 
-                            separator = new Separator();
-                            contextMenu.Items.Add(separator);
-                            contextMenu.Items.Add(new MenuItem { Header = "Set Free", CommandParameter = "false", Command = ViewModel.SetIsBusyCommand });
+                        separator = new Separator();
+                        contextMenu.Items.Add(separator);
+                        contextMenu.Items.Add(new MenuItem { Header = "Set Free", CommandParameter = "false", Command = ViewModel.SetIsBusyCommand });
 
-                            separator = new Separator();
-                            contextMenu.Items.Add(separator);
-                            contextMenu.Items.Add(new MenuItem { Header = "Free Reserved", CommandParameter = "false", Command = ViewModel.SetIsReservedCommand });
-                            cd.ContextMenu = contextMenu;
+                        separator = new Separator();
+                        contextMenu.Items.Add(separator);
+                        contextMenu.Items.Add(new MenuItem { Header = "Free Reserved", CommandParameter = "false", Command = ViewModel.SetIsReservedCommand });
+                        cd.ContextMenu = contextMenu;
 
-                            cd.SetBinding(Button.CommandProperty, new Binding { Source = ViewModel, Path = new PropertyPath("TableSelectonCommand") });
-                            cd.CommandParameter = cd.Name;
+                        cd.SetBinding(Button.CommandProperty, new Binding { Source = ViewModel, Path = new PropertyPath("TableSelectonCommand") });
+                        cd.CommandParameter = cd.Name;
 
-                            Grid.SetColumn(cd, i - 1);
-                            Grid.SetRow(cd, ii - 1);
-                            Eventgrid.Children.Add(cd);
-                        }
-
+                        Grid.SetColumn(cd, i - 1);
+                        Grid.SetRow(cd, ii - 1);
+                        Eventgrid.Children.Add(cd);
                     }
+
+                }
                 //}
             }
 
@@ -179,14 +187,16 @@ namespace RestaurantDesk.Views.Pages
 
             for (int iii = 1; iii <= numOfRows; iii++)
             {
-                Eventgrid6seater.RowDefinitions.Add(new RowDefinition { Height = new GridLength(100) });
+                Eventgrid6seater.RowDefinitions.Add(new RowDefinition { Height = new GridLength(120) });
 
                 for (int i = 1; i <= numOfCols; i++)
                 {
                     if (Eventgrid6seater.Children.OfType<TableUserControl>().Count() < numberOfTable6Seater)
                     {
-                        var dbTable = ViewModel.TotalTable.Where(x => x.Tag == "6seater").ToList()[i - 1];
                         tableCnt = tableCnt + 1;
+                        tableCnt2 = tableCnt2 + 1;
+                        var dbTable = ViewModel.TotalTable.Where(x => x.Tag == "6seater").ToList()[tableCnt2 - 1];
+                       
                         TableUserControl cd = new TableUserControl();
                         cd.Tag = dbTable.Tag;
                         cd.TableId = dbTable.TableId;
@@ -196,8 +206,9 @@ namespace RestaurantDesk.Views.Pages
                         cd.HorizontalAlignment = HorizontalAlignment.Left;
                         cd.VerticalAlignment = VerticalAlignment.Stretch;
                         cd.Background = Application.Current.Resources["EmptyTableBackground"] as SolidColorBrush;
-                        //cd.Height = 80;
-                        //cd.Width = 180;
+                        //cd.Height = 100;
+                        //cd.Width = 80;
+                        cd.Padding = new Thickness(0);
                         MaterialDesignThemes.Wpf.ElevationAssist.SetElevation(cd, Elevation.Dp1);
                         cd.Style = Application.Current.Resources["cardStyle6seater"] as Style;
                         cd.HorizontalContentAlignment = HorizontalAlignment.Left;
@@ -205,17 +216,20 @@ namespace RestaurantDesk.Views.Pages
                         cd.Unchecked += Cd_Unchecked;
                         cd.Checked += Cd_Checked;
 
-                        Label lb = new Label();
+                        ButtonUserControl lb = new ButtonUserControl();
                         lb.HorizontalAlignment = HorizontalAlignment.Right;
                         lb.VerticalAlignment = VerticalAlignment.Top;
                         lb.Content = cd.TableNum;
-                        lb.Style = Application.Current.Resources["lblTableStyle"] as Style;
+                        lb.Height = 40;
+                        lb.Width = 40;
+                        lb.Background = Application.Current.Resources["FreeTableBackground"] as SolidColorBrush;
+                        lb.Style = Application.Current.Resources["roundButtonTemplate"] as Style;
 
 
                         StackPanel st = new StackPanel
                         {
-                            Margin = new Thickness(2),
-                            Width = 175,
+                            Margin = new Thickness(2, 2, 2, 2),
+                            //Width = 175,
                             Orientation = Orientation.Horizontal,
                             VerticalAlignment = VerticalAlignment.Stretch,
                             HorizontalAlignment = HorizontalAlignment.Stretch
@@ -247,6 +261,7 @@ namespace RestaurantDesk.Views.Pages
                         cd.ContextMenu = contextMenu;
 
                         //st.Children.Add(img);
+
                         st.Children.Add(lb);
                         cd.Content = st;
 
@@ -256,6 +271,9 @@ namespace RestaurantDesk.Views.Pages
                         Grid.SetColumn(cd, i - 1);
                         Grid.SetRow(cd, iii - 1);
                         Eventgrid6seater.Children.Add(cd);
+
+
+
                     }
                 }
 
@@ -280,17 +298,18 @@ namespace RestaurantDesk.Views.Pages
             ViewModel.SelectedMenus.Clear();
 
 
-            ViewModel.SelectedTable = new Models.Table { TableId = int.Parse((tbl.Content as StackPanel).Children.OfType<Label>().First().Content.ToString().Split("T")[1]) };
+            ViewModel.SelectedTable = new Models.Table { TableNumber = (tbl.Content as StackPanel).Children.OfType<ButtonUserControl>().First().Content.ToString() };
 
             var expIsBusy = tbl.GetBindingExpression(TableUserControl.IsBusyProperty);
             var expIsbooked = tbl.GetBindingExpression(TableUserControl.IsBookedProperty);
+            var btn = (tbl.Content as StackPanel).Children.OfType<ButtonUserControl>().FirstOrDefault();
             if (expIsBusy == null)
             {
                 bn = new Binding();
                 bn.Source = ViewModel.SelectedTable;
                 bn.Path = new PropertyPath("IsBusy");
                 bn.Mode = BindingMode.TwoWay;
-                BindingOperations.SetBinding(tbl, TableUserControl.IsBusyProperty, bn);
+                BindingOperations.SetBinding(btn, ButtonUserControl.IsBusyProperty, bn);
             }
             if (expIsbooked == null)
             {
@@ -298,7 +317,7 @@ namespace RestaurantDesk.Views.Pages
                 bn.Source = ViewModel.SelectedTable;
                 bn.Path = new PropertyPath("IsBooked");
                 bn.Mode = BindingMode.TwoWay;
-                BindingOperations.SetBinding(tbl, TableUserControl.IsBookedProperty, bn);
+                BindingOperations.SetBinding(btn, ButtonUserControl.IsBookedProperty, bn);
             }
 
             //if (tbl.IsBusy == false)

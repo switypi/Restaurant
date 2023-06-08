@@ -6,6 +6,7 @@
     xmlns:local="clr-namespace:RestaurantDesk.Views.Windows"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:pages="clr-namespace:RestaurantDesk.Views.Pages"
+    
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
     Width="1100"
@@ -26,6 +27,7 @@
             <Setter Property="Margin"  Value="-5"></Setter>
         </Style>
     </ui:UiWindow.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -71,7 +73,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Frame x:Name="RootFrame" Margin="10,10,10,20" Grid.Row="1" />
+                    <Frame x:Name="RootFrame" Margin="10,10,10,20"  Grid.Row="1" />
                     <!--<ui:Breadcrumb  
                         Grid.Row="0" FontFamily="Segoi UI"
                         Margin="10,10"
@@ -86,6 +88,10 @@
         <!--  The title bar contains window navigation elements and some Tray related extras.  -->
         <!--  You can put additional controls in the header, such as a search bar.  -->
         <!--  <ui:TitleBar.Header />  -->
+
+      
+        
+        
         <ui:TitleBar
             Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}" 
             Grid.Row="0"
@@ -105,7 +111,9 @@
                 </ui:NotifyIcon>
             </ui:TitleBar.Tray>
         </ui:TitleBar>
-        
-        
+
+       
+
+
     </Grid>
 </ui:UiWindow>

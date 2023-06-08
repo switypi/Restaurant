@@ -6,10 +6,15 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Documents;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RestaurantDesk.Models;
+using ToastNotifications;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Messages;
+using ToastNotifications.Position;
 using Wpf.Ui.Common.Interfaces;
 
 namespace RestaurantDesk.ViewModels
@@ -17,6 +22,7 @@ namespace RestaurantDesk.ViewModels
     public partial class OrderViewModel : ObservableObject, INavigationAware
     {
         private bool _isInitialized = false;
+        
 
         [ObservableProperty]
         private IEnumerable<Menu>? menuItems;
@@ -45,6 +51,26 @@ namespace RestaurantDesk.ViewModels
         private Models.Table selectedTable;
 
         public List<Models.Table> TotalTable { get; set; }
+
+        public OrderViewModel()
+        {
+            
+        }
+
+        Notifier notifier = new Notifier(cfg =>
+        {
+            cfg.PositionProvider = new WindowPositionProvider(
+                parentWindow: Application.Current.MainWindow,
+                corner: Corner.TopRight,
+                offsetX: 10,
+                offsetY: 10);
+
+            cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                notificationLifetime: TimeSpan.FromSeconds(3),
+                maximumNotificationCount: MaximumNotificationCount.FromCount(5));
+
+            cfg.Dispatcher = Application.Current.Dispatcher;
+        });
 
         public void OnNavigatedTo()
         {
@@ -149,6 +175,8 @@ namespace RestaurantDesk.ViewModels
                 var val = SelectedMenus.Sum(x => x.Price * x.Quantity);
                 TotalAmount = string.Format("{0:0,0.00}", val);
                 SelectedMenuItem = null;
+
+                notifier.ShowSuccess("Item added");
             }
             OnPropertyChanged(nameof(SelectedMenus));
         }
@@ -189,7 +217,7 @@ namespace RestaurantDesk.ViewModels
                 //var assignedTableData = this..Where(x => x.TableNum.Length > 0);
 
                 this.SelectedTable.IsBusy = val;
-                OnPropertyChanged(nameof(this.SelectedTable.IsBusy));
+                OnPropertyChanged(nameof(this.SelectedTable.IsBusy)); 
             }
         }
 

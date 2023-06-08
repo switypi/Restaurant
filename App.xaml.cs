@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
 using RestaurantDesk.Models;
 using RestaurantDesk.Services;
 using System.IO;
@@ -9,6 +10,7 @@ using System.Windows;
 using System.Windows.Threading;
 using Wpf.Ui.Mvvm.Contracts;
 using Wpf.Ui.Mvvm.Services;
+
 
 namespace RestaurantDesk
 {
@@ -41,6 +43,8 @@ namespace RestaurantDesk
 
                 // Service containing navigation, same as INavigationWindow... but without window
                 services.AddSingleton<INavigationService, NavigationService>();
+
+                //services.AddSingleton<INotificationManager, NotificationManager>();
 
                 // Main window with navigation
                 services.AddScoped<INavigationWindow, Views.Windows.MainWindow>();
