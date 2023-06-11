@@ -13,6 +13,7 @@ namespace RestaurantDesk.UserControls
         public int TableId { get; set; }
         public string TableNum { get; set; }
         public string Status { get; set; }
+       
 
 
         public TableUserControl() { }
@@ -20,6 +21,10 @@ namespace RestaurantDesk.UserControls
         public static readonly DependencyProperty IsBookedProperty =
         DependencyProperty.Register("IsBooked", typeof(bool), typeof(TableUserControl),
        new PropertyMetadata(false, IsBookedPropertyChanged));
+
+        public static readonly DependencyProperty TableTypeProperty =
+        DependencyProperty.Register("TableType", typeof(TableTypeEnum), typeof(TableUserControl),
+       new PropertyMetadata(TableTypeEnum.Rectangle, TableTypePropertyChanged));
 
 
         public static readonly DependencyProperty IsBusyProperty =
@@ -29,6 +34,12 @@ namespace RestaurantDesk.UserControls
         public static readonly DependencyProperty SelectedTableProperty =
         DependencyProperty.Register("SelectedTable", typeof(Table), typeof(TableUserControl),
         new PropertyMetadata(null, SelectedTablePropertyChanged));
+
+        public TableTypeEnum TableType
+        {
+            get { return (TableTypeEnum)GetValue(TableTypeProperty); }
+            set { SetValue(TableTypeProperty, value); }
+        }
 
         public Table? SelectedTable
         {
@@ -53,6 +64,12 @@ namespace RestaurantDesk.UserControls
             //...
         }
 
+        private void TableTypePropertyChanged(TableTypeEnum val)
+        {
+            //...
+        }
+
+
         private void IsBookedPropertyChanged(bool val)
         {
             //...
@@ -61,6 +78,12 @@ namespace RestaurantDesk.UserControls
         private void SelectedTablePropertyChanged(Table val)
         {
             //...
+        }
+
+        private static void TableTypePropertyChanged(
+          DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((TableUserControl)d).TableTypePropertyChanged((TableTypeEnum)e.NewValue);
         }
 
         private static void IsBookedPropertyChanged(

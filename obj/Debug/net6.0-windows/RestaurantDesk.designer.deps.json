@@ -14,6 +14,14 @@
           }
         }
       },
+      "Enterwell.Clients.Wpf.Notifications/1.4.2": {
+        "runtime": {
+          "lib/net451/Enterwell.Clients.Wpf.Notifications.dll": {
+            "assemblyVersion": "1.4.2.0",
+            "fileVersion": "1.4.2.0"
+          }
+        }
+      },
       "MaterialDesignColors/2.1.4": {
         "runtime": {
           "lib/net6.0/MaterialDesignColors.dll": {
@@ -532,6 +540,13 @@
       "sha512": "sha512-Jiu2g5WUdXRwzhJkHB+B4JBKP5A5+fp8xKiW/ZQo5PI+DruI7MbPEcK9K/Aw0YzTiWRuG6CBluzYIWN5Eo7BkQ==",
       "path": "communitytoolkit.mvvm/8.0.0",
       "hashPath": "communitytoolkit.mvvm.8.0.0.nupkg.sha512"
+    },
+    "Enterwell.Clients.Wpf.Notifications/1.4.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-AiU8YTlWeEo2aK6OjVy1g3xhVk5gNAr7qDRbecNcD4egslWJrsg7diPo+36F58zRNjMcURGuRxp3W9FBLirQ4Q==",
+      "path": "enterwell.clients.wpf.notifications/1.4.2",
+      "hashPath": "enterwell.clients.wpf.notifications.1.4.2.nupkg.sha512"
     },
     "MaterialDesignColors/2.1.4": {
       "type": "package",

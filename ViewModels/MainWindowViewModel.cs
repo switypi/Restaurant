@@ -21,6 +21,8 @@ namespace RestaurantDesk.ViewModels
 
         [ObservableProperty]
         private string _applicationTitle = String.Empty;
+        [ObservableProperty]
+        private string currentTime;
 
         [ObservableProperty]
         private ObservableCollection<INavigationControl> _navigationItems = new();
@@ -30,6 +32,8 @@ namespace RestaurantDesk.ViewModels
 
         [ObservableProperty]
         private ObservableCollection<MenuItem> _trayMenuItems = new();
+        [ObservableProperty]
+        private string userFistName;
 
         public MainWindowViewModel(INavigationService navigationService)
         {
@@ -50,8 +54,10 @@ namespace RestaurantDesk.ViewModels
         }
         private void InitializeViewModel()
         {
-            ApplicationTitle = "RestaurantDesk";
-           
+            ApplicationTitle = "RestO Desk";
+            this.CurrentTime =DateTime.Now.ToString("hh : mm tt");
+            this.UserFistName = "Subhash";
+
             BitmapImage logo1 = new BitmapImage();
             logo1.BeginInit();
             logo1.UriSource = new Uri("pack://application:,,,/Images/cutlery.png");

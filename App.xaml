@@ -27,21 +27,23 @@
 
             <SolidColorBrush x:Key="tableBackgroundMouseOverColor" Opacity="0.3" Color="Red"/>
             <SolidColorBrush x:Key="actionBtnMouseOverColor" Opacity="0.3" Color="#4cc2ff"/>
-            <SolidColorBrush x:Key="actionBtnBackGround" Opacity=".7" Color="#EB6440"/>
-            <SolidColorBrush x:Key="HeaderBackground" Opacity=".7" Color="#EB6440"/>
+            <SolidColorBrush x:Key="actionBtnBackGround"   Color="#EF5B0C"/>
+            <SolidColorBrush x:Key="HeaderBackground"  Color="#EF5B0C"/>
             <SolidColorBrush x:Key="FutureVisitBackgroun" Color="#82CD47"></SolidColorBrush>
-            <SolidColorBrush x:Key="BorderColor" Color="#82CD47"></SolidColorBrush>
+            <SolidColorBrush x:Key="BorderColor" Color="#EF5B0C"></SolidColorBrush>
 
             <SolidColorBrush x:Key="pastVisitBackground" Color="#99A98F"/>
             <SolidColorBrush x:Key="presentVisitBackground" Color="#7900FF"/>
-            <SolidColorBrush x:Key="ReserveTableBackground" Opacity=".7" Color="#118ab2"/>
-            <SolidColorBrush x:Key="BusyTableBackground" Opacity=".7" Color="#fca311"/>
-            <SolidColorBrush x:Key="FreeTableBackground" Opacity=".7" Color="#82CD47"/>
+            <SolidColorBrush x:Key="ReserveTableBackground" Color="#118ab2"/>
+            <SolidColorBrush x:Key="BusyTableBackground" Color="#fca311"/>
+            <SolidColorBrush x:Key="FreeTableBackground"  Color="#E4DCCF"/>
             <SolidColorBrush x:Key="EmptyTableBackground" Color="White"/>
-            <SolidColorBrush x:Key="WindowMenuBackground" Opacity=".6" Color="SteelBlue"></SolidColorBrush>
-            <SolidColorBrush x:Key="SelectedRowStyle"  Color="#F4B183"></SolidColorBrush>
+            <SolidColorBrush x:Key="WindowMenuBackground" Color="#92BA92"></SolidColorBrush>
+            <SolidColorBrush x:Key="SelectedRowStyle"   Color="#EB6440"></SolidColorBrush>
+            <SolidColorBrush x:Key="StatusColorRed" Color="#EB6440"></SolidColorBrush>
+            <SolidColorBrush x:Key="StatusColorGreen" Color="#82CD47"></SolidColorBrush>
+            <SolidColorBrush x:Key="HeaderLabelColor" Color="#4cc2ff"></SolidColorBrush>
 
-            
             <!--EB6440-->
 
 
@@ -146,69 +148,88 @@
             </Style>
 
             <Style x:Key="cardStyle4seater" TargetType="{x:Type UC:TableUserControl}" >
-                <Setter Property="Background" Value="{x:Null}"></Setter>
-
-                <Setter Property="BorderBrush" Value="{x:Null}"></Setter>
                 <Setter Property="BorderThickness" Value="2"></Setter>
-                <Setter Property="Margin" Value="5"></Setter>
+                <Setter Property="Margin" Value="0"></Setter>
 
-                <Setter Property="Template" >
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type UC:TableUserControl}">
-                            <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                        <!--<ColumnDefinition Width="5"></ColumnDefinition>
-                                        <ColumnDefinition Width="Auto"></ColumnDefinition>-->
-                                    </Grid.ColumnDefinitions>
-                                    <Image x:Name="img" Source="Images/4seaterlightred.png"   HorizontalAlignment="Left" Stretch="UniformToFill"></Image>
-                                    <ContentPresenter  x:Name="lbl"   HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Grid>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Cursor" Value="Hand"></Setter>
-                                    <Setter TargetName="border" Property = "Background" Value ="{x:Null}" />
-                                    <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
-                                    <Setter Property="Label.Foreground" Value="White"></Setter>
-                                    <!--<Setter Property="Source" TargetName="img" Value="Images/4seaterMouseOver.png"></Setter>-->
+                <Style.Triggers>
+                    <Trigger Property="TableType" Value="Rectangle">
+                        <Setter Property="Template" >
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type UC:TableUserControl}">
+                                    <Border x:Name="border" CornerRadius="5" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}" 
+                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Image x:Name="img" Source="Images/4seaterbasic2.png" Width="90" Height="60"  HorizontalAlignment="Stretch" 
+                                                   Stretch="Fill"></Image>
+                                            <ContentPresenter  x:Name="lbl"   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Cursor" Value="Hand"></Setter>
+                                            <Setter TargetName="border" Property = "Background" Value ="{x:Null}" />
+                                            <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
+                                            <Setter Property="Label.Foreground" Value="White"></Setter>
+                                            <Setter Property="Source" TargetName="img" Value="Images/4seaterselected.png"></Setter>
 
-                                </Trigger>
-                                <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="Cursor" Value="Hand"></Setter>
-                                    <Setter TargetName="border" Property="Background" Value="{x:Null}"></Setter>
-                                    <!--<Setter Property="Source" TargetName="img" Value="Images/4seaterMouseOver.png"></Setter>-->
-                                </Trigger>
+                                        </Trigger>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="Cursor" Value="Hand"></Setter>
+                                            <Setter TargetName="border" Property="Background" Value="{x:Null}"></Setter>
+                                            <Setter Property="Source" TargetName="img" Value="Images/4seaterselected.png" ></Setter>
+                                         
+                                            <!--<Setter Property="Height"  TargetName="img"  Value="60"></Setter>
+                                            <Setter Property="Width"  TargetName="img" Value="120"></Setter>
+                                            <Setter Property="Stretch" TargetName="img" Value="Uniform" ></Setter>-->
+                                        </Trigger>
 
-                                <Trigger Property="IsBusy" Value="True">
-                                    <Setter Property="Cursor" Value="Hand"></Setter>
-                                    <Setter TargetName="border" Property="Background" Value="{StaticResource BusyTableBackground}"></Setter>
-                                </Trigger>
-                                <!--<Trigger Property="IsBusy" Value="False">
-                                    <Setter Property="Cursor" Value="Hand"></Setter>
-                                    <Setter TargetName="border" Property="Background" Value="{StaticResource EmptyTableBackground}"></Setter>
-                                </Trigger>-->
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
 
+                    </Trigger>
+                    <Trigger Property="TableType" Value="Angular">
+                        <Setter Property="Template" >
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type UC:TableUserControl}">
+                                    <Border x:Name="border" CornerRadius="5" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}" 
+                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Image x:Name="img" Width="80" Height="80" Source="Images/4seatertrianglebasic2.png"   HorizontalAlignment="Stretch" Stretch="Fill"></Image>
+                                            <ContentPresenter  x:Name="lbl"   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Cursor" Value="Hand"></Setter>
+                                            <Setter TargetName="border" Property = "Background" Value ="{x:Null}" />
+                                            <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
+                                            <Setter Property="Label.Foreground" Value="White"></Setter>
+                                            <Setter Property="Source"  TargetName="img" Value="Images/4seatertriangularselected.png"></Setter>
 
-                                <Trigger Property="IsBooked" Value="True">
-                                    <Setter Property="Cursor" Value="Hand"></Setter>
-                                    <Setter Property="Source" TargetName="img" Value="Images/reserved.png"></Setter>
+                                        </Trigger>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="Cursor" Value="Hand"></Setter>
+                                            <Setter TargetName="border" Property="Background" Value="{x:Null}"></Setter>
+                                            <Setter Property="Source" TargetName="img" Value="Images/4seatertriangularselected.png" ></Setter>
+                                            <Setter Property="Stretch" TargetName="img" Value="None" ></Setter>
+                                        </Trigger>
 
-                                </Trigger>
-                                <!--<Trigger Property="IsBooked" Value="False">
-                                    <Setter Property="Cursor" Value="Hand"></Setter>
-                                    <Setter Property="Source" TargetName="img" Value="Images/4seaterBW.png"></Setter>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
 
-                                </Trigger>-->
-
-
-
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-
+               
             </Style>
 
 
@@ -231,17 +252,19 @@
                     </Setter.Value>
                 </Setter>
                 <Setter Property="FontFamily" Value="Segoe UI" />
-                <Setter Property="FontWeight" Value="Bold"></Setter>
-                <Setter Property="Background" Value="{StaticResource actionBtnBackGround}"></Setter>
+                <Setter Property="FontWeight" Value="Medium"></Setter>
+                <Setter Property="Foreground" Value="White"></Setter>
+                
                 <Setter Property="Width" Value="75" ></Setter>
                 <Setter Property="Height" Value="50"></Setter>
                 <Setter Property="Border.CornerRadius" Value="3"></Setter>
-                <Style.Triggers>
+                <!--<Setter Property="FontSize" Value="{Binding}"></Setter>-->
+                <!--<Style.Triggers>
                     <Trigger Property = "IsMouseOver" Value = "True">
                         <Setter Property = "Background" Value ="{StaticResource presentVisitBackground}" />
                         <Setter Property="Foreground" Value="White"></Setter>
                     </Trigger>
-                </Style.Triggers>
+                </Style.Triggers>-->
 
             </Style>
 
@@ -250,70 +273,101 @@
                 <Setter Property="Background" Value="{x:Null}"></Setter>
                 <Setter Property="BorderBrush" Value="{x:Null}"></Setter>
                 <Setter Property="BorderThickness" Value="2"></Setter>
-                <Setter Property="Margin" Value="5"></Setter>
-
-                <Setter Property="Template" >
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type UC:TableUserControl}">
-                            <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                <!--<Setter Property="Margin" Value="5"></Setter>-->
+                <Style.Triggers>
+                    <Trigger Property="TableType" Value="Rectangle">
+                        <Setter Property="Template" >
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type UC:TableUserControl}">
+                                    <Border x:Name="border" CornerRadius="5" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}" 
                                  BorderThickness="{TemplateBinding BorderThickness}">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                        <!--<ColumnDefinition Width="5"></ColumnDefinition>
-                                        <ColumnDefinition Width="Auto"></ColumnDefinition>-->
-                                    </Grid.ColumnDefinitions>
-                                    <Image x:Name="img" Source="Images/6seaterlightred.png"  VerticalAlignment="Stretch" HorizontalAlignment="Left" Stretch="UniformToFill"></Image>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Image x:Name="img" Source="Images/6seaterbasic2.png" Width="130" Height="60"  VerticalAlignment="Stretch" 
+                                                   HorizontalAlignment="Stretch" Stretch="Fill"></Image>
 
-                                    <ContentPresenter  x:Name="lbl"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            <ContentPresenter  x:Name="lbl"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                                </Grid>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Cursor" Value="Hand"></Setter>
-                                    <Setter TargetName="border" Property = "Background" Value ="{x:Null}" />
-                                    <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
-                                    <!--<Setter Property="Label.Foreground" Value="White"></Setter>-->
-                                    <!--<Setter Property="Source" TargetName="img" Value="Images/6seaterMouseOver.png"></Setter>-->
-                                </Trigger>
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Cursor" Value="Hand"></Setter>
+                                            <Setter TargetName="border" Property = "Background" Value ="{x:Null}" />
+                                            <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
+                                            <Setter Property="Label.Foreground" Value="White"></Setter>
+                                            <Setter Property="Source"  TargetName="img" Value="Images/6seaterselected.png"></Setter>
+                                            <Setter Property="Height"  TargetName="img"  Value="60"></Setter>
+                                            <Setter Property="Width"  TargetName="img" Value="130"></Setter>
+                                            <Setter Property="Stretch" TargetName="img" Value="Uniform" ></Setter>
+                                        </Trigger>
 
-                                <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="Cursor" Value="Hand"></Setter>
-                                    <Setter TargetName="border" Property="Background" Value="{x:Null}"></Setter>
-
-
-                                    <!--<Setter Property="Label.Foreground" Value="White"></Setter>-->
-                                    <!--<Setter Property="Source" TargetName="img" Value="Images/6seaterMouseOver.png"></Setter>-->
-                                </Trigger>
-
-
-                                <Trigger Property="IsBusy" Value="True">
-                                    <Setter Property="Cursor" Value="Hand"></Setter>
-                                    <Setter TargetName="border" Property="Background" Value="{StaticResource BusyTableBackground}"></Setter>
-                                </Trigger>
-                                <!--<Trigger Property="IsBusy" Value="False">
-                                    <Setter Property="Cursor" Value="Hand"></Setter>
-                                    <Setter TargetName="border" Property="Background" Value="{StaticResource EmptyTableBackground}"></Setter>
-                                </Trigger>-->
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="Cursor" Value="Hand"></Setter>
+                                            <Setter TargetName="border" Property="Background" Value="{x:Null}"></Setter>
+                                            <Setter Property="Label.Foreground" Value="White"></Setter>
+                                            <Setter Property="Source" TargetName="img" Value="Images/6seaterselected.png"></Setter>
+                                            <Setter Property="Stretch" TargetName="img" Value="Uniform" ></Setter>
+                                            <Setter Property="Height"  TargetName="img"  Value="60"></Setter>
+                                            <Setter Property="Width"  TargetName="img" Value="130"></Setter>
+                                        </Trigger>
 
 
-                                <Trigger Property="IsBooked" Value="True">
-                                    <Setter Property="Cursor" Value="Hand"></Setter>
-                                    <Setter Property="Source" TargetName="img" Value="Images/reserved.png"></Setter>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                    <Trigger Property="TableType" Value="Circle">
+                        <Setter Property="Template" >
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type UC:TableUserControl}">
+                                    <Border x:Name="border" CornerRadius="5" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}" 
+                                 BorderThickness="{TemplateBinding BorderThickness}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Image x:Name="img" Source="Images/6seatercirclebasic.png" Width="80" Height="80"  VerticalAlignment="Stretch" 
+                                                   HorizontalAlignment="Stretch" Stretch="Fill"></Image>
 
-                                </Trigger>
-                                <!--<Trigger Property="IsBooked" Value="False">
-                                    <Setter Property="Cursor" Value="Hand"></Setter>
-                                    <Setter Property="Source" TargetName="img" Value="Images/6seaterBW.png"></Setter>
+                                            <ContentPresenter  x:Name="lbl"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                                </Trigger>-->
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Cursor" Value="Hand"></Setter>
+                                            <Setter TargetName="border" Property = "Background" Value ="{x:Null}" />
+                                            <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
+                                            <Setter Property="Label.Foreground" Value="White"></Setter>
+                                            <Setter Property="Source"  TargetName="img" Value="Images/6seatercircleselected.png"></Setter>
+                                            <Setter Property="Height"  TargetName="img"  Value="80"></Setter>
+                                            <Setter Property="Width"  TargetName="img" Value="80"></Setter>
+                                            <Setter Property="Stretch" TargetName="img" Value="Fill" ></Setter>
+                                        </Trigger>
+
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="Cursor" Value="Hand"></Setter>
+                                            <Setter TargetName="border" Property="Background" Value="{x:Null}"></Setter>
+                                            <Setter Property="Label.Foreground" Value="White"></Setter>
+                                            <Setter Property="Source" TargetName="img" Value="Images/6seatercircleselected.png"></Setter>
+                                            <Setter Property="Height"  TargetName="img"  Value="80"></Setter>
+                                            <Setter Property="Width"  TargetName="img" Value="80"></Setter>
+                                            <Setter Property="Stretch" TargetName="img" Value="Uniform" ></Setter>
+                                        </Trigger>
 
 
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
+
+               
 
             </Style>
 
@@ -599,7 +653,7 @@
             </Style>
 
             <Style TargetType="{x:Type ui:NavigationStore}">
-                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Background" Value="Transparent"></Setter>
                 <Setter Property="Width" Value="60" />
                 <Setter Property="Focusable" Value="False" />
                 <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -607,11 +661,11 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ui:NavigationStore}">
-                            <ui:DynamicScrollViewer
+                            <ui:DynamicScrollViewer 
                         Margin="0"
                         Padding="0"
                         HorizontalScrollBarVisibility="Disabled">
-                                <Grid HorizontalAlignment="Left">
+                                <Grid HorizontalAlignment="Left" >
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="Auto" />
@@ -796,7 +850,7 @@
             </Style>
 
             <Style  TargetType="{x:Type materialDesign:Card}">
-                <Setter Property="Background" Value="{DynamicResource MaterialDesignCardBackground}" />
+                <Setter Property="Background" Value="White" />
                 <Setter Property="Focusable" Value="False" />
                 <Setter Property="BorderThickness" Value="2"></Setter>
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />

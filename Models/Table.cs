@@ -13,6 +13,7 @@ namespace RestaurantDesk.Models
         public int TableId { get; set; }
         public string TableNumber { get; set; }
         public string Tag { get; set; }
+        public TableTypeEnum TableType { get; set; }
 
 
         [ObservableProperty]

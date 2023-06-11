@@ -11,10 +11,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="NewFolder1\**" />
+    <EmbeddedResource Remove="NewFolder1\**" />
+    <None Remove="NewFolder1\**" />
+    <Page Remove="NewFolder1\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="applicationIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Enterwell.Clients.Wpf.Notifications" Version="1.4.2" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="ToastNotifications.Messages.Net5" Version="3.0.1" />
     <PackageReference Include="ToastNotifications.Net5" Version="3.0.0" />
@@ -26,93 +34,84 @@
   <ItemGroup>
     <None Remove="Assets\applicationIcon-1024.png" />
     <None Remove="Assets\applicationIcon-256.png" />
-    <None Remove="Images\4seater-b.png" />
-    <None Remove="Images\4seater.png" />
-    <None Remove="Images\4seaterbr.png" />
-    <None Remove="Images\4seaterBW.png" />
-    <None Remove="Images\4seaterg.png" />
-    <None Remove="Images\4seaterlightred.png" />
-    <None Remove="Images\4seaterMouseOver.png" />
-    <None Remove="Images\4seatersteelblue.png" />
-    <None Remove="Images\6seater-b.png" />
-    <None Remove="Images\6seater.png" />
-    <None Remove="Images\6seaterbl.png" />
-    <None Remove="Images\6seaterbr.png" />
-    <None Remove="Images\6seaterBW.png" />
-    <None Remove="Images\6seaterg.png" />
-    <None Remove="Images\6seaterGr.png" />
-    <None Remove="Images\6seaterlightred.png" />
-    <None Remove="Images\6seaterMouseOver.png" />
+    <None Remove="Images\4seaterbasic.png" />
+    <None Remove="Images\4seaterbasic1.png" />
+    <None Remove="Images\4seaterbasic2.png" />
+    <None Remove="Images\4seatermouseover.png" />
+    <None Remove="Images\4seaterselected.png" />
+    <None Remove="Images\4seatertrianglebasic.png" />
+    <None Remove="Images\4seatertrianglebasic2.png" />
+    <None Remove="Images\4seatertrianglemouseover.png" />
+    <None Remove="Images\4seatertriangularselected.png" />
+    <None Remove="Images\6seaterbasic.png" />
+    <None Remove="Images\6seaterbasic1.png" />
+    <None Remove="Images\6seaterbasic2.png" />
+    <None Remove="Images\6seaterbasicmouseover.png" />
+    <None Remove="Images\6seatercirclebasic.png" />
+    <None Remove="Images\6seatercirclemouseover.png" />
+    <None Remove="Images\6seatercircleselected.png" />
+    <None Remove="Images\6seaterselected.png" />
+    <None Remove="Images\account.png" />
     <None Remove="Images\bill.png" />
+    <None Remove="Images\billdeepred.png" />
+    <None Remove="Images\billdred.png" />
     <None Remove="Images\booking.png" />
     <None Remove="Images\cutlery.png" />
     <None Remove="Images\dashboard.png" />
     <None Remove="Images\delete.png" />
     <None Remove="Images\ForwardGreen.png" />
+    <None Remove="Images\invoiceYD.png" />
+    <None Remove="Images\invoiceYL.png" />
+    <None Remove="Images\minus-circle.png" />
     <None Remove="Images\people.png" />
     <None Remove="Images\print.png" />
     <None Remove="Images\printer.png" />
+    <None Remove="Images\printerdeepred.png" />
+    <None Remove="Images\printerred.png" />
+    <None Remove="Images\printerYD.png" />
+    <None Remove="Images\printerYL.png" />
     <None Remove="Images\Reject.png" />
+    <None Remove="Images\rejectdeepred.png" />
+    <None Remove="Images\rejectred.png" />
+    <None Remove="Images\rejectYD.png" />
+    <None Remove="Images\rejectYL.png" />
     <None Remove="Images\reserved.png" />
     <None Remove="Images\save.png" />
+    <None Remove="Images\savedeepred.png" />
+    <None Remove="Images\savered.png" />
+    <None Remove="Images\saveYD.png" />
+    <None Remove="Images\saveYL.png" />
     <None Remove="Images\waiter.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Assets\applicationIcon-1024.png" />
     <Resource Include="Assets\applicationIcon-256.png" />
-    <Resource Include="Images\4seater-b.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\4seater.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\4seaterbr.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\4seaterBW.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\4seaterg.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\4seaterlightred.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\4seaterMouseOver.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\4seatersteelblue.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\6seater-b.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\6seater.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\6seaterbl.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\6seaterbr.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\6seaterBW.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\6seaterg.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\6seaterGr.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\6seaterlightred.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\6seaterMouseOver.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="Images\4seaterbasic.png" />
+    <Resource Include="Images\4seaterbasic1.png" />
+    <Resource Include="Images\4seaterbasic2.png" />
+    <Resource Include="Images\4seatermouseover.png" />
+    <Resource Include="Images\4seaterselected.png" />
+    <Resource Include="Images\4seatertrianglebasic.png" />
+    <Resource Include="Images\4seatertrianglebasic2.png" />
+    <Resource Include="Images\4seatertrianglemouseover.png" />
+    <Resource Include="Images\4seatertriangularselected.png" />
+    <Resource Include="Images\6seaterbasic.png" />
+    <Resource Include="Images\6seaterbasic1.png" />
+    <Resource Include="Images\6seaterbasic2.png" />
+    <Resource Include="Images\6seaterbasicmouseover.png" />
+    <Resource Include="Images\6seatercirclebasic.png" />
+    <Resource Include="Images\6seatercirclemouseover.png" />
+    <Resource Include="Images\6seatercircleselected.png" />
+    <Resource Include="Images\6seaterselected.png" />
+    <Resource Include="Images\account.png" />
     <Resource Include="Images\bill.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\billdeepred.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\billdred.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\booking.png">
@@ -130,21 +129,50 @@
     <Resource Include="Images\ForwardGreen.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\invoiceYD.png" />
+    <Resource Include="Images\invoiceYL.png" />
+    <Resource Include="Images\minus-circle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\people.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\printer.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\printerdeepred.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\printerred.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\printerYD.png" />
+    <Resource Include="Images\printerYL.png" />
     <Resource Include="Images\Reject.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\rejectdeepred.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\rejectred.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\rejectYD.png" />
+    <Resource Include="Images\rejectYL.png" />
     <Resource Include="Images\reserved.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\save.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\savedeepred.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\savered.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\saveYD.png" />
+    <Resource Include="Images\saveYL.png" />
     <Resource Include="Images\waiter.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

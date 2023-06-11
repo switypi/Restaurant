@@ -11,7 +11,7 @@
     Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
     Width="1100"
     Height="650"
-    
+    xmlns:uc="clr-namespace:RestaurantDesk.UserControls"
     d:DataContext="{d:DesignInstance local:MainWindow,
                                      IsDesignTimeCreatable=True}"
     d:Background="{DynamicResource ApplicationBackgroundBrush}"
@@ -27,14 +27,33 @@
             <Setter Property="Margin"  Value="-5"></Setter>
         </Style>
     </ui:UiWindow.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="50" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        
+        
 
-        <Grid
+        <Grid  HorizontalAlignment="Center" Panel.ZIndex="999">
+            <Label Foreground="{StaticResource HeaderLabelColor}" Panel.ZIndex="999" FontFamily="Segoe UI" VerticalAlignment="Bottom" 
+                 Content="{Binding ViewModel.CurrentTime}" FontSize="15"></Label>
+        </Grid>
+        
+        <Grid  Panel.ZIndex="999" HorizontalAlignment="Right">
+           
+            <uc:ButtonUserControl Margin="0,8,160,0" HorizontalAlignment="Right"
+                 Style="{StaticResource roundButtonTemplate}" >
+                <uc:ButtonUserControl.Content>
+                    <Image x:Name="img" Height="40" Width="45"  Source="/Images/account.png"  VerticalAlignment="Stretch" 
+                                                   HorizontalAlignment="Stretch" Stretch="Fill"></Image>
+                </uc:ButtonUserControl.Content>
+            </uc:ButtonUserControl>
+            <!--<Label Content="aaaaa"   FontSize="8" FontWeight="Normal" Height="20" Foreground="{StaticResource HeaderLabelColor}"></Label>-->
+        </Grid>
+
+        <Grid 
             x:Name="RootMainGrid"
             Grid.Row="1"
             Margin="0">
@@ -44,7 +63,7 @@
             </Grid.ColumnDefinitions>
 
             <!--  This is the main navigation of the application.  -->
-            <ui:NavigationStore Width="120" Height="Auto"
+            <ui:NavigationStore Width="110" Height="Auto"
                 x:Name="RootNavigation" FontWeight="Medium"
                 Grid.Column="0" Padding="0"
                 Margin="6,0,2,0" 
@@ -60,20 +79,20 @@
             <!--<Menu Grid.Column="0" x:Name="abc" ItemsSource="{Binding ViewModel.NavigationItems,Mode=TwoWay}">
                 
             </Menu>-->
-              
+
             <!--Items="{Binding ViewModel.NavigationItems, Mode=TwoWay}" />-->
 
             <!--  We display our pages inside this element.  -->
             <Border 
                 Grid.Column="1"
-                Background="#FBFBFB"
+                Background="Transparent"
                 CornerRadius="8,0,0,0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Frame x:Name="RootFrame" Margin="10,10,10,20"  Grid.Row="1" />
+                    <Frame x:Name="RootFrame"  Background="White" Grid.Row="1" />
                     <!--<ui:Breadcrumb  
                         Grid.Row="0" FontFamily="Segoi UI"
                         Margin="10,10"
@@ -83,26 +102,27 @@
                         Navigation="{Binding ElementName=RootNavigation, Mode=OneWay}" />-->
                 </Grid>
             </Border>
+
+
         </Grid>
 
         <!--  The title bar contains window navigation elements and some Tray related extras.  -->
         <!--  You can put additional controls in the header, such as a search bar.  -->
         <!--  <ui:TitleBar.Header />  -->
+        
 
-      
-        
-        
-        <ui:TitleBar
-            Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}" 
-            Grid.Row="0"
+        <ui:TitleBar  Margin="118,0,0,0" VerticalAlignment="Center" Background="WhiteSmoke"
+            Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"  FontFamily="Segoe UI" FontWeight="Normal" Foreground="{StaticResource HeaderLabelColor}" FontSize="20"
+            Grid.Row="0" 
             Icon="pack://application:,,,/Assets/applicationIcon-256.png"
             UseSnapLayout="True">
+
             <ui:TitleBar.Tray>
                 <ui:NotifyIcon
                     FocusOnLeftClick="True"
                     Icon="pack://application:,,,/Assets/applicationIcon-256.png"
                     MenuOnRightClick="True"
-                    TooltipText="RestaurantDesk">
+                    TooltipText="RestO Desk">
                     <ui:NotifyIcon.Menu>
                         <ContextMenu>
                             <MenuItem Header="Home" Tag="home" />
@@ -112,7 +132,7 @@
             </ui:TitleBar.Tray>
         </ui:TitleBar>
 
-       
+
 
 
     </Grid>

@@ -33,6 +33,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="NewFolder\NotificationBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="UserControls\DayBoxAppointmentControl.xaml">
       <SubType>Designer</SubType>
     </Page>

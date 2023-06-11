@@ -14,7 +14,7 @@ namespace RestaurantDesk.Models
         public string? Type { get; set; }
         public string? Category { get; set; }
         public int Quantity { get; set; }
-
+        public bool IsVeg { get; set; }
         public string CombineName { get; set; }
     }
 }
