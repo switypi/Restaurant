@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using MaterialDesignThemes.Wpf;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Controls.Interfaces;
@@ -22,12 +23,14 @@ namespace RestaurantDesk.Views.Windows
         public MainWindow(ViewModels.MainWindowViewModel viewModel, IPageService pageService, INavigationService navigationService)
         {
             ViewModel = viewModel;
-            DataContext = this;
+            this.DataContext = this;
 
             InitializeComponent();
             SetPageService(pageService);
 
             navigationService.SetNavigationControl(RootNavigation);
+
+            
 
             Application.Current.LoadCompleted += Current_LoadCompleted;
         

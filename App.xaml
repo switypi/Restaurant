@@ -4,8 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" 
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-    xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf"
+   
     xmlns:UC="clr-namespace:RestaurantDesk.UserControls"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
      xmlns:Conv="clr-namespace:RestaurantDesk.Converters"     
     DispatcherUnhandledException="OnDispatcherUnhandledException"
    
@@ -14,6 +15,11 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+               
+                <!--<hc:ThemeResources RequestedTheme="Dark" AccentColor="Red"/>-->
+
+
+                <hc:Theme Name="HandyTheme"/>
                 <ui:ThemesDictionary Theme="Light" />
                 <ui:ControlsDictionary />
 
@@ -43,8 +49,68 @@
             <SolidColorBrush x:Key="StatusColorRed" Color="#EB6440"></SolidColorBrush>
             <SolidColorBrush x:Key="StatusColorGreen" Color="#82CD47"></SolidColorBrush>
             <SolidColorBrush x:Key="HeaderLabelColor" Color="#4cc2ff"></SolidColorBrush>
+            <SolidColorBrush x:Key="MenuColorEdit" Opacity=".4" Color="#A0D995"></SolidColorBrush>
+            <SolidColorBrush x:Key="MenuColorDelete" Opacity=".4" Color="#EF5B0C"></SolidColorBrush>
+            <SolidColorBrush x:Key="DatagridColumnHeaderForeGround" Color="#4A403A"></SolidColorBrush>
+            <SolidColorBrush x:Key="TextblockForeground" Color="#4A403A"></SolidColorBrush>
+            <SolidColorBrush x:Key="DataGridCellConditionalDefaultColor" Color="LightSalmon"></SolidColorBrush>
+            <SolidColorBrush x:Key="DataGridCellConditionalSetColor" Color="LightSalmon"></SolidColorBrush>
 
             <!--EB6440-->
+            <ContextMenu Background="White" x:Key="contextMenu">
+
+                <MenuItem Padding="0"  Background="{StaticResource MenuColorEdit}">
+                    <MenuItem.Header>
+                        <ui:Button Icon="Edit16" Content="Edit" >
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+                                   
+                                    <Setter Property="Foreground" Value="ForestGreen"></Setter>
+                                   
+                                    
+                                </Style>
+                            </Button.Style>
+                        </ui:Button>
+
+                    </MenuItem.Header>
+
+                </MenuItem>
+
+                <MenuItem Padding="0"  Background="{StaticResource MenuColorDelete}">
+                    <MenuItem.Header>
+                        <ui:Button Icon="Delete12" Content="Delete">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+                                    <Setter Property="Foreground" Value="{StaticResource actionBtnBackGround}"></Setter>
+                                    
+                                </Style>
+                            </Button.Style>
+                        </ui:Button>
+
+                    </MenuItem.Header>
+                </MenuItem>
+            </ContextMenu>
+            <Style TargetType="{x:Type ContextMenu}">
+               
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ContextMenu}">
+                            <Border x:Name="Border"  Background="White"  CornerRadius="5"   BorderThickness="1">
+                                <Border.BorderBrush>
+                                    <SolidColorBrush Color="WhiteSmoke" />
+                                </Border.BorderBrush>
+                                <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                            </Border>
+                            <!--<ControlTemplate.Triggers>
+                                <Trigger Property="HasDropShadow" Value="true">
+                                    <Setter TargetName="Border" Property="Padding" Value="0,3,0,3" />
+                                    <Setter TargetName="Border" Property="CornerRadius" Value="4" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>-->
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
 
 
@@ -180,7 +246,7 @@
                                             <Setter Property="Cursor" Value="Hand"></Setter>
                                             <Setter TargetName="border" Property="Background" Value="{x:Null}"></Setter>
                                             <Setter Property="Source" TargetName="img" Value="Images/4seaterselected.png" ></Setter>
-                                         
+
                                             <!--<Setter Property="Height"  TargetName="img"  Value="60"></Setter>
                                             <Setter Property="Width"  TargetName="img" Value="120"></Setter>
                                             <Setter Property="Stretch" TargetName="img" Value="Uniform" ></Setter>-->
@@ -229,7 +295,7 @@
                     </Trigger>
                 </Style.Triggers>
 
-               
+
             </Style>
 
 
@@ -254,7 +320,7 @@
                 <Setter Property="FontFamily" Value="Segoe UI" />
                 <Setter Property="FontWeight" Value="Medium"></Setter>
                 <Setter Property="Foreground" Value="White"></Setter>
-                
+
                 <Setter Property="Width" Value="75" ></Setter>
                 <Setter Property="Height" Value="50"></Setter>
                 <Setter Property="Border.CornerRadius" Value="3"></Setter>
@@ -367,7 +433,7 @@
                     </Trigger>
                 </Style.Triggers>
 
-               
+
 
             </Style>
 
@@ -902,7 +968,7 @@
             </Style>
 
             <Style x:Key ="roundButtonTemplate" TargetType ="{x:Type UC:ButtonUserControl}">
-               
+
                 <Setter Property ="Foreground" Value ="White"/>
                 <Setter Property ="FontWeight" Value ="Bold"/>
                 <Setter Property="FontSize" Value="10"></Setter>
@@ -928,7 +994,7 @@
                                     <Setter Property="Cursor" Value="Hand"></Setter>
                                     <Setter TargetName="OuterRing" Property="Fill" Value="{StaticResource BusyTableBackground}"></Setter>
                                 </Trigger>
-                              
+
 
 
                                 <Trigger Property="IsBooked" Value="True">
@@ -937,6 +1003,75 @@
 
                                 </Trigger>
                             </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="hc:Growl">
+                <Setter Property="Focusable" Value="False"/>
+                <Setter Property="MinHeight" Value="60"/>
+                <Setter Property="Width" Value="320"/>
+                <Setter Property="Margin" Value="10,10,10,0"/>
+                <Setter Property="MaxWidth" Value="320"/>
+                <Setter Property="hc:BorderElement.CornerRadius" Value="8"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="hc:Growl">
+                            <Grid Name="PART_GridMain" RenderTransformOrigin="0.5,0.5">
+                                <Grid.RenderTransform>
+                                    <TransformGroup>
+                                        <TranslateTransform X="{TemplateBinding MaxWidth}"/>
+                                    </TransformGroup>
+                                </Grid.RenderTransform>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Border Grid.ColumnSpan="3" Grid.RowSpan="2" Effect="{StaticResource EffectShadow2}" Background="{TemplateBinding Background}" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}"/>
+                                <Path FlowDirection="LeftToRight" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Margin="0,15,0,0" Width="30" Height="30" Data="{TemplateBinding Icon}" Stretch="Uniform" Fill="{TemplateBinding IconBrush}"/>
+                                <StackPanel VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" Margin="0,10,10,10">
+                                    <TextBlock Text="{TemplateBinding Message}" Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                                    <TextBlock Visibility="Collapsed" Text="{Binding Time,RelativeSource={RelativeSource AncestorType=hc:Growl},StringFormat=yyyy/MM/dd HH:mm:ss}" Style="{StaticResource TextBlockDefault}" Foreground="{DynamicResource SecondaryTextBrush}" HorizontalAlignment="Left" Margin="0,4,0,0"/>
+                                    <TextBlock Visibility="Collapsed" Text="{Binding Time,RelativeSource={RelativeSource AncestorType=hc:Growl},StringFormat=yyyy/MM/dd HH:mm:ss}" Style="{StaticResource TextBlockDefault}" Foreground="{DynamicResource SecondaryTextBrush}" HorizontalAlignment="Left" Margin="0,4,0,0"/>
+                                </StackPanel>
+                                <Button Grid.Row="0" Visibility="Collapsed" Margin="11,0" Name="PART_ButtonClose" Command="" Grid.Column="2" Background="Transparent" Style="{StaticResource ButtonCustom}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="18" Height="18">
+                                    <Path FlowDirection="LeftToRight" Data="{StaticResource ErrorGeometry}" Stretch="Uniform" Fill="{DynamicResource SecondaryTextBrush}"/>
+                                </Button>
+                                <UniformGrid Columns="2" Name="PART_PanelMore" IsEnabled="False" Visibility="Collapsed" Grid.Row="1" Grid.ColumnSpan="3" Height="28" Grid.Column="0">
+                                    <Button Command="" Style="{StaticResource ButtonCustom}" HorizontalAlignment="Stretch" Background="Transparent">
+                                        <TextBlock Text="{Binding CancelStr,RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Center" Foreground="{DynamicResource DangerBrush}"/>
+                                    </Button>
+                                    <Button Command="" Style="{StaticResource ButtonCustom}" HorizontalAlignment="Stretch" Background="Transparent">
+                                        <TextBlock Text="{Binding ConfirmStr,RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Center" Foreground="{DynamicResource PrimaryBrush}"/>
+                                    </Button>
+                                </UniformGrid>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger  Property="Type" Value="Success">
+                                    <Setter Property="Background" Value="{StaticResource StatusColorGreen}"></Setter>
+                                    <Setter Property="Background" Value="{StaticResource HeaderLabelColor}"></Setter>
+                                </Trigger>
+                                <Trigger  Property="Type" Value="Error">
+                                    <Setter Property="Background" Value="{StaticResource MenuColorDelete}"></Setter>
+                                    <Setter Property="Background" Value="{StaticResource HeaderLabelColor}"></Setter>
+                                </Trigger>
+                                <Trigger  Property="Type" Value="Info">
+                                    <Setter Property="Background" Value="{StaticResource InformationColorBrush}"></Setter>
+                                    <Setter Property="Background" Value="{StaticResource HeaderLabelColor}"></Setter>
+                                </Trigger>
+                                <Trigger  Property="Type" Value="Warning">
+                                    <Setter Property="Background" Value="LightSalmon"></Setter>
+                                    <Setter Property="Background" Value="{StaticResource HeaderLabelColor}"></Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                            
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>

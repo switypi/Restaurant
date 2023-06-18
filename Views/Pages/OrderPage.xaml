@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:RestaurantDesk.Views.Pages"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      
       mc:Ignorable="d" 
       xmlns:control="clr-namespace:Enterwell.Clients.Wpf.Notifications.Controls;assembly=Enterwell.Clients.Wpf.Notifications"
       d:DataContext="{d:DesignInstance local:OrderPage, IsDesignTimeCreatable=False}"
@@ -15,7 +16,7 @@
       xmlns:Conv="clr-namespace:RestaurantDesk.Converters"     
      
 
-      Title="OrderPage" Loaded="UiPage_Loaded" >
+      Title="OrderPage" Loaded="UiPage_Loaded"  >
 
     <ui:UiPage.Resources>
 
@@ -40,11 +41,11 @@
         <StackPanel Orientation="Horizontal">
 
             <TextBlock Text="Manage Tables" FontSize="15"  FontWeight="Bold" FontFamily="Segoi UI"  TextAlignment="Left" Margin="5,5,5,0"></TextBlock>
-            <TextBlock Text="Available" Margin="25,8,5,0"  FontWeight="Normal" FontFamily="Segoi UI"></TextBlock>
+            <TextBlock Text="Available" Margin="25,8,5,0"  FontWeight="Medium" FontFamily="Segoi UI"></TextBlock>
             <cal:ButtonUserControl IsEnabled="False" Margin="0,-6,0,0" Background="{StaticResource FreeTableBackground}" Height="20" Width="20" Style="{StaticResource roundButtonTemplate}"></cal:ButtonUserControl>
-            <TextBlock Text="Busy" Margin="25,8,5,0" FontWeight="Normal" FontFamily="Segoi UI"></TextBlock>
+            <TextBlock Text="Busy" Margin="25,8,5,0" FontWeight="Medium" FontFamily="Segoi UI"></TextBlock>
             <cal:ButtonUserControl IsEnabled="False" Margin="0,-6,0,0" Background="{StaticResource BusyTableBackground}" Height="20" Width="20" Style="{StaticResource roundButtonTemplate}"></cal:ButtonUserControl>
-            <TextBlock Text="Booked" Margin="25,8,5,0" FontWeight="Normal" FontFamily="Segoi UI"></TextBlock>
+            <TextBlock Text="Booked" Margin="25,8,5,0" FontWeight="Medium" FontFamily="Segoi UI"></TextBlock>
             <cal:ButtonUserControl IsEnabled="False" Margin="0,-6,0,0" Background="{StaticResource ReserveTableBackground}" Height="20" Width="20" Style="{StaticResource roundButtonTemplate}"></cal:ButtonUserControl>
         </StackPanel>
 
@@ -60,8 +61,8 @@
             Content="Unbilled Item"  Command="{Binding ViewModel.ShowUnbilledItemCommand}" HorizontalAlignment="Left">
             </ui:Hyperlink>
 
-            <cal:ButtonUserControl Content="{Binding ViewModel.SelectedTable.TableNumber,Mode=TwoWay}" HorizontalAlignment="Right"
-            IsEnabled="False" Margin="0,2,5,0" Background="{StaticResource actionBtnBackGround}" Height="40" Width="40" Style="{StaticResource roundButtonTemplate}"></cal:ButtonUserControl>
+            <cal:ButtonUserControl ToolTip="Selected table number" Content="{Binding ViewModel.SelectedTable.TableNumber,Mode=TwoWay,FallbackValue='N/A'}" HorizontalAlignment="Right"
+            IsEnabled="False" Margin="0,2,5,0" Background="{StaticResource actionBtnBackGround}" Height="30" Width="30" Style="{StaticResource roundButtonTemplate}"></cal:ButtonUserControl>
         </DockPanel>
 
         <materialDesign:Card Background="GhostWhite"  Margin="0,0,0,5" BorderThickness="1" Cursor="Hand"  Grid.Row="2" Grid.RowSpan="3" Grid.Column="2" >
@@ -78,34 +79,38 @@
 
                     </Grid.RowDefinitions>
                     <Grid >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition  Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                        <Grid IsEnabled="{Binding ViewModel.IsBusy,Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition  Width="Auto"/>
+                            </Grid.ColumnDefinitions>
 
-                        <ComboBox FocusVisualStyle="{x:Null}" ItemsSource="{Binding ViewModel.MenuItems,Mode=TwoWay}" IsEditable="True"  DisplayMemberPath="CombineName"
+                            <ComboBox FocusVisualStyle="{x:Null}" ItemsSource="{Binding ViewModel.MenuItems,Mode=TwoWay}" IsEditable="True"  DisplayMemberPath="CombineName"
                           SelectedItem="{ Binding ViewModel.SelectedMenuItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
                           materialDesign:HintAssist.Hint="Search menu" Height="75" BorderBrush="{StaticResource BorderColor}" BorderThickness="1"
                           Style="{StaticResource MaterialDesignOutlinedComboBox}">
 
 
-                            <ComboBox.ItemContainerStyle>
+                                <ComboBox.ItemContainerStyle>
 
-                                <Style TargetType="ComboBoxItem"  BasedOn="{StaticResource MaterialDesignComboBoxItemStyle}" >
-                                    <Setter Property="FontFamily" Value="Segoe UI"></Setter>
-                                    <Setter Property="FontWeight" Value="Bold"></Setter>
-                                    <!--<Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>-->
+                                    <Style TargetType="ComboBoxItem"  BasedOn="{StaticResource MaterialDesignComboBoxItemStyle}" >
+                                        <Setter Property="FontFamily" Value="Segoe UI"></Setter>
+                                        <Setter Property="FontWeight" Value="Bold"></Setter>
+                                        <!--<Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>-->
 
-                                   
 
-                                </Style>
 
-                            </ComboBox.ItemContainerStyle>
+                                    </Style>
 
-                        </ComboBox>
+                                </ComboBox.ItemContainerStyle>
 
-                        <ui:Button Content="Select" FontSize="15"  Background="{StaticResource actionBtnBackGround}" Grid.Column="1" 
+                            </ComboBox>
+
+                            <ui:Button Content="Select" FontSize="15"  Background="{StaticResource actionBtnBackGround}" Grid.Column="1" 
                            Command="{Binding ViewModel.SelectedMenuCommand}" Width="100" Height="75" HorizontalAlignment="Stretch"></ui:Button>
+                        </Grid>
+                        <ProgressBar IsIndeterminate="True" Visibility="{Binding ViewModel.IsBusy,Converter={StaticResource boolToVisibilityConverter}}" Style="{StaticResource MaterialDesignCircularProgressBar}"  Value="50" ></ProgressBar>
+                        
                     </Grid>
                     <Grid Grid.Column="0" Grid.Row="1">
 
@@ -193,6 +198,7 @@
 
                                 </DataGridTemplateColumn>
                                 <DataGridTemplateColumn  Header="" >
+
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <ui:Button Width="30" Height="30" Background="Transparent" BorderBrush="Transparent" Padding="0" CommandParameter="{Binding}" 
@@ -205,6 +211,7 @@
                                     </DataGridTemplateColumn.CellTemplate>
 
                                 </DataGridTemplateColumn>
+
 
                             </DataGrid.Columns>
 
@@ -361,9 +368,15 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            <DataGridCheckBoxColumn  Binding="{Binding IsArrived, UpdateSourceTrigger=PropertyChanged}" Header="Is Arrived">
-
-                            </DataGridCheckBoxColumn>
+                            <DataGridTemplateColumn    Header="CheckedIn">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox  IsChecked="{Binding IsArrived, UpdateSourceTrigger=PropertyChanged}" 
+                                                   Command="{Binding RelativeSource={RelativeSource AncestorType=ui:UiPage},Path=ViewModel.CheckedInCommand}"
+                                                   CommandParameter="{Binding}" ></CheckBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
 
                     </DataGrid>
@@ -384,8 +397,8 @@
                                             </Style.Triggers>
                                         </Style>
                                     </Image.Style>
-                                    
-                                   
+
+
                                 </Image>
                             </ui:Button.Content>
                         </ui:Button>
@@ -419,17 +432,20 @@
                 <DockPanel>
                     <!--4 setaer-->
                     <materialDesign:Card DockPanel.Dock="Top" materialDesign:ElevationAssist.Elevation="Dp1" Background="GhostWhite">
-                        <cal:SchedulerGrid x:Name="Eventgrid" Margin="5"  Height="Auto" Width="Auto"></cal:SchedulerGrid>
+                        <cal:SchedulerGrid x:Name="Eventgrid" Margin="10"  Height="Auto" Width="Auto"></cal:SchedulerGrid>
                     </materialDesign:Card>
                     <materialDesign:Card DockPanel.Dock="Bottom"  Background="GhostWhite">
-                        <cal:SchedulerGrid x:Name="Eventgrid6seater" Margin="5"   Height="Auto" Width="Auto"></cal:SchedulerGrid>
+                        <cal:SchedulerGrid x:Name="Eventgrid6seater" Margin="10"   Height="Auto" Width="Auto"></cal:SchedulerGrid>
                     </materialDesign:Card>
                 </DockPanel>
 
                 <!--</Border>-->
             </VirtualizingStackPanel>
         </ScrollViewer>
-        <control:NotificationMessageContainer Manager="{Binding ViewModel.Manager}" />
+
+        <!--<control:NotificationMessageContainer Panel.ZIndex="999" Manager="{Binding ViewModel.Manager}" />-->
+
+
 
     </Grid>
 </ui:UiPage>

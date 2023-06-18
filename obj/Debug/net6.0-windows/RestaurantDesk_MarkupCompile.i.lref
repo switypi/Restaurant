@@ -2,6 +2,7 @@
 FC:\Upwork\RestaurantDesk\App.xaml;;
 FC:\Upwork\RestaurantDesk\UserControls\DayBoxAppointmentControl.xaml;;
 FC:\Upwork\RestaurantDesk\UserControls\DayBoxControl.xaml;;
+FC:\Upwork\RestaurantDesk\UserControls\DeleteDialogView.xaml;;
 FC:\Upwork\RestaurantDesk\UserControls\MonthView.xaml;;
 FC:\Upwork\RestaurantDesk\UserControls\WeekOfDaysControls.xaml;;
 FC:\Upwork\RestaurantDesk\Views\Pages\CustomerPage.xaml;;

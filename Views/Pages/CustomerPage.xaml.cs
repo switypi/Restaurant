@@ -31,6 +31,7 @@ namespace RestaurantDesk.Views.Pages
             ViewModel = viewModel;
 
             InitializeComponent();
+            txtsearch.Focus();
         }
     }
 }

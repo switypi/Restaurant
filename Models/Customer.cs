@@ -15,6 +15,11 @@ namespace RestaurantDesk.Models
         public string Lname { get; set; }
         public string Contact { get; set; }
         public string EmailId { get; set; }
+        public string Gender { get; set; }
+        public string FullName { get; set; }
+        public DateTime LastVisit { get; set; }
+        public CustomerTypeEnum CustomerType { get; set; }
 
     }
+
 }

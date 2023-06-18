@@ -9,144 +9,337 @@
          d:DataContext="{d:DesignInstance local:CustomerPage, IsDesignTimeCreatable=False}"
       d:DesignHeight="450" d:DesignWidth="800"
       d:Background="{DynamicResource ApplicationBackgroundBrush}"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+       xmlns:Conv="clr-namespace:RestaurantDesk.Converters"     
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       Title="Customers">
 
-    <Grid >
-        <Grid.Resources>
-            <SolidColorBrush x:Key="actionBtnMouseOverColor" Color="#ABC270"/>
-            <SolidColorBrush x:Key="actionBtnBackGround" Color="#03C988"/>
-            <SolidColorBrush x:Key="HeaderBackground" Color="#03C988"/>
+    <ui:UiPage.Resources>
+        <Conv:DatabindingDebugConverter x:Key="debugConverter" />
+        <Conv:RowToIndexConverter x:Key="RowToIndexConverter" />
+        <Conv:GenderConverter x:Key="genderConverter" />
+        <materialDesign:BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"></materialDesign:BooleanToVisibilityConverter>
+    </ui:UiPage.Resources>
 
-        </Grid.Resources>
-        
-        <ui:DataGrid ItemsSource="{Binding ViewModel.CustomersList, Mode=TwoWay}"   BorderThickness="0,1,0,0" HorizontalAlignment="Left"
-            Width="Auto" CanUserAddRows="False"   AutoGenerateColumns="False" VerticalGridLinesBrush="LightGray"
-            HorizontalGridLinesBrush="LightGray"  RowHeight="50" >
-            <ui:DataGrid.Columns>
+    <Grid Margin="5" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width=".7*"></ColumnDefinition>
+            <ColumnDefinition Width="10"></ColumnDefinition>
+            <ColumnDefinition Width=".3*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+        </Grid.RowDefinitions>
 
-                <DataGridTextColumn Width="200"  Binding="{Binding Fname}">
-                    <DataGridTextColumn.Header>
-                        <TextBlock FontSize="16"  FontWeight="Bold" Text="First Name" />
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
-                <DataGridTextColumn Width="200"  Binding="{Binding Lname}">
+        <TextBlock Text="Customers" Margin="10"  FontSize="20"  FontWeight="Normal" FontFamily="Segoi UI"  TextAlignment="Left" Grid.Row="0"></TextBlock>
 
-                    <DataGridTextColumn.Header>
-                        <TextBlock FontSize="16" FontWeight="Bold" Text="Last Name" />
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
-                <DataGridTextColumn  Width="200" Binding="{Binding Contact}">
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
-                    <DataGridTextColumn.Header>
-                        <TextBlock FontSize="16"  FontWeight="Bold" Text="Contact" />
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
-                <DataGridTextColumn  Width="200" Binding="{Binding EmailId}">
+            <ui:TextBox   x:Name="txtsearch"  FontSize="15"  Style="{StaticResource MaterialDesignOutlinedTextBox}" Focusable="True" 
+                 IsTabStop="True" BorderBrush="#4A403A" Width="200" Height="40" materialDesign:HintAssist.IsFloating="True" 
+                 materialDesign:HintAssist.FloatingHintHorizontalAlignment="Center"  Padding="10" materialDesign:HintAssist.Hint="Search" HorizontalAlignment="Center"></ui:TextBox>
 
-                    <DataGridTextColumn.Header>
-                        <TextBlock  FontSize="16" FontWeight="Bold"  Text="Email Address" />
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
-                <DataGridTemplateColumn Width="Auto" >
-                    <DataGridTemplateColumn.Header >
-                        <TextBlock  FontSize="16"  FontWeight="Bold"  Text="Action" />
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
+            <ui:Button Margin="5,0,0,0" materialDesign:ButtonAssist.CornerRadius="5" Background="{StaticResource WindowMenuBackground}" Height="40" Foreground="White" 
+                       Style="{StaticResource MaterialDesignFlatButton}" Content="Search" Command="{Binding ViewModel.SearchCommand}" CommandParameter="{Binding ElementName=txtsearch,  Path=Text}"  HorizontalAlignment="Right" >
+                
+            </ui:Button>
+        </StackPanel>
 
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100" />
-                                    <ColumnDefinition Width="10" />
-                                    <ColumnDefinition Width="100" />
-                                </Grid.ColumnDefinitions>
-                                <ui:Button  Icon="Edit48" HorizontalAlignment="Stretch" Grid.Column="0"  Content="Edit" Background="{StaticResource actionBtnBackGround}" FontFamily="Segoe UI" FontWeight="Bold" >
-                                    <ui:Button.Style>
-                                        <Style TargetType="{x:Type ui:Button}" BasedOn="{StaticResource DefaultUiButtonStyle}">
+        <materialDesign:Card Background="Transparent"  Margin="10,0,0,5" BorderThickness="1" Cursor="Hand"  Grid.Row="2"  >
 
+            <ui:DataGrid Grid.Row="2"  IsReadOnly="True" SelectedItem="{Binding ViewModel.SelectedCustomer}"  ItemsSource="{Binding ViewModel.CustomersList, Mode=TwoWay}" 
+                         Style="{StaticResource MaterialDesignDataGrid}" SelectionMode="Single"
+                       BorderThickness="0,1,0,0" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"
+             CanUserAddRows="False"   AutoGenerateColumns="False" 
+              RowHeight="50"  SelectionUnit="FullRow" >
+                <!--<DataGrid.RowHeaderTemplate>
+                    
+                    <DataTemplate>
+                        <Label  VerticalAlignment="Top" Content="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow},Converter={StaticResource RowToIndexConverter}}"></Label>
+                    </DataTemplate>
+                </DataGrid.RowHeaderTemplate>-->
+                <ui:DataGrid.Columns>
+                    <DataGridTextColumn   Width="50" Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow},Converter={StaticResource RowToIndexConverter}}">
+                        <DataGridTextColumn.Header>
+                            <TextBlock FontSize="16" Foreground="{StaticResource DatagridColumnHeaderForeGround}"  FontWeight="Light" Text="#" />
+                        </DataGridTextColumn.Header>
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Width="175"  Binding="{Binding Fname}">
+                        <DataGridTextColumn.Header>
+                            <TextBlock FontSize="16" Foreground="{StaticResource DatagridColumnHeaderForeGround}"  FontWeight="Light" Text="First Name" />
+                        </DataGridTextColumn.Header>
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Width="175"  Binding="{Binding Lname}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+
+                        <DataGridTextColumn.Header>
+                            <TextBlock FontSize="16" Foreground="{StaticResource DatagridColumnHeaderForeGround}" FontWeight="Light" Text="Last Name" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn  Width="175" Binding="{Binding Contact}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+
+                        <DataGridTextColumn.Header>
+                            <TextBlock FontSize="16" Foreground="{StaticResource DatagridColumnHeaderForeGround}" FontWeight="Light" Text="Contact" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn  Width="150" Binding="{Binding EmailId}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+
+                        <DataGridTextColumn.Header>
+                            <TextBlock  FontSize="16" FontWeight="Light" Foreground="{StaticResource DatagridColumnHeaderForeGround}" Text="Email Address" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTemplateColumn  Width="150" >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button IsEnabled="False" FontWeight="Light" Width="75" Content="{Binding Gender,Converter={StaticResource genderConverter}}">
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+                                            <Setter Property="Background" Value="{StaticResource DataGridCellConditionalSetColor }"></Setter>
+                                            <Setter Property="Foreground" Value="White"></Setter>
+                                            <Setter Property="VerticalAlignment" Value="Center" />
+                                            <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="10" />
+                                            <Setter Property="HorizontalAlignment" Value="Left" />
                                             <Style.Triggers>
-                                                <Trigger Property = "IsMouseOver" Value = "True">
-                                                    <Setter Property = "MouseOverBackground" Value ="{StaticResource actionBtnMouseOverColor}" />
+                                                <DataTrigger Binding="{Binding Gender}"  Value="F">
+                                                    <Setter Property="Background" Value="{StaticResource InformationColorBrush}"></Setter>
                                                     <Setter Property="Foreground" Value="White"></Setter>
-                                                </Trigger>
+                                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                                    <Setter Property="HorizontalAlignment" Value="Left" />
+                                                    <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="10" />
+                                                </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </ui:Button.Style>
-                                </ui:Button>
-                                <ui:Button Icon="Delete48" HorizontalAlignment="Stretch" Grid.Column="2" Content="Delete" Background="{StaticResource actionBtnBackGround}" FontFamily="Segoe UI" FontWeight="Bold" >
-                                    <ui:Button.Style>
-                                        <Style TargetType="{x:Type ui:Button}" BasedOn="{StaticResource DefaultUiButtonStyle}">
-
-                                            <Style.Triggers>
-                                                <Trigger Property = "IsMouseOver" Value = "True">
-                                                    <Setter Property = "MouseOverBackground" Value ="{StaticResource actionBtnMouseOverColor}" />
-                                                    <Setter Property="Foreground" Value="White"></Setter>
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </ui:Button.Style>
-                                </ui:Button>
-
-                            </Grid>
+                                    </Button.Style>
+                                </Button>
+                            </DataTemplate>
 
 
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                        </DataGridTemplateColumn.CellTemplate>
+
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock  FontSize="16" FontWeight="Light" Foreground="{StaticResource DatagridColumnHeaderForeGround}" Text="Gender" />
+                        </DataGridTemplateColumn.Header>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn  Width="Auto">
+                        <DataGridTemplateColumn.Header >
+                            <TextBlock  FontSize="16"  FontWeight="Light" Foreground="{StaticResource DatagridColumnHeaderForeGround}" Text="Action" />
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ui:Hyperlink x:Name="hyp" Content="..." Command="{Binding RelativeSource={RelativeSource AncestorType=ui:UiPage},Path=ViewModel.CustomerActionCommand}" CommandParameter="{x:Reference Name=hyp}">
+                                    
+                                </ui:Hyperlink>
+                            </DataTemplate>
+                           
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </ui:DataGrid.Columns>
+
+                <ui:DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                        <Setter Property="Background"  Value="WhiteSmoke"></Setter>
+                    </Style>
+
+                </ui:DataGrid.ColumnHeaderStyle>
+                <ui:DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
+                        <Setter Property="Background" Value="White"></Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <!--<Setter Property="Background" Value="#DEDEF0"></Setter>-->
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="{StaticResource WindowMenuBackground}"></Setter>
+                                <Setter Property="Foreground" Value="White"></Setter>
+                            </Trigger>
+
+                        </Style.Triggers>
+
+                    </Style>
+                </ui:DataGrid.RowStyle>
+
+                <ui:DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True" />
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=DataGridRow}}" Value="False" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" Value="{StaticResource WindowMenuBackground}" />
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ui:DataGrid.CellStyle>
+
+
+            </ui:DataGrid>
+        </materialDesign:Card>
+
+        <TextBlock Text="Details"  HorizontalAlignment="Left" Grid.Column="2" Margin="10" FontSize="20"  FontWeight="Normal" FontFamily="Segoi UI"  TextAlignment="Left" Grid.Row="0"></TextBlock>
+
+        <!--Customer details-->
+        <materialDesign:Card  Visibility="{Binding ViewModel.IsEditMode,Converter={StaticResource InverseBooleanToVisibilityConverter}}" Background="GhostWhite" Grid.Column="2"  Margin="10,0,0,5" BorderThickness="1" Cursor="Hand"  Grid.Row="2"  >
+
+
+            <!--<TextBlock Margin="10,-4"  Text="Basic details"></TextBlock>-->
+            <!--<Border BorderThickness="1" Margin="5" CornerRadius="5"  BorderBrush="{StaticResource InformationColorBrush}">-->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="10"></RowDefinition>
+                    <RowDefinition  Height="Auto"></RowDefinition>
+                    <RowDefinition Height="1"></RowDefinition>
+                    <RowDefinition  Height="Auto"></RowDefinition>
+                    <RowDefinition Height="10"></RowDefinition>
+                    <RowDefinition  Height="Auto"></RowDefinition>
+                    <RowDefinition Height="10"></RowDefinition>
+                    <RowDefinition  Height="Auto"></RowDefinition>
+                    <RowDefinition Height="10"></RowDefinition>
+                    <RowDefinition  Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="10"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Margin="10" FontWeight="Thin" Foreground="{StaticResource InformationColorBrush}" FontSize="20" Text="Name" HorizontalAlignment="Stretch" ></TextBlock>
                
-            </ui:DataGrid.Columns>
-            <ui:DataGrid.CellStyle>
-                <Style TargetType="DataGridCell" BasedOn="{StaticResource DefaultDataGridCellStyle}">
-                    <Setter Property="TextBlock.TextAlignment" Value="Center"></Setter>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                <Grid Background="{TemplateBinding Background}">
-                                    <ContentPresenter VerticalAlignment="Center" />
-                                </Grid>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ui:DataGrid.CellStyle>
-            <ui:DataGrid.ColumnHeaderStyle>
-                <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource DefaultDataGridColumnHeaderStyle}">
+                <TextBlock  VerticalAlignment="Bottom"   Margin="20,0,10,0" Grid.Column="2"  Height="30" Padding="0" FontSize="15" FontWeight="Light" Foreground="{StaticResource TextblockForeground}" HorizontalAlignment="Stretch" 
+                                  Text="{Binding RelativeSource={RelativeSource AncestorType=ui:UiPage},Path=ViewModel.SelectedCustomer.FullName}">
+                </TextBlock>
 
-                    <Setter Property="BorderBrush" Value="lightGray"></Setter>
-                    <Setter Property="Background" Value="{StaticResource HeaderBackground}"></Setter>
-                    <Setter Property="FontSize" Value="14"></Setter>
-                    <Setter Property="FontFamily" Value="Segoe UI"></Setter>
-                    <Setter Property="FontWeight" Value="Bold"></Setter>
+                <Separator Grid.Row="3" Grid.ColumnSpan="3"></Separator>
 
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
-                                <Grid Background="{TemplateBinding Background}">
-                                    <ContentPresenter HorizontalAlignment="Center"  VerticalAlignment="Center" />
-                                </Grid>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <Trigger Property = "IsMouseOver" Value = "True">
-                            <Setter Property = "Background" Value ="#ABC270" />
-                            <Setter Property="Foreground" Value="White"></Setter>
-                        </Trigger>
-                    </Style.Triggers>
+                <TextBlock Margin="10"  FontWeight="Light" Foreground="{StaticResource InformationColorBrush}" FontSize="20" Text="Email"  HorizontalAlignment="Stretch"  Grid.Row="4">
+                </TextBlock>
+                <TextBlock FontSize="15" VerticalAlignment="Bottom" Margin="20,0,10,0"  Grid.Column="2" Height="30" Padding="0" HorizontalAlignment="Stretch" FontWeight="Light" Foreground="{StaticResource TextblockForeground}" Grid.Row="4" Text="{Binding RelativeSource={RelativeSource AncestorType=ui:UiPage},Path=ViewModel.SelectedCustomer.EmailId}"></TextBlock>
 
-                </Style>
+                <Separator Grid.Row="5" Grid.ColumnSpan="3"></Separator>
+                <TextBlock Margin="10"  FontWeight="Light" Foreground="{StaticResource InformationColorBrush}" FontSize="20" Text="Phone" HorizontalAlignment="Stretch"  Grid.Row="6">
+                </TextBlock>
+                <TextBlock VerticalAlignment="Bottom" FontSize="15"  Margin="20,0,10,0"  Grid.Column="2" Height="30" Padding="0" HorizontalAlignment="Stretch" FontWeight="Light" Foreground="{StaticResource TextblockForeground}" 
+                                 Grid.Row="6" Text="{Binding RelativeSource={RelativeSource AncestorType=ui:UiPage},Path=ViewModel.SelectedCustomer.Contact}"></TextBlock>
+                <Separator Grid.Row="7" Grid.ColumnSpan="7"></Separator>
 
-            </ui:DataGrid.ColumnHeaderStyle>
-            <ui:DataGrid.RowStyle>
-                <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource DefaultDataGridRowStyle}">
-                    <Setter Property="FontSize" Value="14"/>
-                    <Setter Property="FontFamily" Value="Arial"/>
-                    <Setter Property="FontWeight" Value="Bold"/>
-                    <Setter Property="Foreground" Value="Gray"/>
-                </Style>
-            </ui:DataGrid.RowStyle>
+                <TextBlock Margin="10"  FontWeight="Light" Foreground="{StaticResource InformationColorBrush}" FontSize="20" Text="Last Visit" HorizontalAlignment="Stretch"  Grid.Row="8">
+                </TextBlock>
+                <TextBlock VerticalAlignment="Bottom" FontSize="15"  Margin="20,0,10,0"  Grid.Column="2" Height="30" Padding="0" HorizontalAlignment="Stretch" FontWeight="Light" Foreground="{StaticResource TextblockForeground}" 
+                                 Grid.Row="8" Text="{Binding RelativeSource={RelativeSource AncestorType=ui:UiPage},Path=ViewModel.SelectedCustomer.LastVisit,StringFormat='MM/dd/yyyy'}"></TextBlock>
+                <Separator Grid.Row="9" Grid.ColumnSpan="7"></Separator>
 
-        </ui:DataGrid>
+
+            </Grid>
+            <!--</Border>-->
+
+
+        </materialDesign:Card>
+
+        <!--Customer edit-->
+        <!--<materialDesign:Card Visibility="{Binding ViewModel.IsEditMode,Converter={StaticResource boolToVisibilityConverter}}" Background="GhostWhite" Grid.Column="2"  Margin="10,0,0,5" BorderThickness="1" Cursor="Hand"  Grid.Row="2"  >
+
+
+           
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="10"></RowDefinition>
+                    <RowDefinition  Height="Auto"></RowDefinition>
+                    <RowDefinition Height="10"></RowDefinition>
+                    <RowDefinition  Height="Auto"></RowDefinition>
+                    <RowDefinition Height="10"></RowDefinition>
+                    <RowDefinition  Height="Auto"></RowDefinition>
+                    <RowDefinition Height="10"></RowDefinition>
+                    <RowDefinition  Height="Auto"></RowDefinition>
+                    <RowDefinition Height="10"></RowDefinition>
+                    <RowDefinition  Height="Auto"></RowDefinition>
+                    <RowDefinition Height="10"></RowDefinition>
+                    <RowDefinition  Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="10"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Margin="10" FontWeight="Light" Foreground="{StaticResource InformationColorBrush}" FontSize="20" Text="First Name" HorizontalAlignment="Stretch" ></TextBlock>
+
+                <TextBox FontSize="15" VerticalContentAlignment="Bottom" BorderThickness="0,0,0,.5" Margin="0,0,10,0" Grid.Column="2" BorderBrush="{StaticResource InformationColorBrush}" Height="30" Padding="0"  Style="{StaticResource MaterialDesignTextBox}" HorizontalAlignment="Stretch" 
+                                  Text="{Binding RelativeSource={RelativeSource AncestorType=ui:UiPage},Path=ViewModel.SelectedCustomer.Fname}">
+                </TextBox>
+
+                <TextBlock Margin="10"  FontWeight="Light" Foreground="{StaticResource InformationColorBrush}" FontSize="20" Text="Last Name" Grid.Row="2" HorizontalAlignment="Stretch" ></TextBlock>
+                <TextBox FontSize="15" VerticalContentAlignment="Bottom" BorderThickness="0,0,0,.5" Margin="0,0,10,0" Grid.Column="2" BorderBrush="{StaticResource InformationColorBrush}" Height="30" Padding="0" Style="{StaticResource MaterialDesignTextBox}" HorizontalAlignment="Stretch" Grid.Row="2" Text="{Binding RelativeSource={RelativeSource AncestorType=ui:UiPage},Path=ViewModel.SelectedCustomer.Fname}"></TextBox>
+
+                <TextBlock Margin="10"  FontWeight="Light" Foreground="{StaticResource InformationColorBrush}" FontSize="20" Text="Email"  HorizontalAlignment="Stretch"  Grid.Row="4">
+
+                </TextBlock>
+                <TextBox FontSize="15" VerticalContentAlignment="Bottom" BorderThickness="0,0,0,.5" Margin="0,0,10,0" BorderBrush="{StaticResource InformationColorBrush}" Grid.Column="2" Height="30" Padding="0" HorizontalAlignment="Stretch" Style="{StaticResource MaterialDesignTextBox}" Grid.Row="4" Text="{Binding RelativeSource={RelativeSource AncestorType=ui:UiPage},Path=ViewModel.SelectedCustomer.EmailId}"></TextBox>
+
+                <TextBlock Margin="10"  FontWeight="Light" Foreground="{StaticResource InformationColorBrush}" FontSize="20" Text="Phone" HorizontalAlignment="Stretch"  
+                           Grid.Row="6">
+                </TextBlock>
+                <TextBox FontSize="15"  VerticalContentAlignment="Bottom" BorderThickness="0,0,0,.5" Margin="0,0,10,0" BorderBrush="{StaticResource InformationColorBrush}" Grid.Column="2" Height="30" Padding="0" HorizontalAlignment="Stretch" Style="{StaticResource MaterialDesignTextBox}" 
+                                 Grid.Row="6" Text="{Binding RelativeSource={RelativeSource AncestorType=ui:UiPage},Path=ViewModel.SelectedCustomer.Contact}"></TextBox>
+
+                <TextBlock Margin="10"  FontWeight="Light" Foreground="{StaticResource InformationColorBrush}" FontSize="20" Text="Gender" HorizontalAlignment="Stretch"  
+                           Grid.Row="8">
+                </TextBlock>
+
+                <ComboBox FontSize="15" ItemsSource="{Binding ViewModel.Genderlist}"  SelectedItem="{Binding ViewModel.SelectedGender}" materialDesign:HintAssist.Hint="select item"  Margin="0,0,10,0" BorderBrush="{StaticResource InformationColorBrush}" 
+                         Grid.Column="2"  HorizontalAlignment="Stretch" Style="{StaticResource MaterialDesignComboBox}" 
+                                 Grid.Row="8" >
+                  
+                </ComboBox>
+
+                <TextBlock Margin="10"  FontWeight="Light" Foreground="{StaticResource InformationColorBrush}" FontSize="20" Text="Customer Type" HorizontalAlignment="Stretch"
+                           Grid.Row="10">
+                </TextBlock>
+                <ComboBox FontSize="15" ItemsSource="{Binding ViewModel.CustomerTypes}" SelectedItem="{Binding ViewModel.SelectedCustomerType}" materialDesign:HintAssist.Hint="select item"  Margin="0,0,10,0" BorderBrush="{StaticResource InformationColorBrush}" 
+                         Grid.Column="2"  HorizontalAlignment="Stretch" Style="{StaticResource MaterialDesignComboBox}" 
+                                 Grid.Row="10" >
+                    
+                </ComboBox>
+
+
+
+            </Grid>
+       
+
+        </materialDesign:Card>-->
+
+
     </Grid>
 </ui:UiPage>

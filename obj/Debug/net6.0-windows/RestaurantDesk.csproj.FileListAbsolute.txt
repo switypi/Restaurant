@@ -5,7 +5,9 @@ C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\RestaurantDesk.runtimeconfig.j
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\RestaurantDesk.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\RestaurantDesk.pdb
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\CommunityToolkit.Mvvm.dll
+C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\CsvHelper.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\Enterwell.Clients.Wpf.Notifications.dll
+C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\HandyControl.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\MaterialDesignColors.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\MaterialDesignThemes.Wpf.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.dll
@@ -34,6 +36,7 @@ C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\Microsoft.Extensions.Options.d
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\Microsoft.Extensions.Options.ConfigurationExtensions.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\Microsoft.Extensions.Primitives.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\Microsoft.Xaml.Behaviors.dll
+C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\Newtonsoft.Json.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\ToastNotifications.Messages.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\ToastNotifications.dll
 C:\Upwork\RestaurantDesk\bin\Debug\net6.0-windows\Wpf.Ui.dll
@@ -42,6 +45,7 @@ C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\RestaurantDesk.csproj.Assembly
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\NewFolder\NotificationBox.baml
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\UserControls\DayBoxAppointmentControl.g.cs
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\UserControls\DayBoxControl.g.cs
+C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\UserControls\DeleteDialogView.g.cs
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\UserControls\MonthView.g.cs
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\UserControls\WeekOfDaysControls.g.cs
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\Views\Pages\CustomerPage.g.cs
@@ -60,6 +64,7 @@ C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\RestaurantDesk_MarkupCompile.l
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\App.baml
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\UserControls\DayBoxAppointmentControl.baml
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\UserControls\DayBoxControl.baml
+C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\UserControls\DeleteDialogView.baml
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\UserControls\MonthView.baml
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\UserControls\WeekOfDaysControls.baml
 C:\Upwork\RestaurantDesk\obj\Debug\net6.0-windows\Views\Pages\CustomerPage.baml

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using HandyControl.Controls;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Controls.Interfaces;
@@ -46,8 +48,18 @@ namespace RestaurantDesk.ViewModels
         }
         private void LoadSettings()
         {
-
+            DispatcherTimer dt = new DispatcherTimer();
+            dt.Interval = new TimeSpan(0, 1, 0);
+            dt.Tick += Dt_Tick;
+            dt.Start();
         }
+
+        private void Dt_Tick(object? sender, EventArgs e)
+        {
+            this.CurrentTime = DateTime.Now.ToString("hh : mm tt");
+            
+        }
+
         private void InitializeData()
         {
 

@@ -13,6 +13,9 @@
     <Compile Update="UserControls\DayBoxControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="UserControls\DeleteDialogView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UserControls\MonthView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -40,6 +43,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UserControls\DayBoxControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserControls\DeleteDialogView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UserControls\MonthView.xaml">

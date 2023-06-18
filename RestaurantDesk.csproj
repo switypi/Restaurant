@@ -22,8 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="30.0.1" />
     <PackageReference Include="Enterwell.Clients.Wpf.Notifications" Version="1.4.2" />
+    <PackageReference Include="HandyControl" Version="3.4.0" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="ToastNotifications.Messages.Net5" Version="3.0.1" />
     <PackageReference Include="ToastNotifications.Net5" Version="3.0.0" />
     <PackageReference Include="WPF-UI" Version="2.0.3" />
@@ -56,6 +59,9 @@
     <None Remove="Images\billdeepred.png" />
     <None Remove="Images\billdred.png" />
     <None Remove="Images\booking.png" />
+    <None Remove="Images\CustomerAddress.png" />
+    <None Remove="Images\customerEmail.png" />
+    <None Remove="Images\customerphone.png" />
     <None Remove="Images\cutlery.png" />
     <None Remove="Images\dashboard.png" />
     <None Remove="Images\delete.png" />
@@ -81,6 +87,7 @@
     <None Remove="Images\savered.png" />
     <None Remove="Images\saveYD.png" />
     <None Remove="Images\saveYL.png" />
+    <None Remove="Images\search.png" />
     <None Remove="Images\waiter.png" />
   </ItemGroup>
 
@@ -117,6 +124,9 @@
     <Resource Include="Images\booking.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\CustomerAddress.png" />
+    <Resource Include="Images\customerEmail.png" />
+    <Resource Include="Images\customerphone.png" />
     <Resource Include="Images\cutlery.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -173,6 +183,7 @@
     </Resource>
     <Resource Include="Images\saveYD.png" />
     <Resource Include="Images\saveYL.png" />
+    <Resource Include="Images\search.png" />
     <Resource Include="Images\waiter.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

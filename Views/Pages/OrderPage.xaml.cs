@@ -42,7 +42,7 @@ namespace RestaurantDesk.Views.Pages
         private bool isAutomatedTableStatusProcessing;
         private BackgroundWorker backgroundWorker;
         private List<Models.Table> bookedTables;
-
+       
 
         public OrderPage(ViewModels.OrderViewModel viewModel)
         {
@@ -53,6 +53,8 @@ namespace RestaurantDesk.Views.Pages
             numberOfTable4Seater = int.Parse($"{ConfigurationManager.AppSettings["NumberOfTables4Seater"]}");
             numberOfTable6Seater = int.Parse($"{ConfigurationManager.AppSettings["NumberOfTables6Seater"]}");
             isAutomatedTableStatusProcessing = bool.Parse($"{ConfigurationManager.AppSettings["IsAutomatedTableStatusProcessing"]}");
+
+            
 
         }
 
@@ -137,7 +139,7 @@ namespace RestaurantDesk.Views.Pages
                         cd.Content = st;
                         cd.Name = cd.TableNum.ToString().Replace(" ", "");
 
-
+                        //ViewModel.SelectedTable = new Models.Table { IsBooked = cd.IsBooked, IsBusy = cd.IsBusy, TableNumber = cd.TableNum };
                         Binding bn = new Binding();
                         bn.Source = ViewModel;
                         bn.Path = new PropertyPath("SelectedTable");
@@ -168,6 +170,7 @@ namespace RestaurantDesk.Views.Pages
                         Grid.SetColumn(cd, i - 1);
                         Grid.SetRow(cd, ii - 1);
                         Eventgrid.Children.Add(cd);
+                       ViewModel.CustomTableControlList.Add(cd);
                     }
 
                 }
@@ -281,6 +284,7 @@ namespace RestaurantDesk.Views.Pages
                         Grid.SetColumn(cd, i - 1);
                         Grid.SetRow(cd, iii - 1);
                         Eventgrid6seater.Children.Add(cd);
+                        ViewModel.CustomTableControlList.Add(cd);
                     }
                 }
 
@@ -299,25 +303,26 @@ namespace RestaurantDesk.Views.Pages
         {
 
             Binding bn;
+            
             var tbl = (e.Source as TableUserControl);
+            tbl.IsChecked = true;
 
-            if (tbl.IsBooked == false && tbl.IsBusy == false)
-            {
-                tbl.IsChecked = true;
-                tbl.Background = Application.Current.Resources["actionBtnMouseOverColor"] as SolidColorBrush;
+            //if (tbl.IsBooked == false && tbl.IsBusy == false)
+            //{
+            //    tbl.IsChecked = true;
+            //    tbl.Background = Application.Current.Resources["actionBtnMouseOverColor"] as SolidColorBrush;
 
-            }
+            //}
+
             ViewModel.SelectedMenus.Clear();
-
-
-            //ViewModel.SelectedTable = new Models.Table { TableNumber = (tbl.Content as StackPanel).Children.OfType<ButtonUserControl>().First().Content.ToString() };
-
-            var expIsBusy = tbl.GetBindingExpression(TableUserControl.IsBusyProperty);
-            var expIsbooked = tbl.GetBindingExpression(TableUserControl.IsBookedProperty);
             var btn = (tbl.Content as StackPanel).Children.OfType<ButtonUserControl>().FirstOrDefault();
-            ViewModel.SelectedTable = new Models.Table {IsBusy=btn.IsBusy,IsBooked=btn.IsBooked, TableNumber = (tbl.Content as StackPanel).Children.OfType<ButtonUserControl>().First().Content.ToString() };
+
+            var expIsBusy = btn.GetBindingExpression(ButtonUserControl.IsBusyProperty);
+            var expIsbooked = btn.GetBindingExpression(ButtonUserControl.IsBookedProperty);
+
             
 
+            ViewModel.SelectedTable = new Models.Table {IsBusy=btn.IsBusy,IsBooked=btn.IsBooked, TableNumber = (tbl.Content as StackPanel).Children.OfType<ButtonUserControl>().First().Content.ToString() };
 
             if (expIsBusy == null)
             {
@@ -373,6 +378,7 @@ namespace RestaurantDesk.Views.Pages
             }
 
         }
+
 
         private void UiPage_Loaded(object sender, RoutedEventArgs e)
         {
