@@ -8,14 +8,8 @@
     <UseWPF>true</UseWPF>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>applicationIcon.ico</ApplicationIcon>
+    <UserSecretsId>879c8aa2-8091-494b-a4f5-3dc6e75aceb8</UserSecretsId>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="NewFolder1\**" />
-    <EmbeddedResource Remove="NewFolder1\**" />
-    <None Remove="NewFolder1\**" />
-    <Page Remove="NewFolder1\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <Content Include="applicationIcon.ico" />
@@ -23,7 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="30.0.1" />
-    <PackageReference Include="Enterwell.Clients.Wpf.Notifications" Version="1.4.2" />
+    <PackageReference Include="DotNetKit.Wpf.AutoCompleteComboBox" Version="1.6.0" />
     <PackageReference Include="HandyControl" Version="3.4.0" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -40,12 +34,14 @@
     <None Remove="Images\4seaterbasic.png" />
     <None Remove="Images\4seaterbasic1.png" />
     <None Remove="Images\4seaterbasic2.png" />
+    <None Remove="Images\4seaterCustom.png" />
     <None Remove="Images\4seatermouseover.png" />
     <None Remove="Images\4seaterselected.png" />
     <None Remove="Images\4seatertrianglebasic.png" />
     <None Remove="Images\4seatertrianglebasic2.png" />
     <None Remove="Images\4seatertrianglemouseover.png" />
     <None Remove="Images\4seatertriangularselected.png" />
+    <None Remove="Images\4seaterYL.png" />
     <None Remove="Images\6seaterbasic.png" />
     <None Remove="Images\6seaterbasic1.png" />
     <None Remove="Images\6seaterbasic2.png" />
@@ -53,6 +49,7 @@
     <None Remove="Images\6seatercirclebasic.png" />
     <None Remove="Images\6seatercirclemouseover.png" />
     <None Remove="Images\6seatercircleselected.png" />
+    <None Remove="Images\6seaterCustom.png" />
     <None Remove="Images\6seaterselected.png" />
     <None Remove="Images\account.png" />
     <None Remove="Images\bill.png" />
@@ -65,9 +62,12 @@
     <None Remove="Images\cutlery.png" />
     <None Remove="Images\dashboard.png" />
     <None Remove="Images\delete.png" />
+    <None Remove="Images\fechar.png" />
     <None Remove="Images\ForwardGreen.png" />
     <None Remove="Images\invoiceYD.png" />
     <None Remove="Images\invoiceYL.png" />
+    <None Remove="Images\maximizar.png" />
+    <None Remove="Images\minimizar %281%29.png" />
     <None Remove="Images\minus-circle.png" />
     <None Remove="Images\people.png" />
     <None Remove="Images\print.png" />
@@ -97,12 +97,14 @@
     <Resource Include="Images\4seaterbasic.png" />
     <Resource Include="Images\4seaterbasic1.png" />
     <Resource Include="Images\4seaterbasic2.png" />
+    <Resource Include="Images\4seaterCustom.png" />
     <Resource Include="Images\4seatermouseover.png" />
     <Resource Include="Images\4seaterselected.png" />
     <Resource Include="Images\4seatertrianglebasic.png" />
     <Resource Include="Images\4seatertrianglebasic2.png" />
     <Resource Include="Images\4seatertrianglemouseover.png" />
     <Resource Include="Images\4seatertriangularselected.png" />
+    <Resource Include="Images\4seaterYL.png" />
     <Resource Include="Images\6seaterbasic.png" />
     <Resource Include="Images\6seaterbasic1.png" />
     <Resource Include="Images\6seaterbasic2.png" />
@@ -110,6 +112,7 @@
     <Resource Include="Images\6seatercirclebasic.png" />
     <Resource Include="Images\6seatercirclemouseover.png" />
     <Resource Include="Images\6seatercircleselected.png" />
+    <Resource Include="Images\6seaterCustom.png" />
     <Resource Include="Images\6seaterselected.png" />
     <Resource Include="Images\account.png" />
     <Resource Include="Images\bill.png">
@@ -136,11 +139,14 @@
     <Resource Include="Images\delete.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\fechar.png" />
     <Resource Include="Images\ForwardGreen.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\invoiceYD.png" />
     <Resource Include="Images\invoiceYL.png" />
+    <Resource Include="Images\maximizar.png" />
+    <Resource Include="Images\minimizar (1).png" />
     <Resource Include="Images\minus-circle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -187,6 +193,10 @@
     <Resource Include="Images\waiter.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Style\" />
   </ItemGroup>
 
 </Project>

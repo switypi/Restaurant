@@ -5,11 +5,11 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:RestaurantDesk.Views.Pages"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-      
+      xmlns:localPr="clr-namespace:RestaurantDesk"
       mc:Ignorable="d" 
-      xmlns:control="clr-namespace:Enterwell.Clients.Wpf.Notifications.Controls;assembly=Enterwell.Clients.Wpf.Notifications"
+  
       d:DataContext="{d:DesignInstance local:OrderPage, IsDesignTimeCreatable=False}"
-      
+      xmlns:hc="https://handyorg.github.io/handycontrol"
       xmlns:cal= "clr-namespace:RestaurantDesk.UserControls"   
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:rules="clr-namespace:RestaurantDesk.ValidationRules"
@@ -23,12 +23,19 @@
         <Conv:DatabindingDebugConverter x:Key="debugConverter" />
         <Conv:RowToIndexConverter x:Key="RowToIndexConverter" />
         <materialDesign:BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"></materialDesign:BooleanToVisibilityConverter>
+
+
+        <DataTemplate x:Key="MenuTemplate">
+            <VirtualizingStackPanel>
+                <TextBlock Text="{Binding Path=CombineName}" />
+            </VirtualizingStackPanel>
+        </DataTemplate>
     </ui:UiPage.Resources>
 
     <Grid  >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width=".7*"></ColumnDefinition>
-            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition Width="2"></ColumnDefinition>
             <ColumnDefinition Width=".3*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -49,10 +56,10 @@
             <cal:ButtonUserControl IsEnabled="False" Margin="0,-6,0,0" Background="{StaticResource ReserveTableBackground}" Height="20" Width="20" Style="{StaticResource roundButtonTemplate}"></cal:ButtonUserControl>
         </StackPanel>
 
-        <DockPanel  HorizontalAlignment="Stretch"  Grid.Column="2" >
+        <DockPanel  HorizontalAlignment="Stretch"  Grid.Column="1" Grid.ColumnSpan="2" >
 
             <ui:Hyperlink Foreground="Black" FontSize="15" Cursor="Hand"  FontWeight="Bold" FontFamily="Segoi UI" 
-             Visibility="{Binding ViewModel.IsBookingViewVisible,Converter={StaticResource boolToVisibilityConverter}}" Margin="0,5,5,0"
+             Visibility="{Binding ViewModel.IsBookingViewVisible,Converter={StaticResource boolToVisibilityConverter}}" Margin="-10,5,5,0"
             Content="{Binding ViewModel.ShowBookingContent}"  Command="{Binding ViewModel.ShowBookingCommand}" HorizontalAlignment="Left">
             </ui:Hyperlink>
 
@@ -61,14 +68,29 @@
             Content="Unbilled Item"  Command="{Binding ViewModel.ShowUnbilledItemCommand}" HorizontalAlignment="Left">
             </ui:Hyperlink>
 
+            <!--<ui:ToggleSwitch Content="MenuCode" Margin="0,5,5,0" HorizontalAlignment="Right"></ui:ToggleSwitch>-->
+
             <cal:ButtonUserControl ToolTip="Selected table number" Content="{Binding ViewModel.SelectedTable.TableNumber,Mode=TwoWay,FallbackValue='N/A'}" HorizontalAlignment="Right"
             IsEnabled="False" Margin="0,2,5,0" Background="{StaticResource actionBtnBackGround}" Height="30" Width="30" Style="{StaticResource roundButtonTemplate}"></cal:ButtonUserControl>
         </DockPanel>
 
         <materialDesign:Card Background="GhostWhite"  Margin="0,0,0,5" BorderThickness="1" Cursor="Hand"  Grid.Row="2" Grid.RowSpan="3" Grid.Column="2" >
             <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" Background="{StaticResource WindowMenuBackground}" Visibility="{Binding ViewModel.IsBookingViewVisible,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock Text="Search by item code" Cursor="Hand"  FontWeight="Bold" FontFamily="Segoi UI"  Foreground="White" VerticalAlignment="Center"></TextBlock>
+                    <!--<ui:ToggleSwitch IsChecked="{Binding ViewModel.SearchTypeIsChecked}" Visibility="{Binding ViewModel.IsBookingViewVisible,Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                      Margin="10,5,5,0" HorizontalAlignment="Left"></ui:ToggleSwitch>-->
+                    <!--<ToggleButton Content="N" IsChecked="{Binding ViewModel.SearchTypeIsChecked}"  Margin="10,5,5,0"  Style="{StaticResource MaterialDesignActionSecondaryToggleButton}" ToolTip="MaterialDesignActionSecondaryToggleButton" />-->
+
+
+                    <CheckBox  IsChecked="{Binding ViewModel.SearchTypeIsChecked}"  Background="{StaticResource TextblockForeground}" Margin="10,3,3,5"  Style="{StaticResource MaterialDesignSecondaryCheckBox}" />
+                </StackPanel>
                 <!--Bill pane-->
-                <Grid Visibility="{Binding ViewModel.IsBookingViewVisible,Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid Grid.Row="1"  Visibility="{Binding ViewModel.IsBookingViewVisible,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
@@ -85,32 +107,30 @@
                                 <ColumnDefinition  Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <ComboBox FocusVisualStyle="{x:Null}" ItemsSource="{Binding ViewModel.MenuItems,Mode=TwoWay}" IsEditable="True"  DisplayMemberPath="CombineName"
-                          SelectedItem="{ Binding ViewModel.SelectedMenuItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
-                          materialDesign:HintAssist.Hint="Search menu" Height="75" BorderBrush="{StaticResource BorderColor}" BorderThickness="1"
-                          Style="{StaticResource MaterialDesignOutlinedComboBox}">
 
-
+                            <cal:CustumAutoComplete x:Name="ax" Text="{Binding ViewModel.Search}" SearchText="{Binding ViewModel.SearchText}" 
+                                                    SearchWith="{Binding ViewModel.SearchWith}"
+                                  SelectionBrush="{x:Null}" FocusVisualStyle="{x:Null}"  
+                                  ItemsSource="{Binding ViewModel.MenuItems,Mode=TwoWay}"  IsEditable="True"  DisplayMemberPath="CombineName"
+                                  SelectedItem="{ Binding ViewModel.SelectedMenuItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
+                                  materialDesign:HintAssist.Hint="Search menu" Height="75" BorderBrush="{StaticResource BorderColor}" BorderThickness="1"
+                                  Style="{StaticResource MaterialDesignOutlinedComboBox}" >
                                 <ComboBox.ItemContainerStyle>
 
                                     <Style TargetType="ComboBoxItem"  BasedOn="{StaticResource MaterialDesignComboBoxItemStyle}" >
                                         <Setter Property="FontFamily" Value="Segoe UI"></Setter>
                                         <Setter Property="FontWeight" Value="Bold"></Setter>
-                                        <!--<Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>-->
-
-
 
                                     </Style>
 
                                 </ComboBox.ItemContainerStyle>
-
-                            </ComboBox>
+                            </cal:CustumAutoComplete>
 
                             <ui:Button Content="Select" FontSize="15"  Background="{StaticResource actionBtnBackGround}" Grid.Column="1" 
-                           Command="{Binding ViewModel.SelectedMenuCommand}" Width="100" Height="75" HorizontalAlignment="Stretch"></ui:Button>
+                           Command="{Binding ViewModel.SelectedMenuCommand}" Width="100" Height="80" HorizontalAlignment="Stretch"></ui:Button>
                         </Grid>
                         <ProgressBar IsIndeterminate="True" Visibility="{Binding ViewModel.IsBusy,Converter={StaticResource boolToVisibilityConverter}}" Style="{StaticResource MaterialDesignCircularProgressBar}"  Value="50" ></ProgressBar>
-                        
+
                     </Grid>
                     <Grid Grid.Column="0" Grid.Row="1">
 
@@ -128,11 +148,22 @@
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver"   Value="True">
                                             <Setter Property="Background" Value="{StaticResource SelectedRowStyle}" />
-
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
                             </DataGrid.RowStyle>
+                            <DataGrid.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="BorderThickness" Value="0"></Setter>
+                                            <Setter Property="Background" Value="Transparent"></Setter>
+                                            <Setter Property="Foreground" Value="Black"></Setter>
+
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.CellStyle>
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn Header="Name" >
 
@@ -146,7 +177,7 @@
                                                             <Rectangle Name ="OuterRing" Width ="2"  VerticalAlignment="Center"
                                                                 Height ="20" Fill ="{StaticResource StatusColorGreen}"/>
 
-                                                            <Label Content="{Binding Name}"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                                            <Label Content="{Binding CombineName}"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                                         </WrapPanel>
 
                                                         <ControlTemplate.Triggers>
@@ -170,24 +201,24 @@
                                         </Style>
                                     </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>-->
-                                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Type}"   Header="F/H" >
+                                <!--<DataGridTextColumn IsReadOnly="True" Binding="{Binding Type}"   Header="F/H" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="VerticalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>-->
+                                <DataGridTextColumn  Binding="{Binding Price}" Width="Auto" IsReadOnly="True"  Header="Price" >
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="VerticalAlignment" Value="Center" />
                                         </Style>
                                     </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn  Binding="{Binding Price}"   Header="Price" >
-                                    <DataGridTextColumn.ElementStyle>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="VerticalAlignment" Value="Center" />
-                                        </Style>
-                                    </DataGridTextColumn.ElementStyle>
-                                </DataGridTextColumn>
-                                <DataGridTemplateColumn  Header="Qty" >
+                                <DataGridTemplateColumn  Header="Qty"  >
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox BorderBrush="{StaticResource BorderColor}" VerticalAlignment="Center" VerticalContentAlignment="Center" TextAlignment="Center"  Width="50" Height="30" Padding="0" IsEnabled="True" Margin="0" 
+                                            <TextBox BorderBrush="Black" Padding="0" Width="50" IsEnabled="True" Margin="0"  TextAlignment="Center" VerticalContentAlignment="Center"
                                                       Style="{ StaticResource MaterialDesignOutlinedTextBox}"  Text="{Binding Quantity,UpdateSourceTrigger=PropertyChanged}"  >
                                                 <TextBox.InputBindings>
                                                     <KeyBinding Command="{Binding RelativeSource={RelativeSource AncestorType=ui:UiPage},Path=ViewModel.RecalculateCommand}" Key="Return" />
@@ -271,7 +302,7 @@
                         </ListView>-->
                     </Grid>
 
-                    <StackPanel Grid.Row="2" HorizontalAlignment="Right"  Orientation="Horizontal" >
+                    <StackPanel Grid.Row="2" HorizontalAlignment="Right"  Orientation="Horizontal" VerticalAlignment="Stretch">
                         <ui:Button  Margin="0,5"  Command="{Binding ViewModel.PrintCommand}" Background="Transparent"  BorderBrush="Transparent" Height="75" Width="80"
                                 HorizontalAlignment="Stretch">
                             <ui:Button.Content>
@@ -314,7 +345,7 @@
 
                 <!--Booking pane-->
 
-                <Grid Visibility="{Binding ViewModel.IsBookingViewVisible,Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                <Grid Grid.Row="1" Visibility="{Binding ViewModel.IsBookingViewVisible,Converter={StaticResource InverseBooleanToVisibilityConverter}}">
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -324,9 +355,9 @@
                         <RowDefinition  Height="*"></RowDefinition>
                         <RowDefinition  Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <StackPanel HorizontalAlignment="Stretch" Background="{StaticResource HeaderBackground}">
+                    <VirtualizingStackPanel HorizontalAlignment="Stretch" Background="{StaticResource HeaderBackground}">
                         <TextBlock Text="{Binding ViewModel.TodayDate}" FontSize="15" Foreground="White" FontWeight="Bold" FontFamily="Segoi UI"  TextAlignment="Center" Margin="5"></TextBlock>
-                    </StackPanel>
+                    </VirtualizingStackPanel>
                     <DataGrid Style="{StaticResource MaterialDesignDataGrid}"  Grid.Row="1" SelectionMode="Single" ItemsSource="{Binding ViewModel.BookingList, Mode=TwoWay}" 
                         HeadersVisibility="All"  BorderThickness="0,1,0,0" HorizontalAlignment="Left" VerticalContentAlignment="Center"
                          CanUserAddRows="False"   AutoGenerateColumns="False" VerticalGridLinesBrush="LightGray"
@@ -422,6 +453,7 @@
 
                     </StackPanel>
                 </Grid>
+
             </Grid>
 
         </materialDesign:Card>
@@ -429,15 +461,25 @@
         <ScrollViewer Margin="5,0,0,0"  Grid.Row="2"  Grid.Column="0">
 
             <VirtualizingStackPanel  >
-                <DockPanel>
-                    <!--4 setaer-->
-                    <materialDesign:Card DockPanel.Dock="Top" materialDesign:ElevationAssist.Elevation="Dp1" Background="GhostWhite">
-                        <cal:SchedulerGrid x:Name="Eventgrid" Margin="10"  Height="Auto" Width="Auto"></cal:SchedulerGrid>
-                    </materialDesign:Card>
-                    <materialDesign:Card DockPanel.Dock="Bottom"  Background="GhostWhite">
-                        <cal:SchedulerGrid x:Name="Eventgrid6seater" Margin="10"   Height="Auto" Width="Auto"></cal:SchedulerGrid>
-                    </materialDesign:Card>
-                </DockPanel>
+
+                <!--4 setaer-->
+                <materialDesign:Card DockPanel.Dock="Top" materialDesign:ElevationAssist.Elevation="Dp1" Background="GhostWhite">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <VirtualizingStackPanel HorizontalAlignment="Stretch"  Background="{StaticResource HeaderBackground}">
+                            <TextBlock Text="Tables" FontSize="15" Foreground="White" FontWeight="Bold" FontFamily="Segoi UI"  TextAlignment="Center" Margin="5"></TextBlock>
+                        </VirtualizingStackPanel>
+
+                        <cal:SchedulerGrid x:Name="Eventgrid" Margin="10" Grid.Row="1" Height="Auto" Width="Auto"></cal:SchedulerGrid>
+                    </Grid>
+                </materialDesign:Card>
+                <materialDesign:Card DockPanel.Dock="Bottom"  Background="GhostWhite">
+                    <cal:SchedulerGrid x:Name="Eventgrid6seater" Margin="10"   Height="Auto" Width="Auto"></cal:SchedulerGrid>
+                </materialDesign:Card>
+
 
                 <!--</Border>-->
             </VirtualizingStackPanel>

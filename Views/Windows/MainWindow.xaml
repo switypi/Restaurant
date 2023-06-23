@@ -51,13 +51,13 @@
             </materialDesign:DialogHost>
 
             <Grid  HorizontalAlignment="Center" Panel.ZIndex="999">
-                <Label Foreground="{StaticResource HeaderLabelColor}" Panel.ZIndex="999" FontFamily="Segoe UI" VerticalAlignment="Bottom" 
-                 Content="{Binding ViewModel.CurrentTime}" FontSize="15"></Label>
+                <Label Foreground="{StaticResource WindowMenuBackground}" Panel.ZIndex="999" FontFamily="Segoe UI" VerticalAlignment="Bottom" 
+                 Content="{Binding ViewModel.CurrentTime}" FontSize="25"></Label>
             </Grid>
 
             <Grid  Panel.ZIndex="999" HorizontalAlignment="Right">
 
-                <uc:ButtonUserControl Margin="0,2,160,5" HorizontalAlignment="Right" Background="{StaticResource HeaderLabelColor}"
+                <uc:ButtonUserControl Margin="0,2,160,5" HorizontalAlignment="Right" Background="Transparent"
                  Style="{StaticResource roundButtonTemplate}" >
                     <uc:ButtonUserControl.Content>
                         <Image x:Name="img" Height="40" Width="50"  Source="/Images/account.png"  VerticalAlignment="Stretch" 
@@ -124,9 +124,12 @@
             <!--  You can put additional controls in the header, such as a search bar.  -->
             <!--  <ui:TitleBar.Header />  -->
 
+            
+            
+            
 
-            <ui:TitleBar  Margin="118,0,0,0" VerticalAlignment="Center" Background="WhiteSmoke"
-            Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"  FontFamily="Segoe UI" FontWeight="Normal" Foreground="{StaticResource HeaderLabelColor}" FontSize="20"
+            <ui:TitleBar   Margin="118,0,0,0" VerticalAlignment="Center" Background="{StaticResource TopHeaderBackground}" 
+            Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"  FontFamily="Segoe UI" FontWeight="Normal" Foreground="{StaticResource WindowMenuBackground}" FontSize="20"
             Grid.Row="0" 
             Icon="pack://application:,,,/Assets/applicationIcon-256.png"
             UseSnapLayout="True">

@@ -42,7 +42,7 @@ namespace RestaurantDesk.Views.Pages
         private bool isAutomatedTableStatusProcessing;
         private BackgroundWorker backgroundWorker;
         private List<Models.Table> bookedTables;
-       
+
 
         public OrderPage(ViewModels.OrderViewModel viewModel)
         {
@@ -54,9 +54,17 @@ namespace RestaurantDesk.Views.Pages
             numberOfTable6Seater = int.Parse($"{ConfigurationManager.AppSettings["NumberOfTables6Seater"]}");
             isAutomatedTableStatusProcessing = bool.Parse($"{ConfigurationManager.AppSettings["IsAutomatedTableStatusProcessing"]}");
 
-            
+            //this.ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 
         }
+
+        //private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        //{
+        //    if (e.PropertyName == "SelectedMenuItem")
+        //    {
+        //       ax.Text = "";
+        //    }
+        //}
 
         private void LoadCOntrols()
         {
@@ -84,7 +92,7 @@ namespace RestaurantDesk.Views.Pages
             for (int ii = 1; ii <= numOfRows; ii++)
             {
                 Eventgrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(130) });
-               
+
                 for (int i = 1; i <= numOfCols; i++)
                 {
                     if (Eventgrid.Children.OfType<TableUserControl>().Count() < numberOfTable4Seater)
@@ -122,11 +130,11 @@ namespace RestaurantDesk.Views.Pages
                         if (cd.TableType == TableTypeEnum.Angular)
                         {
                             cd.HorizontalAlignment = HorizontalAlignment.Left;
-                            cd.Margin=new Thickness(10,-20,0,0);
+                            cd.Margin = new Thickness(10, -20, 0, 0);
                             cd.VerticalAlignment = VerticalAlignment.Top;
                         }
 
-                            StackPanel st = new StackPanel
+                        StackPanel st = new StackPanel
                         {
                             Margin = new Thickness(2, 2, 2, 2),
                             //Width = 175,
@@ -170,7 +178,7 @@ namespace RestaurantDesk.Views.Pages
                         Grid.SetColumn(cd, i - 1);
                         Grid.SetRow(cd, ii - 1);
                         Eventgrid.Children.Add(cd);
-                       ViewModel.CustomTableControlList.Add(cd);
+                        ViewModel.CustomTableControlList.Add(cd);
                     }
 
                 }
@@ -276,7 +284,7 @@ namespace RestaurantDesk.Views.Pages
 
                         st.Children.Add(lb);
                         cd.Content = st;
-                      
+
 
                         cd.SetBinding(Button.CommandProperty, new Binding { Source = ViewModel, Path = new PropertyPath("TableSelectonCommand") });
                         cd.CommandParameter = new Binding(cd.Name);
@@ -303,7 +311,7 @@ namespace RestaurantDesk.Views.Pages
         {
 
             Binding bn;
-            
+
             var tbl = (e.Source as TableUserControl);
             tbl.IsChecked = true;
 
@@ -320,9 +328,9 @@ namespace RestaurantDesk.Views.Pages
             var expIsBusy = btn.GetBindingExpression(ButtonUserControl.IsBusyProperty);
             var expIsbooked = btn.GetBindingExpression(ButtonUserControl.IsBookedProperty);
 
-            
 
-            ViewModel.SelectedTable = new Models.Table {IsBusy=btn.IsBusy,IsBooked=btn.IsBooked, TableNumber = (tbl.Content as StackPanel).Children.OfType<ButtonUserControl>().First().Content.ToString() };
+
+            ViewModel.SelectedTable = new Models.Table { IsBusy = btn.IsBusy, IsBooked = btn.IsBooked, TableNumber = (tbl.Content as StackPanel).Children.OfType<ButtonUserControl>().First().Content.ToString() };
 
             if (expIsBusy == null)
             {
@@ -395,6 +403,7 @@ namespace RestaurantDesk.Views.Pages
                 backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
                 backgroundWorker.RunWorkerAsync();
             }
+
 
         }
 

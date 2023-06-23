@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" 
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-   
+    xmlns:localTheme="clr-namespace:RestaurantDesk"
     xmlns:UC="clr-namespace:RestaurantDesk.UserControls"
     xmlns:hc="https://handyorg.github.io/handycontrol"
      xmlns:Conv="clr-namespace:RestaurantDesk.Converters"     
@@ -15,7 +15,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-               
+
                 <!--<hc:ThemeResources RequestedTheme="Dark" AccentColor="Red"/>-->
 
 
@@ -23,20 +23,25 @@
                 <ui:ThemesDictionary Theme="Light" />
                 <ui:ControlsDictionary />
 
+               
+              
                 <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Green" SecondaryColor="Lime" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/ToastNotifications.Messages;component/Themes/Default.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ListBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                
 
             </ResourceDictionary.MergedDictionaries>
 
 
             <SolidColorBrush x:Key="tableBackgroundMouseOverColor" Opacity="0.3" Color="Red"/>
             <SolidColorBrush x:Key="actionBtnMouseOverColor" Opacity="0.3" Color="#4cc2ff"/>
-            <SolidColorBrush x:Key="actionBtnBackGround"   Color="#EF5B0C"/>
-            <SolidColorBrush x:Key="HeaderBackground"  Color="#EF5B0C"/>
+            <SolidColorBrush x:Key="actionBtnBackGround"   Color="#F2CD55"/>
+            <SolidColorBrush x:Key="HeaderBackground"  Color="#F2CD55"/>
             <SolidColorBrush x:Key="FutureVisitBackgroun" Color="#82CD47"></SolidColorBrush>
-            <SolidColorBrush x:Key="BorderColor" Color="#EF5B0C"></SolidColorBrush>
+            <SolidColorBrush x:Key="BorderColor" Color="#F2CD55"></SolidColorBrush>
 
             <SolidColorBrush x:Key="pastVisitBackground" Color="#99A98F"/>
             <SolidColorBrush x:Key="presentVisitBackground" Color="#7900FF"/>
@@ -44,8 +49,8 @@
             <SolidColorBrush x:Key="BusyTableBackground" Color="#fca311"/>
             <SolidColorBrush x:Key="FreeTableBackground"  Color="#E4DCCF"/>
             <SolidColorBrush x:Key="EmptyTableBackground" Color="White"/>
-            <SolidColorBrush x:Key="WindowMenuBackground" Color="#92BA92"></SolidColorBrush>
-            <SolidColorBrush x:Key="SelectedRowStyle"   Color="#EB6440"></SolidColorBrush>
+            <SolidColorBrush x:Key="WindowMenuBackground" Color="#F2CD55"></SolidColorBrush>
+            <SolidColorBrush x:Key="SelectedRowStyle"   Color="#F2CD55"></SolidColorBrush>
             <SolidColorBrush x:Key="StatusColorRed" Color="#EB6440"></SolidColorBrush>
             <SolidColorBrush x:Key="StatusColorGreen" Color="#82CD47"></SolidColorBrush>
             <SolidColorBrush x:Key="HeaderLabelColor" Color="#4cc2ff"></SolidColorBrush>
@@ -55,8 +60,10 @@
             <SolidColorBrush x:Key="TextblockForeground" Color="#4A403A"></SolidColorBrush>
             <SolidColorBrush x:Key="DataGridCellConditionalDefaultColor" Color="LightSalmon"></SolidColorBrush>
             <SolidColorBrush x:Key="DataGridCellConditionalSetColor" Color="LightSalmon"></SolidColorBrush>
+            <SolidColorBrush x:Key="TopHeaderBackground" Color="GhostWhite"></SolidColorBrush>
 
             <!--EB6440-->
+            <!--yellow F2CD55 green 92BA92-->
             <ContextMenu Background="White" x:Key="contextMenu">
 
                 <MenuItem Padding="0"  Background="{StaticResource MenuColorEdit}">
@@ -64,10 +71,10 @@
                         <ui:Button Icon="Edit16" Content="Edit" >
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
-                                   
+
                                     <Setter Property="Foreground" Value="ForestGreen"></Setter>
-                                   
-                                    
+
+
                                 </Style>
                             </Button.Style>
                         </ui:Button>
@@ -82,7 +89,7 @@
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
                                     <Setter Property="Foreground" Value="{StaticResource actionBtnBackGround}"></Setter>
-                                    
+
                                 </Style>
                             </Button.Style>
                         </ui:Button>
@@ -91,7 +98,7 @@
                 </MenuItem>
             </ContextMenu>
             <Style TargetType="{x:Type ContextMenu}">
-               
+
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ContextMenu}">
@@ -228,7 +235,7 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                                             </Grid.ColumnDefinitions>
-                                            <Image x:Name="img" Source="Images/4seaterbasic2.png" Width="90" Height="60"  HorizontalAlignment="Stretch" 
+                                            <Image x:Name="img" Source="Images/4seaterCustom.png" Width="90" Height="60"  HorizontalAlignment="Stretch" 
                                                    Stretch="Fill"></Image>
                                             <ContentPresenter  x:Name="lbl"   HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                         </Grid>
@@ -351,7 +358,7 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                                             </Grid.ColumnDefinitions>
-                                            <Image x:Name="img" Source="Images/6seaterbasic2.png" Width="130" Height="60"  VerticalAlignment="Stretch" 
+                                            <Image x:Name="img" Source="Images/6seaterCustom.png" Width="130" Height="60"  VerticalAlignment="Stretch" 
                                                    HorizontalAlignment="Stretch" Stretch="Fill"></Image>
 
                                             <ContentPresenter  x:Name="lbl"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -782,8 +789,8 @@
                 </Style.Resources>
             </Style>
 
-            <Style x:Key="ScrollBarTrackThumb"
-        TargetType="{x:Type Thumb}">
+            <Style x:Key="ScrollBarTrackThumb"  TargetType="{x:Type Thumb}">
+                <Setter Property="Cursor" Value="Hand"></Setter>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Thumb}">
@@ -794,7 +801,7 @@
                                 Height="Auto"
                                 Fill="Transparent" />
                                 <Border x:Name="CornerScrollBarRectangle"
-                            CornerRadius="5"
+                            CornerRadius="0"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             Width="Auto"
@@ -810,7 +817,7 @@
                                 Value="Auto" />
                                     <Setter TargetName="CornerScrollBarRectangle"
                                 Property="Height"
-                                Value="6" />
+                                Value="5" />
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -822,7 +829,7 @@
                 <Setter Property="Stylus.IsFlicksEnabled"
             Value="false" />
                 <Setter Property="Foreground"
-            Value="#ADABAB" />
+            Value="{StaticResource WindowMenuBackground}" />
                 <Setter Property="Background"
             Value="Transparent" />
                 <Setter Property="Width"
@@ -1071,7 +1078,7 @@
                                     <Setter Property="Background" Value="{StaticResource HeaderLabelColor}"></Setter>
                                 </Trigger>
                             </ControlTemplate.Triggers>
-                            
+
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>

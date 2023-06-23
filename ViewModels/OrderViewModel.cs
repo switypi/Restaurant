@@ -15,7 +15,6 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Enterwell.Clients.Wpf.Notifications;
 using HandyControl.Controls;
 using HandyControl.Data;
 using Microsoft.Extensions.Logging;
@@ -38,9 +37,10 @@ namespace RestaurantDesk.ViewModels
     {
         private bool _isInitialized = false;
         private BackgroundWorker backgroundWorker;
-        private string baseAddress;
+        internal string baseAddress;
         internal List<TableUserControl> CustomTableControlList = new List<TableUserControl>();
-        private Random rndum { get; set; }
+        private List<Menu> MasterMenuList;
+
 
         [ObservableProperty]
         private IEnumerable<Menu>? menuItems;
@@ -51,6 +51,15 @@ namespace RestaurantDesk.ViewModels
         private ObservableCollection<Booking> bookingList;
         [ObservableProperty]
         private bool isBusy;
+
+        [ObservableProperty]
+        private string searchText;
+        [ObservableProperty]
+        private SearchWithEnum searchWith;
+        [ObservableProperty]
+        private string search;
+        [ObservableProperty]
+        private bool searchTypeIsChecked;
 
         [ObservableProperty]
         private Menu selectedMenuItem;
@@ -87,9 +96,11 @@ namespace RestaurantDesk.ViewModels
                 OrderedItems = new Dictionary<string, List<Menu>>();
                 this.SelectedTable = null;
                 this.PropertyChanged += OrderViewModel_PropertyChanged;
+                SearchWith =this.SearchTypeIsChecked==true? SearchWithEnum.MenuCode:SearchWithEnum.Default;
+
             }
             _isInitialized = true;
-            rndum = new Random();
+
         }
 
         private void OrderViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -107,7 +118,48 @@ namespace RestaurantDesk.ViewModels
                 this.IsBusy = true;
                 backgroundWorker.RunWorkerAsync();
             }
+            if (e.PropertyName == "SearchText" && SearchText.Length > 0)
+            {
+                if (this.SelectedMenuItem != null && this.SelectedMenuItem.CombineName != this.SearchText)
+                {
+                    if (this.SearchWith == SearchWithEnum.MenuCode)
+                    {
+                        this.MenuItems = MasterMenuList.Where(x => x.MenuCode.ToLower().StartsWith(SearchText.ToLower()));
+                    }
+                    else
+                    {
+                        this.MenuItems = MasterMenuList.Where(x => x.Name.ToLower().StartsWith(SearchText.ToLower()));
+                    }
+                    OnPropertyChanged(nameof(MenuItems));
+                }
+                else if (this.SelectedMenuItem == null)
+                {
+                    if (this.SearchWith == SearchWithEnum.MenuCode)
+                    {
+                        this.MenuItems = MasterMenuList.Where(x => x.MenuCode.ToLower().StartsWith(SearchText.ToLower()));
+                    }
+                    else
+                    {
+                        this.MenuItems = MasterMenuList.Where(x => x.Name.ToLower().StartsWith(SearchText.ToLower()));
+                    }
+                    OnPropertyChanged(nameof(MenuItems));
+                }
+            }
 
+            if (e.PropertyName == "Search")
+            {
+                if (this.Search.Length == 0)
+                {
+                    this.Search = this.SearchText;
+                }
+                SearchText = this.Search;
+            }
+
+
+            if (e.PropertyName == "SearchTypeIsChecked")
+            {
+                SearchWith = this.SearchTypeIsChecked == true ? SearchWithEnum.MenuCode : SearchWithEnum.Default;
+            }
         }
 
         public void OnNavigatedTo()
@@ -130,10 +182,10 @@ namespace RestaurantDesk.ViewModels
             tables.Add(new Models.Table { TableId = 2, TableNumber = "T 2", Tag = "4seater", TableType = TableTypeEnum.Rectangle });
             tables.Add(new Models.Table { TableId = 3, TableNumber = "T 3", Tag = "4seater", TableType = TableTypeEnum.Rectangle });
             tables.Add(new Models.Table { TableId = 4, TableNumber = "T 4", Tag = "4seater", TableType = TableTypeEnum.Rectangle });
-            tables.Add(new Models.Table { TableId = 5, TableNumber = "T 5", Tag = "4seater", TableType = TableTypeEnum.Angular });
-            tables.Add(new Models.Table { TableId = 6, TableNumber = "T 6", Tag = "4seater", TableType = TableTypeEnum.Angular });
-            tables.Add(new Models.Table { TableId = 7, TableNumber = "T 7", Tag = "4seater", TableType = TableTypeEnum.Angular });
-            tables.Add(new Models.Table { TableId = 8, TableNumber = "T 8", Tag = "4seater", TableType = TableTypeEnum.Angular });
+            tables.Add(new Models.Table { TableId = 5, TableNumber = "T 5", Tag = "4seater", TableType = TableTypeEnum.Rectangle });
+            tables.Add(new Models.Table { TableId = 6, TableNumber = "T 6", Tag = "4seater", TableType = TableTypeEnum.Rectangle });
+            tables.Add(new Models.Table { TableId = 7, TableNumber = "T 7", Tag = "4seater", TableType = TableTypeEnum.Rectangle });
+            tables.Add(new Models.Table { TableId = 8, TableNumber = "T 8", Tag = "4seater", TableType = TableTypeEnum.Rectangle });
             tables.Add(new Models.Table { TableId = 9, TableNumber = "T 9", Tag = "4seater", TableType = TableTypeEnum.Rectangle });
             tables.Add(new Models.Table { TableId = 10, TableNumber = "T 10", Tag = "4seater", TableType = TableTypeEnum.Rectangle });
             tables.Add(new Models.Table { TableId = 11, TableNumber = "T 11", Tag = "4seater", TableType = TableTypeEnum.Rectangle });
@@ -143,7 +195,7 @@ namespace RestaurantDesk.ViewModels
             tables.Add(new Models.Table { TableId = 15, TableNumber = "T 13", Tag = "6seater", TableType = TableTypeEnum.Rectangle });
             tables.Add(new Models.Table { TableId = 16, TableNumber = "T 14", Tag = "6seater", TableType = TableTypeEnum.Rectangle });
             tables.Add(new Models.Table { TableId = 17, TableNumber = "T 15", Tag = "6seater", TableType = TableTypeEnum.Rectangle });
-            tables.Add(new Models.Table { TableId = 18, TableNumber = "T 16", Tag = "6seater", TableType = TableTypeEnum.Circle });
+            tables.Add(new Models.Table { TableId = 18, TableNumber = "T 16", Tag = "6seater", TableType = TableTypeEnum.Rectangle });
 
             tables.Add(new Models.Table { TableId = 19, TableNumber = "T 17", Tag = "4seater", TableType = TableTypeEnum.Rectangle });
             tables.Add(new Models.Table { TableId = 20, TableNumber = "T 18", Tag = "4seater", TableType = TableTypeEnum.Rectangle });
@@ -184,6 +236,7 @@ namespace RestaurantDesk.ViewModels
         private void BackgroundWorker_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
         {
             this.IsBusy = false;
+
         }
 
         private void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs e)
@@ -199,15 +252,13 @@ namespace RestaurantDesk.ViewModels
                     var listOfMenuItems = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Menu>>(menuItems).ToList();
 
                     listOfMenuItems.ForEach(x => x.CombineName = x.Name + " ( " + x.ServingType + " )");
-                    MenuItems = listOfMenuItems;
-                }
-                else
-                {
+                    //this.MenuItems = 
+                    MasterMenuList = listOfMenuItems;
 
                 }
             }
-
         }
+
 
         [RelayCommand]
         private void OnCheckedIn(object prm)
@@ -302,7 +353,7 @@ namespace RestaurantDesk.ViewModels
         {
             if (!SelectedMenus.Contains(SelectedMenuItem) && SelectedMenuItem != null)
             {
-
+                this.SelectedMenuItem.Quantity = 1;
                 SelectedMenus.Add(selectedMenuItem);
                 var val = SelectedMenus.Sum(x => x.Price * x.Quantity);
                 TotalAmount = string.Format("{0:0,0.00}", val);
@@ -446,4 +497,5 @@ namespace RestaurantDesk.ViewModels
             }
         }
     }
+
 }
